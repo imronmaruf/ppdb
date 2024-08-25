@@ -18,6 +18,10 @@
     <link href="{{ asset('admin/assets/css/app.min.css') }}" rel="stylesheet" type="text/css" id="light-style">
     <link href="{{ asset('admin/assets/css/app-dark.min.css') }}" rel="stylesheet" type="text/css" id="dark-style">
 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+
+    @stack('css')
+
 </head>
 
 <body class="loading"
@@ -160,8 +164,11 @@
     <script src="{{ asset('admin/assets/js/vendor/jquery-jvectormap-world-mill-en.js') }}"></script>
     <!-- third party js ends -->
 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <!-- demo app -->
     <script src="{{ asset('admin/assets/js/pages/demo.dashboard-analytics.js') }}"></script>
+    @stack('js')
     <!-- end demo js-->
 </body>
 

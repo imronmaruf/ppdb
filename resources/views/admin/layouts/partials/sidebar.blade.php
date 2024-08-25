@@ -27,7 +27,7 @@
             <li class="side-nav-title side-nav-item">Navigation</li>
 
             <li class="side-nav-item">
-                <a href="apps-calendar.html" class="side-nav-link">
+                <a href="{{ route('dashboard.index') }}" class="side-nav-link">
                     <i class="uil-home-alt"></i>
                     <span> Dashboard </span>
                 </a>
@@ -62,6 +62,13 @@
                 <li class="side-nav-title side-nav-item">Formulir Pendaftaran</li>
 
                 <li class="side-nav-item">
+                    <a href="{{ route('data-pendaftaran.index') }}" class="side-nav-link">
+                        <i class="uil-comments-alt"></i>
+                        <span> Formulir Calon Siswa </span>
+                    </a>
+                </li>
+
+                <li class="side-nav-item">
                     <a href="{{ route('data-ortu.index') }}" class="side-nav-link">
                         <i class="uil-users-alt"></i>
                         <span>Identitas Orang Tua</span>
@@ -69,16 +76,16 @@
                 </li>
 
                 <li class="side-nav-item">
-                    <a href="apps-calendar.html" class="side-nav-link">
+                    <a href="{{ route('data-wali.index') }}" class="side-nav-link">
                         <i class="uil-clipboard-alt"></i>
                         <span>Identitas Wali</span>
                     </a>
                 </li>
 
                 <li class="side-nav-item">
-                    <a href="apps-chat.html" class="side-nav-link">
-                        <i class="uil-comments-alt"></i>
-                        <span> Formulir Calon Siswa </span>
+                    <a href="{{ route('data-berkas.index') }}" class="side-nav-link">
+                        <i class="uil-clipboard-alt"></i>
+                        <span>Berkas</span>
                     </a>
                 </li>
             @endcan
