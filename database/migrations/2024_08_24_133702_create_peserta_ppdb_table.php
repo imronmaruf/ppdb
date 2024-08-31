@@ -15,15 +15,22 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->foreignUuid('user_id');
             $table->string('name');
+            $table->enum('jenis_kelamin', ['laki-laki', 'perempuan']);
             $table->string('tempat_lahir');
             $table->date('tanggal_lahir');
-            $table->enum('agama', ['islam', 'katolik', 'protestan', 'hindu', 'buddha', 'konghucu']);
-            $table->enum('jenis_kelamin', ['laki-laki', 'perempuan']);
-            $table->string('alamat');
-            $table->string('asal_sekolah');
-            $table->string('no_telp', 20);
             $table->string('kk', 20);
-            $table->string('ijazah');
+            $table->string('nik', 16);
+            $table->string('no_akte_kelahiran', 20);
+            $table->enum('status_pkh', ['ada', 'tidak']);
+            $table->string('no_pkh')->nullable();
+            $table->string('asal_sekolah')->nullable();
+            $table->enum('agama', ['islam', 'katolik', 'protestan', 'hindu', 'buddha', 'konghucu']);
+            $table->string('alamat');
+            $table->string('tinggal_dengan');
+            $table->string('anak_ke', 2);
+            $table->string('jml_saudara_kandung', 2);
+            $table->float('tinggi_badan', 5);
+            $table->float('berat_badan', 5);
             $table->enum('status', ['verifikasi', 'diterima', 'ditolak']);
             $table->timestamps();
 

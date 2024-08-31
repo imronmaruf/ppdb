@@ -17,8 +17,8 @@ return new class extends Migration
             $table->string('akte_kelahiran');
             $table->string('kk');
             $table->string('ktp_ortu');
-            $table->string('ijazah');
-            $table->string('kartu_pkh');
+            $table->string('ijazah')->nullable();
+            $table->string('kartu_pkh')->nullable();
             $table->string('pas_foto');
             $table->timestamps();
 

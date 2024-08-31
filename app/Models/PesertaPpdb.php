@@ -14,15 +14,22 @@ class PesertaPpdb extends Model
     protected $fillable = [
         'user_id',
         'name',
+        'jenis_kelamin',
         'tempat_lahir',
         'tanggal_lahir',
-        'agama',
-        'jenis_kelamin',
-        'alamat',
-        'asal_sekolah',
-        'no_telp',
         'kk',
-        'ijazah',
+        'nik',
+        'no_akte_kelahiran',
+        'status_pkh',
+        'no_pkh',
+        'asal_sekolah',
+        'agama',
+        'alamat',
+        'tinggal_dengan',
+        'anak_ke',
+        'jml_saudara_kandung',
+        'tinggi_badan',
+        'berat_badan',
         'status'
     ];
 

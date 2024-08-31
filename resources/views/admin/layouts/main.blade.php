@@ -8,7 +8,7 @@
     <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description">
     <meta content="Coderthemes" name="author">
     <!-- App favicon -->
-    <link rel="shortcut icon" href="assets/images/favicon.ico">
+    <link rel="shortcut icon" href="{{ asset('assets/logo.png') }}">
 
     <!-- third party css -->
     <link href="{{ asset('admin/assets/css/vendor/jquery-jvectormap-1.2.2.css') }}" rel="stylesheet" type="text/css">
@@ -17,6 +17,10 @@
     <link href="{{ asset('admin/assets/css/icons.min.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ asset('admin/assets/css/app.min.css') }}" rel="stylesheet" type="text/css" id="light-style">
     <link href="{{ asset('admin/assets/css/app-dark.min.css') }}" rel="stylesheet" type="text/css" id="dark-style">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+
+    @stack('css')
 
 </head>
 
@@ -160,8 +164,11 @@
     <script src="{{ asset('admin/assets/js/vendor/jquery-jvectormap-world-mill-en.js') }}"></script>
     <!-- third party js ends -->
 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <!-- demo app -->
     <script src="{{ asset('admin/assets/js/pages/demo.dashboard-analytics.js') }}"></script>
+    @stack('js')
     <!-- end demo js-->
 </body>
 

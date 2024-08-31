@@ -24,10 +24,10 @@
         <li class="dropdown notification-list">
             <a class="nav-link dropdown-toggle nav-user arrow-none me-0" data-bs-toggle="dropdown" href="#"
                 role="button" aria-haspopup="false" aria-expanded="false">
-                <span class="account-user-avatar">
+                {{-- <span class="account-user-avatar">
                     <img src="{{ asset('admin/assets/images/users/avatar-1.jpg') }}" alt="user-image"
                         class="rounded-circle">
-                </span>
+                </span> --}}
                 <span>
                     <span class="account-user-name">{{ Auth::user()->name }}</span>
                     <span class="account-position">{{ Auth::user()->email }}</span>
@@ -62,7 +62,7 @@
     <button class="button-menu-mobile open-left">
         <i class="mdi mdi-menu"></i>
     </button>
-    <div class="app-search dropdown d-none d-lg-block">
+    {{-- <div class="app-search dropdown d-none d-lg-block">
         <form>
             <div class="input-group">
                 <input type="text" class="form-control dropdown-toggle" placeholder="Search..." id="top-search">
@@ -126,5 +126,5 @@
                 </a>
             </div>
         </div>
-    </div>
+    </div> --}}
 </div>
