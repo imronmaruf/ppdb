@@ -118,9 +118,9 @@
                                     </div>
 
                                     <div class="mb-3">
-                                        <label for="asal_sekolah" class="form-label">Asal Sekolah</label>
-                                        <input type="text" id="asal_sekolah" name="asal_sekolah" class="form-control"
-                                            placeholder="Asal Sekolah" value="{{ old('asal_sekolah') }}">
+                                        <label for="no_pkh" class="form-label">No. Kartu PKH</label>
+                                        <input type="text" id="no_pkh" name="no_pkh" class="form-control"
+                                            placeholder="No kartu PKH" value="{{ old('no_pkh') }}">
                                     </div>
 
                                 </div> <!-- end col -->
@@ -181,6 +181,12 @@
                                         <label for="berat_badan" class="form-label">Berat Badan (kg)</label>
                                         <input type="number" id="berat_badan" name="berat_badan" class="form-control"
                                             placeholder="Berat Badan" step="0.1" value="{{ old('berat_badan') }}">
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="asal_sekolah" class="form-label">Asal Sekolah</label>
+                                        <input type="text" id="asal_sekolah" name="asal_sekolah" class="form-control"
+                                            placeholder="Asal Sekolah" value="{{ old('asal_sekolah') }}">
                                     </div>
 
                                 </div> <!-- end col -->

@@ -21,6 +21,7 @@ class PesertaPpdb extends Model
         'nik',
         'no_akte_kelahiran',
         'status_pkh',
+        'no_pkh',
         'asal_sekolah',
         'agama',
         'alamat',

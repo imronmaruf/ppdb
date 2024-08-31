@@ -22,7 +22,8 @@ return new class extends Migration
             $table->string('nik', 16);
             $table->string('no_akte_kelahiran', 20);
             $table->enum('status_pkh', ['ada', 'tidak']);
-            $table->string('asal_sekolah');
+            $table->string('no_pkh')->nullable();
+            $table->string('asal_sekolah')->nullable();
             $table->enum('agama', ['islam', 'katolik', 'protestan', 'hindu', 'buddha', 'konghucu']);
             $table->string('alamat');
             $table->string('tinggal_dengan');

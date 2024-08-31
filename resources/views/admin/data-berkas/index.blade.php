@@ -21,20 +21,7 @@
         <div class="row">
             <div class="col-12">
                 <div class="page-title-box">
-                    <div class="page-title-right">
-                        <form class="d-flex">
-                            <div class="input-group">
-                                <input type="text" class="form-control form-control-light" id="dash-daterange">
-                                <span class="input-group-text bg-primary border-primary text-white">
-                                    <i class="mdi mdi-calendar-range font-13"></i>
-                                </span>
-                            </div>
-                            <a href="javascript: void(0);" class="btn btn-primary ms-2">
-                                <i class="mdi mdi-autorenew"></i>
-                            </a>
-                        </form>
-                    </div>
-                    <h4 class="page-title">Form Upload Berkas</h4>
+                    <h4 class="page-title">Page &raquo; Form Upload Berkas</h4>
                 </div>
             </div>
         </div>
@@ -121,42 +108,48 @@
                                         <tr>
                                             <th scope="col">Ijazah</th>
                                             <td>
-                                                <a href="{{ asset($dataBerkas->ijazah) }}"
-                                                    download="{{ $dataBerkas->ijazah }}" target="_blank">
-                                                    <span class="text-primary text-decoration-underline">Download</span>
-                                                </a>
-                                                <br>
-                                                <iframe src="{{ asset($dataBerkas->ijazah) }}" class="pdf-viewer mt-2"
-                                                    frameborder="0">
-                                                    Your browser does not support PDFs.
-                                                    <a href="{{ asset($dataBerkas->ijazah) }}">Download
-                                                        the PDF</a>
-                                                </iframe>
+                                                @if ($dataBerkas && $dataBerkas->ijazah)
+                                                    <a href="{{ asset($dataBerkas->ijazah) }}"
+                                                        download="{{ $dataBerkas->ijazah }}" target="_blank">
+                                                        <span class="text-primary text-decoration-underline">Download</span>
+                                                    </a>
+                                                    <br>
+                                                    <iframe src="{{ asset($dataBerkas->ijazah) }}" class="pdf-viewer mt-2"
+                                                        frameborder="0">
+                                                        Your browser does not support PDFs.
+                                                        <a href="{{ asset($dataBerkas->ijazah) }}">Download the PDF</a>
+                                                    </iframe>
+                                                @else
+                                                    <span>-</span>
+                                                @endif
                                             </td>
                                         </tr>
                                         <tr>
                                             <th scope="col">Kartu PKH</th>
                                             {{-- <td>{{ $dataBerkas->kartu_pkh }}</td> --}}
                                             <td>
-                                                <a href="{{ asset($dataBerkas->kartu_pkh) }}"
-                                                    download="{{ $dataBerkas->kartu_pkh }}" target="_blank">
-                                                    <span class="text-primary text-decoration-underline">Download</span>
-                                                </a>
-                                                <br>
-                                                <iframe src="{{ asset($dataBerkas->kartu_pkh) }}" class="pdf-viewer mt-2"
-                                                    frameborder="0">
-                                                    Your browser does not support PDFs.
-                                                    <a href="{{ asset($dataBerkas->kartu_pkh) }}">Download
-                                                        the PDF</a>
-                                                </iframe>
+                                                @if ($dataBerkas && $dataBerkas->kartu_pkh)
+                                                    <a href="{{ asset($dataBerkas->kartu_pkh) }}"
+                                                        download="{{ $dataBerkas->kartu_pkh }}" target="_blank">
+                                                        <span class="text-primary text-decoration-underline">Download</span>
+                                                    </a>
+                                                    <br>
+                                                    <iframe src="{{ asset($dataBerkas->kartu_pkh) }}"
+                                                        class="pdf-viewer mt-2" frameborder="0">
+                                                        Your browser does not support PDFs.
+                                                        <a href="{{ asset($dataBerkas->kartu_pkh) }}">Download the PDF</a>
+                                                    </iframe>
+                                                @else
+                                                    <span>-</span>
+                                                @endif
                                             </td>
                                         </tr>
                                         <tr>
                                             <th scope="col">Pas Foto</th>
                                             <td>
                                                 @if ($dataBerkas->pas_foto)
-                                                    <img src="{{ $dataBerkas->pas_foto }}" alt="Pas Foto"
-                                                        class="img-fluid">
+                                                    <img src="{{ $dataBerkas->pas_foto }}" alt="Pas Foto" class="img-fluid"
+                                                        style="width: 300px">
                                                 @else
                                                     <span class="badge bg-danger">Belum Upload</span>
                                                 @endif
@@ -172,8 +165,7 @@
                                     <table class="table mb-0 table-bordered table-striped">
                                         <tr>
                                             <td class="text-center">
-                                                <span class="badge bg-warning text-dark">Data Wali belum
-                                                    ditambahkan</span>
+                                                <span class="badge bg-warning text-dark">Berkas Belum Ditambahkan</span>
                                             </td>
                                         </tr>
                                     </table>

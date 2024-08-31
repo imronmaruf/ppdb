@@ -46,8 +46,8 @@ class BerkasController extends Controller
             'akte_kelahiran' => 'required|file|mimes:jpg,png,pdf|max:2048',
             'kk' => 'required|file|mimes:jpg,png,pdf|max:2048',
             'ktp_ortu' => 'required|file|mimes:jpg,png,pdf|max:2048',
-            'ijazah' => 'required|file|mimes:jpg,png,pdf|max:2048',
-            'kartu_pkh' => 'required|file|mimes:jpg,png,pdf|max:2048',
+            'ijazah' => 'nullable|file|mimes:jpg,png,pdf|max:2048',
+            'kartu_pkh' => 'nullable|file|mimes:jpg,png,pdf|max:2048',
             'pas_foto' => 'required|file|mimes:jpg,png|max:2048',
         ]);
 
@@ -60,8 +60,8 @@ class BerkasController extends Controller
             $akteKelahiranUrl = UploadFile::upload('uploads/berkas/akte', $request->file('akte_kelahiran'), $namaSiswa);
             $kkUrl = UploadFile::upload('uploads/berkas/kk', $request->file('kk'), $namaSiswa);
             $ktpOrtuUrl = UploadFile::upload('uploads/berkas/ktp', $request->file('ktp_ortu'), $namaSiswa);
-            $ijazahUrl = UploadFile::upload('uploads/berkas/ijazah', $request->file('ijazah'), $namaSiswa);
-            $kartuPkhUrl = UploadFile::upload('uploads/berkas/kartu', $request->file('kartu_pkh'), $namaSiswa);
+            $ijazahUrl = $request->hasFile('ijazah') ? UploadFile::upload('uploads/berkas/ijazah', $request->file('ijazah'), $namaSiswa) : null;
+            $kartuPkhUrl = $request->hasFile('kartu_pkh') ? UploadFile::upload('uploads/berkas/kartu', $request->file('kartu_pkh'), $namaSiswa) : null;
             $pasFotoUrl = UploadFile::upload('uploads/berkas/pas_foto', $request->file('pas_foto'), $namaSiswa);
 
             Berkas::create([

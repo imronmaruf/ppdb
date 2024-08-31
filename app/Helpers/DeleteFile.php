@@ -6,14 +6,14 @@ use Illuminate\Support\Facades\File;
 
 class DeleteFile
 {
-
-  public static function delete($name_file)
+  public static function delete($fileUrl)
   {
-    $publicPath = public_path();
-    $file_path = $publicPath . '/' . $name_file;
+    // Ubah URL menjadi path file yang benar
+    $filePath = public_path(str_replace(url('/'), '', $fileUrl));
 
-    if (File::exists($file_path)) {
-      return File::delete($file_path);
+    // Hapus file jika ada
+    if (File::exists($filePath)) {
+      return File::delete($filePath);
     }
 
     return false;

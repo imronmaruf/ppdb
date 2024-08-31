@@ -124,6 +124,13 @@
                                     </div>
 
                                     <div class="mb-3">
+                                        <label for="no_pkh" class="form-label">No. Kartu PKH</label>
+                                        <input type="text" id="no_pkh" name="no_pkh" class="form-control"
+                                            placeholder="Asal Sekolah"
+                                            value="{{ old('no_pkh', $dataPendaftar->no_pkh) }}">
+                                    </div>
+
+                                    <div class="mb-3">
                                         <label for="asal_sekolah" class="form-label">Asal Sekolah</label>
                                         <input type="text" id="asal_sekolah" name="asal_sekolah" class="form-control"
                                             placeholder="Asal Sekolah"
