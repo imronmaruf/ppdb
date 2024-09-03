@@ -21,6 +21,7 @@
 
     <!-- Vendor CSS Files -->
     <link href="{{ asset('landing/assets/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('landing/assets/vendor/bootstrap/css/bootstrap.css') }}" rel="stylesheet">
     <link href="{{ asset('landing/assets/vendor/bootstrap-icons/bootstrap-icons.css') }}" rel="stylesheet">
     <link href="{{ asset('landing/assets/vendor/aos/aos.css') }}" rel="stylesheet">
     <link href="{{ asset('landing/assets/vendor/glightbox/css/glightbox.min.css') }}" rel="stylesheet">

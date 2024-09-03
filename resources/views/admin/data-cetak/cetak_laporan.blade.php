@@ -78,12 +78,12 @@
 <body>
 
     <div class="header">
-        <img src="{{ asset('assets/logo.png') }}" alt="Logo Sekolah">
+        {{-- <img src="{{ asset('assets/logo.png') }}" alt="Logo Sekolah"> --}}
         <h1>LAPORAN PENERIMAAN SISWA</h1>
         <p>SD NEGERI 18 DEWANTARA</p>
         <p>Dusun Madat Gampong Paloh Lada Kecamatan Dewantara Kabupaten Aceh Utara 24354</p>
-        <p>Email: sdnegeri18dwtbgmail.com</p>
-        <p>----------------------------</p>
+        <p>Email: sdnegeri18dwt@gmail.com</p>
+        <hr width="80%" />
     </div>
 
     <table class="section" style="margin-top: 40px;">

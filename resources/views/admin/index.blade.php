@@ -1,7 +1,7 @@
 @extends('admin.layouts.main')
 
 @push('title')
-    Dashboard {{ Auth::user()->role ?? '' }}
+    Dashboard {{ ucfirst(Auth::user()->role ?? '') }}
 @endpush
 
 @section('content')
@@ -10,13 +10,14 @@
         <div class="row">
             <div class="col-12">
                 <div class="page-title-box">
-                    <h4 class="page-title">Dashboard {{ Auth::user()->role }}</h4>
+                    <h4 class="page-title">Dashboard {{ ucfirst(Auth::user()->role ?? '') }}</h4>
                 </div>
             </div>
         </div>
         <!-- end page title -->
 
         <div class="row">
+
             @can('siswa-only')
                 <!-- Start: Welcome Card -->
                 <div class="col-12 col-xl-6 mb-3 mb-xl-2">
@@ -354,12 +355,13 @@
                 <!-- End: Formulir Data Display Card -->
             @else
                 <div class="col-12 col-xl-12 mb-3 mb-xl-2">
-                    <div class="card cta-box bg-success text-white h-75">
+                    <div class="card cta-box bg-primary text-white h-75">
                         <div class="card-body d-flex justify-content-center align-items-center h-100">
                             <div class="text-center">
                                 <h3 class="m-0 fw-normal cta-box-title">
-                                    Selamat datang <b>{{ Auth::user()->name }}</b> di Website PPDB Online SD N 18 Dewantara
-                                    Anda masuk sebagai <b>{{ Auth::user()->role }}</b>
+                                    Selamat datang <b>{{ ucfirst(Auth::user()->name ?? '') }}</b> di Website PPDB Online SD N
+                                    18 Dewantara
+                                    Anda masuk sebagai <b>{{ ucfirst(Auth::user()->role) }}</b>
                                 </h3>
                             </div>
                         </div>

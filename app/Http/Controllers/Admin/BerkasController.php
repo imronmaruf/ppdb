@@ -55,14 +55,14 @@ class BerkasController extends Controller
 
         try {
             $pesertaPpdb = PesertaPpdb::where('user_id', Auth::id())->firstOrFail();
-            $namaSiswa = $pesertaPpdb->name;
+            $username = $pesertaPpdb->name;
 
-            $akteKelahiranUrl = UploadFile::upload('uploads/berkas/akte', $request->file('akte_kelahiran'), $namaSiswa);
-            $kkUrl = UploadFile::upload('uploads/berkas/kk', $request->file('kk'), $namaSiswa);
-            $ktpOrtuUrl = UploadFile::upload('uploads/berkas/ktp', $request->file('ktp_ortu'), $namaSiswa);
-            $ijazahUrl = $request->hasFile('ijazah') ? UploadFile::upload('uploads/berkas/ijazah', $request->file('ijazah'), $namaSiswa) : null;
-            $kartuPkhUrl = $request->hasFile('kartu_pkh') ? UploadFile::upload('uploads/berkas/kartu', $request->file('kartu_pkh'), $namaSiswa) : null;
-            $pasFotoUrl = UploadFile::upload('uploads/berkas/pas_foto', $request->file('pas_foto'), $namaSiswa);
+            $akteKelahiranUrl = UploadFile::upload('uploads/berkas/akte', $request->file('akte_kelahiran'), $username);
+            $kkUrl = UploadFile::upload('uploads/berkas/kk', $request->file('kk'), $username);
+            $ktpOrtuUrl = UploadFile::upload('uploads/berkas/ktp', $request->file('ktp_ortu'), $username);
+            $ijazahUrl = $request->hasFile('ijazah') ? UploadFile::upload('uploads/berkas/ijazah', $request->file('ijazah'), $username) : null;
+            $kartuPkhUrl = $request->hasFile('kartu_pkh') ? UploadFile::upload('uploads/berkas/kartu', $request->file('kartu_pkh'), $username) : null;
+            $pasFotoUrl = UploadFile::upload('uploads/berkas/pas_foto', $request->file('pas_foto'), $username);
 
             Berkas::create([
                 'peserta_ppdb_id' => $pesertaPpdb->id,
@@ -111,36 +111,36 @@ class BerkasController extends Controller
 
         try {
             $pesertaPpdb = PesertaPpdb::where('user_id', Auth::id())->firstOrFail();
-            $namaSiswa = $pesertaPpdb->name;
+            $username = $pesertaPpdb->name;
 
             if ($request->hasFile('akte_kelahiran')) {
                 DeleteFile::delete($berkas->akte_kelahiran);
-                $berkas->akte_kelahiran = UploadFile::upload('uploads/berkas/akte', $request->file('akte_kelahiran'), $namaSiswa);
+                $berkas->akte_kelahiran = UploadFile::upload('uploads/berkas/akte', $request->file('akte_kelahiran'), $username);
             }
 
             if ($request->hasFile('kk')) {
                 DeleteFile::delete($berkas->kk);
-                $berkas->kk = UploadFile::upload('uploads/berkas/kk', $request->file('kk'), $namaSiswa);
+                $berkas->kk = UploadFile::upload('uploads/berkas/kk', $request->file('kk'), $username);
             }
 
             if ($request->hasFile('ktp_ortu')) {
                 DeleteFile::delete($berkas->ktp_ortu);
-                $berkas->ktp_ortu = UploadFile::upload('uploads/berkas/ktp', $request->file('ktp_ortu'), $namaSiswa);
+                $berkas->ktp_ortu = UploadFile::upload('uploads/berkas/ktp', $request->file('ktp_ortu'), $username);
             }
 
             if ($request->hasFile('ijazah')) {
                 DeleteFile::delete($berkas->ijazah);
-                $berkas->ijazah = UploadFile::upload('uploads/berkas/ijazah', $request->file('ijazah'), $namaSiswa);
+                $berkas->ijazah = UploadFile::upload('uploads/berkas/ijazah', $request->file('ijazah'), $username);
             }
 
             if ($request->hasFile('kartu_pkh')) {
                 DeleteFile::delete($berkas->kartu_pkh);
-                $berkas->kartu_pkh = UploadFile::upload('uploads/berkas/kartu', $request->file('kartu_pkh'), $namaSiswa);
+                $berkas->kartu_pkh = UploadFile::upload('uploads/berkas/kartu', $request->file('kartu_pkh'), $username);
             }
 
             if ($request->hasFile('pas_foto')) {
                 DeleteFile::delete($berkas->pas_foto);
-                $berkas->pas_foto = UploadFile::upload('uploads/berkas/pas_foto', $request->file('pas_foto'), $namaSiswa);
+                $berkas->pas_foto = UploadFile::upload('uploads/berkas/pas_foto', $request->file('pas_foto'), $username);
             }
 
             // Tidak perlu mengatur ulang nilai untuk kolom yang tidak diubah
