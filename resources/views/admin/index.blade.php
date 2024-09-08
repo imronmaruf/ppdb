@@ -14,6 +14,12 @@
                 </div>
             </div>
         </div>
+        @if (session('status'))
+            <div class="alert alert-success" role="alert">
+                {{ session('status') }}
+            </div>
+        @endif
+
         <!-- end page title -->
 
         <div class="row">
@@ -420,8 +426,9 @@
 
         </div>
     </div>
-@endsection
 
+
+@endsection
 
 @push('js')
     <script>
