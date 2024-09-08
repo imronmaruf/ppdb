@@ -6,12 +6,15 @@ use App\Http\Controllers\Admin\OrtuController;
 use App\Http\Controllers\Admin\WaliController;
 use App\Http\Controllers\Admin\BerkasController;
 use App\Http\Controllers\Admin\PendaftarDiterima;
+use App\Http\Controllers\Landing\GaleriController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\UsersDataController;
 use App\Http\Controllers\Landing\LandingController;
 use App\Http\Controllers\Kepsek\KepsekDataPendaftar;
+use App\Http\Controllers\Landing\FasilitasController;
 use App\Http\Controllers\Admin\DataPendaftarController;
 use App\Http\Controllers\Admin\FormPendaftaranController;
+use App\Http\Controllers\Landing\TentangKontakController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,9 +32,8 @@ use App\Http\Controllers\Admin\FormPendaftaranController;
 // });
 
 // ===== Landings Route ===== //
-Route::resource('/', LandingController::class)->only([
-    'index'
-]);
+Route::get('/', [LandingController::class, 'index'])->name('landing.index');
+
 
 Auth::routes();
 
@@ -84,6 +86,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('/store', [UsersDataController::class, 'store'])->name('data-user.store');
         Route::get('/edit/{id}', [UsersDataController::class, 'edit'])->name('data-user.edit');
         Route::put('/update/{id}', [UsersDataController::class, 'update'])->name('data-user.update');
+        Route::delete('/destroy/{id}', [UsersDataController::class, 'destroy'])->name('data-user.destroy');
     });
 
     Route::prefix('data-pendaftar')->middleware('can:admin-only')->group(function () {
@@ -98,5 +101,36 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/', [KepsekDataPendaftar::class, 'index'])->name('kepsek-data-pendaftar.index');
         Route::get('/show/{id}', [KepsekDataPendaftar::class, 'show'])->name('kepsek-data-pendaftar.show');
         Route::get('/admin/cetak-laporan', [KepsekDataPendaftar::class, 'cetakLaporan'])->name('admin.cetakLaporan');
+    });
+
+
+
+
+    // Halaman Landing page
+
+    Route::prefix('tentang-kontak')->middleware('can:admin-only')->group(function () {
+        Route::get('/', [TentangKontakController::class, 'index'])->name('tentang-kontak.index');
+        Route::get('/create', [TentangKontakController::class, 'create'])->name('tentang-kontak.create');
+        Route::post('/store', [TentangKontakController::class, 'store'])->name('tentang-kontak.store');
+        Route::get('/edit/{id}', [TentangKontakController::class, 'edit'])->name('tentang-kontak.edit');
+        Route::put('/update/{id}', [TentangKontakController::class, 'update'])->name('tentang-kontak.update');
+    });
+
+    Route::prefix('fasilitas')->middleware('can:admin-only')->group(function () {
+        Route::get('/', [FasilitasController::class, 'index'])->name('fasilitas.index');
+        Route::get('/create', [FasilitasController::class, 'create'])->name('fasilitas.create');
+        Route::post('/store', [FasilitasController::class, 'store'])->name('fasilitas.store');
+        Route::get('/edit/{id}', [FasilitasController::class, 'edit'])->name('fasilitas.edit');
+        Route::put('/update/{id}', [FasilitasController::class, 'update'])->name('fasilitas.update');
+        Route::delete('fasilitas/delete-selected', [FasilitasController::class, 'deleteSelected'])->name('fasilitas.delete.selected');
+    });
+
+    Route::prefix('galeri')->middleware('can:admin-only')->group(function () {
+        Route::get('/', [GaleriController::class, 'index'])->name('galeri.index');
+        Route::get('/create', [GaleriController::class, 'create'])->name('galeri.create');
+        Route::post('/store', [GaleriController::class, 'store'])->name('galeri.store');
+        Route::get('/edit/{id}', [GaleriController::class, 'edit'])->name('galeri.edit');
+        Route::put('/update/{id}', [GaleriController::class, 'update'])->name('galeri.update');
+        Route::delete('galeri/delete-selected', [GaleriController::class, 'deleteSelected'])->name('galeri.delete.selected');
     });
 });

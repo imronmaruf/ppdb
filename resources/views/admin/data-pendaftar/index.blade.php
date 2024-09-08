@@ -1,7 +1,7 @@
 @extends('admin.layouts.main')
 
 @push('title')
-    Dashboard {{ Auth::user()->role ?? '' }}
+    Dashboard {{ ucfirst(Auth::user()->role ?? '') }} | Data Pendaftar
 @endpush
 
 

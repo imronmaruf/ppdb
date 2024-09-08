@@ -66,11 +66,11 @@
 
             <div class="p-3">
                 <div class="alert alert-warning" role="alert">
-                    <strong>Customize </strong> the overall color scheme, sidebar menu, etc.
+                    <strong>Atur </strong> tampilan
                 </div>
 
                 <!-- Settings -->
-                <h5 class="mt-3">Color Scheme</h5>
+                <h5 class="mt-3">Skema Warna</h5>
                 <hr class="mt-1">
 
                 <div class="form-check form-switch mb-1">
@@ -87,13 +87,6 @@
 
 
                 <!-- Width -->
-                <h5 class="mt-4">Width</h5>
-                <hr class="mt-1">
-                <div class="form-check form-switch mb-1">
-                    <input class="form-check-input" type="checkbox" name="width" value="fluid" id="fluid-check"
-                        checked="">
-                    <label class="form-check-label" for="fluid-check">Fluid</label>
-                </div>
 
                 <div class="form-check form-switch mb-1">
                     <input class="form-check-input" type="checkbox" name="width" value="boxed" id="boxed-check">
@@ -102,7 +95,7 @@
 
 
                 <!-- Left Sidebar-->
-                <h5 class="mt-4">Left Sidebar</h5>
+                <h5 class="mt-4">Sidebar Menu</h5>
                 <hr class="mt-1">
                 <div class="form-check form-switch mb-1">
                     <input class="form-check-input" type="checkbox" name="theme" value="default" id="default-check">
@@ -139,11 +132,7 @@
                 </div>
 
                 <div class="d-grid mt-4">
-                    <button class="btn btn-primary" id="resetBtn">Reset to Default</button>
-
-                    <a href="../../product/hyper-responsive-admin-dashboard-template/index.htm"
-                        class="btn btn-danger mt-3" target="_blank"><i class="mdi mdi-basket me-1"></i> Purchase
-                        Now</a>
+                    <button class="btn btn-primary" id="resetBtn">Reset Default</button>
                 </div>
             </div> <!-- end padding-->
 

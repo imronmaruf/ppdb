@@ -60,13 +60,13 @@
                 <li class="side-nav-title side-nav-item">Data Master</li>
 
                 <li class="side-nav-item">
-                    <a data-bs-toggle="collapse" href="#sidebarEcommerce" aria-expanded="false"
-                        aria-controls="sidebarEcommerce" class="side-nav-link">
+                    <a data-bs-toggle="collapse" href="#sidebarPendaftar" aria-expanded="false"
+                        aria-controls="sidebarPendaftar" class="side-nav-link">
                         <i class="uil-clipboard-alt"></i>
                         <span> Data Pendaftar</span>
                         <span class="badge bg-success float-end">{{ $jumlahPesertaVerifikasi }} baru </span>
                     </a>
-                    <div class="collapse" id="sidebarEcommerce">
+                    <div class="collapse" id="sidebarPendaftar">
                         <ul class="side-nav-second-level">
                             <li>
                                 <a href="{{ route('data-pendaftar.index') }}">Pendaftar</a>
@@ -96,19 +96,22 @@
 
                 <li class="side-nav-title side-nav-item">Setting Landing Page</li>
                 <li class="side-nav-item">
-                    <a data-bs-toggle="collapse" href="#sidebarEcommerce" aria-expanded="false"
-                        aria-controls="sidebarEcommerce" class="side-nav-link">
+                    <a data-bs-toggle="collapse" href="#sidebarLanding" aria-expanded="false" aria-controls="sidebarLanding"
+                        class="side-nav-link">
                         <i class="uil-monitor"></i>
                         <span> Landing Page </span>
                         <span class="menu-arrow"></span>
                     </a>
-                    <div class="collapse" id="sidebarEcommerce">
+                    <div class="collapse" id="sidebarLanding">
                         <ul class="side-nav-second-level">
                             <li>
-                                <a href="apps-ecommerce-products.html">Products</a>
+                                <a href="{{ route('tentang-kontak.index') }}">Tentang & Kontak</a>
                             </li>
                             <li>
-                                <a href="apps-ecommerce-products-details.html">Products Details</a>
+                                <a href="{{ route('fasilitas.index') }}">Fasilitas</a>
+                            </li>
+                            <li>
+                                <a href="{{ route('galeri.index') }}">Galeri</a>
                             </li>
                         </ul>
                     </div>
