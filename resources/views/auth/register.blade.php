@@ -14,7 +14,7 @@
                 <div class="col-xxl-4 col-lg-5">
                     <div class="card">
                         <!-- Logo -->
-                        <div class="card-header pt-4 pb-4 text-center bg-success">
+                        <div class="card-header pt-4 pb-4 text-center bg-primary">
                             <a href="{{ route('login') }}">
                                 <span><img src="{{ asset('admin/assets/img/logo.png') }}" alt="" height="50"></span>
                             </a>
@@ -91,7 +91,7 @@
                                 </div>
 
                                 <div class="mb-0 d-grid text-center">
-                                    <button class="btn btn-success" type="submit"><i class="mdi mdi-account-circle"></i>
+                                    <button class="btn btn-primary" type="submit"><i class="mdi mdi-account-circle"></i>
                                         {{ __('Registrasi') }}
                                     </button>
                                 </div>

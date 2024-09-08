@@ -40,7 +40,7 @@
                         </div>
                         @if ($dataTentangKontak)
                             <div class="row">
-                                <h4 class="header-title mt-3">Tentang</h4>
+                                <h4 class="header-title mt-1">Tentang</h4>
                                 <div class="col-lg-12">
                                     <table class="table mb-0 table-bordered table-striped">
                                         <tr>
@@ -50,8 +50,19 @@
 
                                         <tr>
                                             <th scope="col" class="w-25">Gambar</th>
-                                            <td>{{ $dataTentangKontak->foto }}</td>
+                                            <td>
+                                                @if ($dataTentangKontak->foto)
+                                                    <img src="{{ $dataTentangKontak->foto }}" alt="Gambar"
+                                                        class="img-fluid" style="width: 300px">
+                                                @else
+                                                    <span class="badge bg-danger">Belum Upload</span>
+                                                @endif
+                                            </td>
                                         </tr>
+                                        {{-- <tr>
+                                            <th scope="col" class="w-25">Gambar</th>
+                                            <td>{{ $dataTentangKontak->foto }}</td>
+                                        </tr> --}}
                                     </table>
                                 </div>
 
@@ -70,7 +81,11 @@
 
                                         <tr>
                                             <th scope="col" class="w-25">WA Link</th>
-                                            <td>{{ $dataTentangKontak->wa_link }}</td>
+                                            <td>
+                                                <p><a href="{{ $dataTentangKontak->wa_link }}" target="__blank"
+                                                        class="underline">WhatsApp</a></p>
+                                                ( {{ $dataTentangKontak->wa_link }} )
+                                            </td>
                                         </tr>
 
                                     </table>

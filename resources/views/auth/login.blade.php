@@ -13,7 +13,7 @@
                 <div class="col-xxl-4 col-lg-5">
                     <div class="card">
                         <!-- Logo -->
-                        <div class="card-header pt-4 pb-4 text-center bg-success">
+                        <div class="card-header pt-4 pb-4 text-center bg-primary">
                             <a href="{{ route('login') }}">
                                 <span><img src="{{ asset('admin/assets/img/logo.png') }}" alt="" height="50"></span>
                             </a>
@@ -73,7 +73,7 @@
                                     </div>
                                 </div>
                                 <div class="d-grid mb-0 text-center">
-                                    <button class="btn btn-success" type="submit"><i class="mdi mdi-login"></i>
+                                    <button class="btn btn-primary" type="submit"><i class="mdi mdi-login"></i>
                                         {{ __('Login') }}
                                     </button>
                                 </div>
