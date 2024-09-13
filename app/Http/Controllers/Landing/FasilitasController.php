@@ -24,10 +24,11 @@ class FasilitasController extends Controller
 
     public function store(Request $request)
     {
-        // Validasi file
+        // Validasi input
         $request->validate([
+            'name' => 'required|string|max:255',
             'file' => 'required|array|min:1',
-            'file.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Validasi multiple files
+            'file.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         // Dapatkan username dari akun yang sedang login
@@ -39,15 +40,18 @@ class FasilitasController extends Controller
             $urls[] = UploadFile::upload('uploads/fasilitas', $file, $username);
         }
 
-        // Simpan URL file ke database
+        // Simpan data ke database
         foreach ($urls as $url) {
-            Fasilitas::create(['foto_url' => $url]);
+            Fasilitas::create([
+                'name' => $request->input('name'), // Menyimpan nama fasilitas
+                'foto_url' => $url
+            ]);
         }
 
         // Simpan pesan sukses ke session dan redirect ke halaman index
-        session()->flash('success', 'Foto fasilitas berhasil diupload.');
-        return redirect()->route('fasilitas.index');
+        return redirect()->route('fasilitas.index')->with('success', 'Foto fasilitas berhasil diupload.');
     }
+
 
     public function deleteSelected(Request $request)
     {

@@ -106,8 +106,36 @@
         </div>
     </section><!-- /tentang Section -->
 
+
     <!-- Fasilitas Section -->
-    <section id="fasilitas" class="services light-background">
+
+    <section id="team" class="team section light-background">
+
+        <!-- Section Title -->
+        <div class="container section-title aos-init aos-animate" data-aos="fade-up">
+            <h2>Fasilitas</h2>
+            <p>Fasilitas belajar merupakan sarana dan prasarana pembelajaran. Prasarana meliputi kantin, ruang
+                belajar, lapangan olahraga, Ruang Guru, Ruang Perpustakaan dll.</p>
+        </div><!-- End Section Title -->
+
+        <div class="container">
+
+            <div class="row gy-4">
+                @foreach ($fasilitas as $item)
+                    <div class="col-xl-3 col-md-6 d-flex aos-init aos-animate" data-aos="fade-up" data-aos-delay="100">
+                        <div class="member">
+                            <img src="{{ asset($item->foto_url) }}" class="img-fluid" alt="">
+                            <h4>{{ $item->name }}</h4>
+                            {{-- <span>{{ $item->name }}</span> --}}
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+    </section><!-- /Fasilitas Section -->
+
+    <!-- Fasilitas Section -->
+    {{-- <section id="fasilitas" class="services light-background">
         <div class="container">
             <div class="row">
                 <div class="col-lg-4">
@@ -121,8 +149,12 @@
                     <div class="row">
                         @foreach ($fasilitas as $item)
                             <div class="col-md-4 d-flex align-items-stretch mt-4">
-                                <div class="icon-box align-self-center" data-aos="zoom-in" data-aos-delay="100">
-                                    <img src="{{ asset($item->foto_url) }}" class="img-fluid rounded-2" alt="">
+                                <div class="card align-self-center" data-aos="zoom-in" data-aos-delay="100">
+                                    <img src="{{ asset($item->foto_url) }}" class="card-img-top img-fluid"
+                                        alt="Image description">
+                                    <div class="card-body">
+                                        <p class="card-text">asad</p>
+                                    </div>
                                 </div>
                             </div>
                         @endforeach
@@ -130,7 +162,7 @@
                 </div>
             </div>
         </div>
-    </section><!-- /Fasilitas Section -->
+    </section><!-- /Fasilitas Section --> --}}
 
 
     <!-- Stats Section -->
@@ -197,13 +229,18 @@
                 <div class="row gy-4 isotope-container align-items-center justify-content-center" data-aos="fade-up"
                     data-aos-delay="200">
                     @foreach ($galeri as $item)
-                        <div class="col-lg-2 col-md-6 portfolio-item isotope-item filter-{{ $item->kategori }}">
+                        <div class="col-lg-3 col-md-6 portfolio-item isotope-item filter-{{ $item->kategori }}">
                             <div class="portfolio-content h-100">
                                 <a href="{{ asset($item->foto_url) }}" data-gallery="portfolio-gallery-app"
                                     class="glightbox">
                                     <img src="{{ asset($item->foto_url) }}" class="img-fluid" alt="">
                                 </a>
+                                <div class="portfolio-info">
+                                    <h4>{{ $item->title }}</h4>
+                                    <p>{{ $item->caption }}</p>
+                                </div>
                             </div>
+
                         </div>
                     @endforeach
                 </div>

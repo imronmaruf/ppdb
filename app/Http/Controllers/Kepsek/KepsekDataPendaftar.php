@@ -43,10 +43,8 @@ class KepsekDataPendaftar extends Controller
 
     public function cetakLaporan()
     {
-        // Ambil data pendaftaran beserta relasi ortu, wali, dan berkas
         $dataPendaftaran = PesertaPpdb::with(['ortu', 'wali', 'berkas'])->get();
 
-        // Hitung jumlah total peserta berdasarkan status
         $totalPesertaDiterima = PesertaPpdb::where('status', 'diterima')->count();
         $totalPesertaDitolak = PesertaPpdb::where('status', 'ditolak')->count();
         $totalPesertaBelumMelengkapiData = PesertaPpdb::where(function ($query) {
@@ -62,6 +60,11 @@ class KepsekDataPendaftar extends Controller
             'totalPesertaBelumMelengkapiData' => $totalPesertaBelumMelengkapiData,
         ])->setPaper('a4', 'landscape');
 
-        return $pdf->download('laporan-pendaftaran.pdf');
+        return response($pdf->stream('laporan-pendaftaran.pdf'))
+            ->header('Content-Type', 'application/pdf')
+            ->header('Content-Disposition', 'inline; filename="laporan-pendaftaran.pdf"')
+            ->header('Cache-Control', 'no-cache, no-store, must-revalidate')
+            ->header('Pragma', 'no-cache')
+            ->header('Expires', '0');
     }
 }

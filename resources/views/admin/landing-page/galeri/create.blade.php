@@ -21,19 +21,47 @@
                 <div class="card">
                     <div class="card-body">
                         <h4 class="header-title m-t-0">Upload Foto Galeri Sekolah</h4>
-
                         <!-- Form untuk dropdown kategori -->
                         <form id="categoryForm" action="{{ route('galeri.store') }}" method="POST">
                             @csrf
+
+                            <div class="mb-3 mt-3">
+                                <label for="title" class="form-label">Judul Galeri</label>
+                                <input type="text" class="form-control @error('title') is-invalid @enderror"
+                                    id="title" name="title" placeholder="Judul" value="{{ old('title') }}" required>
+                                @error('title')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+
+                            <div class="mb-3 mt-3">
+                                <label for="caption" class="form-label">Caption</label>
+                                <textarea class="form-control @error('caption') is-invalid @enderror" id="caption" name="caption"
+                                    placeholder="Caption" rows="4" required>{{ old('caption') }}</textarea>
+                                @error('caption')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+
                             <div class="mb-3 mt-3">
                                 <label for="kategori" class="form-label">Kategori</label>
-                                <select class="form-select" id="kategori" name="kategori">
+                                <select class="form-select @error('kategori') is-invalid @enderror" id="kategori"
+                                    name="kategori">
                                     <option selected="">---Pilih Kategori---</option>
                                     <option value="akademik" {{ old('kategori') == 'akademik' ? 'selected' : '' }}>Akademik
                                     </option>
                                     <option value="non-akademik" {{ old('kategori') == 'non-akademik' ? 'selected' : '' }}>
                                         Non-Akademik</option>
                                 </select>
+                                @error('kategori')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
                             </div>
                         </form>
 
@@ -41,12 +69,20 @@
                         <form action="{{ route('galeri.store') }}" method="POST" enctype="multipart/form-data"
                             class="dropzone" id="myAwesomeDropzone">
                             @csrf
+                            <input type="hidden" name="title" id="hidden-title" value="{{ old('title') }}">
+                            <input type="hidden" name="caption" id="hidden-caption" value="{{ old('caption') }}">
                             <input type="hidden" name="kategori" id="hidden-kategori" value="{{ old('kategori') }}">
                             <div class="dz-message needsclick">
                                 <i class="h1 text-muted dripicons-cloud-upload"></i>
                                 <h3>Drop File Foto Disini.</h3>
                             </div>
+                            @error('file')
+                                <div class="text-danger mt-2">
+                                    <strong>{{ $message }}</strong>
+                                </div>
+                            @enderror
                         </form>
+
 
                         <button id="submit-all" class="btn btn-primary mt-3">Upload Files</button>
 
@@ -98,13 +134,16 @@
             init: function() {
                 var myDropzone = this;
 
-                // Menangani klik tombol "Upload Files"
                 document.getElementById("submit-all").addEventListener("click", function(e) {
                     e.preventDefault();
                     e.stopPropagation();
 
-                    // Mengambil kategori dari dropdown
+                    var title = document.getElementById("title").value;
+                    var caption = document.getElementById("caption").value;
                     var kategori = document.getElementById("kategori").value;
+
+                    document.getElementById("hidden-title").value = title;
+                    document.getElementById("hidden-caption").value = caption;
                     document.getElementById("hidden-kategori").value = kategori;
 
                     if (myDropzone.getQueuedFiles().length > 0) {
@@ -118,7 +157,6 @@
                     }
                 });
 
-                // Redirect setelah pengunggahan berhasil
                 myDropzone.on("successmultiple", function(files, response) {
                     Swal.fire({
                         icon: "success",
@@ -131,7 +169,6 @@
                     });
                 });
 
-                // Menangani error selama pengunggahan
                 myDropzone.on("errormultiple", function(files, response) {
                     Swal.fire({
                         icon: "error",

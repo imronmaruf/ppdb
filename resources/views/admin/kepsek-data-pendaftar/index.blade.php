@@ -32,8 +32,12 @@
                     <div class="card-body">
                         <div class="d-flex justify-content-between mb-3">
                             <h4 class="header-title mb-3">Data Peserta PPDB</h4>
+                            <a href="{{ route('admin.cetakLaporan') }}" target="_blank" class="btn btn-info">
+                                <i class="mdi mdi-printer me-1"></i> <span>Cetak Laporan PPDB</span>
+                            </a>
+                            {{-- 
                             <a href="{{ route('admin.cetakLaporan') }}" type="button" class="btn btn-info"><i
-                                    class="mdi mdi-printer me-1"></i> <span>Cetak Laporan PPDB</span> </a>
+                                    class="mdi mdi-printer me-1"></i> <span>Cetak Laporan PPDB</span> </a> --}}
                         </div>
                         <div class="tab-content">
                             <div id="basic-datatable_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">

@@ -14,7 +14,10 @@ return new class extends Migration
         Schema::create('galeri', function (Blueprint $table) {
             $table->id();
             $table->string('foto_url');
+            $table->string('title');
+            $table->text('caption');
             $table->enum('kategori', ['akademik', 'non-akademik']);
+
             $table->timestamps();
         });
     }
