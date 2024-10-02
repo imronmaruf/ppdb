@@ -35,8 +35,14 @@ class OrtuController extends Controller
         if (!Gate::allows('siswa-only')) {
             abort(403);
         }
-        return view('admin.data-ortu.create');
+
+        // Daftar pendidikan ayah dan ibu sesuai dengan nilai enum yang didefinisikan di database
+        $pendidikanAyahOptions = ['Tidak Sekolah', 'SD', 'SMP', 'SMA', 'D1', 'D2', 'D3', 'D4', 'S1', 'S2', 'S3'];
+        $pendidikanIbuOptions = ['Tidak Sekolah', 'SD', 'SMP', 'SMA', 'D1', 'D2', 'D3', 'D4', 'S1', 'S2', 'S3'];
+
+        return view('admin.data-ortu.create', compact('pendidikanAyahOptions', 'pendidikanIbuOptions'));
     }
+
 
     public function store(Request $request)
     {
@@ -45,20 +51,41 @@ class OrtuController extends Controller
         }
 
         // Validasi input
-        $validated = $request->validate([
-            'nama_ayah' => 'required|string|max:255',
-            'nama_ibu' => 'required|string|max:255',
-            'alamat_ayah' => 'required|string|max:500',
-            'alamat_ibu' => 'required|string|max:500',
-            'tempat_lahir_tanggal_lahir_ayah' => 'required|string|max:255',
-            'tempat_lahir_tanggal_lahir_ibu' => 'required|string|max:255',
-            'nik_ayah' => 'required|string|max:20',
-            'nik_ibu' => 'required|string|max:20',
-            'pendidikan_ayah' => 'required|string|max:255',
-            'pendidikan_ibu' => 'required|string|max:255',
-            'pekerjaan_ayah' => 'required|string|max:255',
-            'pekerjaan_ibu' => 'required|string|max:255',
-        ]);
+        $validated = $request->validate(
+            [
+                'nama_ayah' => 'required|string|max:255',
+                'nama_ibu' => 'required|string|max:255',
+                'alamat_ayah' => 'required|string|max:500',
+                'alamat_ibu' => 'required|string|max:500',
+                'tempat_lahir_ayah' => 'required|string|max:255',
+                'tanggal_lahir_ayah' => 'required|date',
+                'tempat_lahir_ibu' => 'required|string|max:255',
+                'tanggal_lahir_ibu' => 'required|date',
+                'nik_ayah' => 'required|string|max:20',
+                'nik_ibu' => 'required|string|max:20',
+                'pendidikan_ayah' => 'required|string|max:255',
+                'pendidikan_ibu' => 'required|string|max:255',
+                'pekerjaan_ayah' => 'required|string|max:255',
+                'pekerjaan_ibu' => 'required|string|max:255',
+            ],
+            [
+                'nama_ayah.required' => 'Nama harus Ayah diisi',
+                'nama_ibu.required' => 'Nama harus Ibu diisi',
+                'alamat_ayah.required' => 'Alamat harus Ayah diisi',
+                'alamat_ibu.required' => 'Alamat harus Ibu diisi',
+                'tempat_lahir_ayah.required' => 'Tempat lahir Ayah harus diisi',
+                'tanggal_lahir_ayah.required' => 'Tanggal lahir Ayah harus diisi',
+                'tempat_lahir_ibu.required' => 'Tempat lahir Ibu harus diisi',
+                'tanggal_lahir_ibu.required' => 'Tanggal lahir Ibu harus diisi',
+                'nik_ayah.required' => 'NIK harus Ayah diisi',
+                'nik_ibu.required' => 'NIK harus Ibu diisi',
+                'pendidikan_ayah.required' => 'Pendidikan harus Ayah dipilih',
+                'pendidikan_ibu.required' => 'Pendidikan harus Ayah dipilih',
+                'pekerjaan_ayah.required' => 'Pekerjaan harus Ayah diisi',
+                'pekerjaan_ibu.required' => 'Pekerjaan harus Ayah diisi',
+
+            ]
+        );
 
         try {
             DB::beginTransaction();
@@ -73,8 +100,10 @@ class OrtuController extends Controller
             $ortu->nama_ibu = $validated['nama_ibu'];
             $ortu->alamat_ayah = $validated['alamat_ayah'];
             $ortu->alamat_ibu = $validated['alamat_ibu'];
-            $ortu->tempat_lahir_tanggal_lahir_ayah = $validated['tempat_lahir_tanggal_lahir_ayah'];
-            $ortu->tempat_lahir_tanggal_lahir_ibu = $validated['tempat_lahir_tanggal_lahir_ibu'];
+            $ortu->tempat_lahir_ayah = $validated['tempat_lahir_ayah'];
+            $ortu->tanggal_lahir_ayah = $validated['tanggal_lahir_ayah'];
+            $ortu->tempat_lahir_ibu = $validated['tempat_lahir_ibu'];
+            $ortu->tanggal_lahir_ibu = $validated['tanggal_lahir_ibu'];
             $ortu->nik_ayah = $validated['nik_ayah'];
             $ortu->nik_ibu = $validated['nik_ibu'];
             $ortu->pendidikan_ayah = $validated['pendidikan_ayah'];
@@ -102,8 +131,12 @@ class OrtuController extends Controller
         if (!Gate::allows('siswa-only')) {
             abort(403);
         }
+
         $dataOrtu = Ortu::findOrFail($id);
-        return view('admin.data-ortu.edit', compact('dataOrtu'));
+        // Daftar pendidikan ayah dan ibu sesuai dengan nilai enum yang didefinisikan di database
+        $pendidikanAyahOptions = ['Tidak Sekolah', 'SD', 'SMP', 'SMA', 'D1', 'D2', 'D3', 'D4', 'S1', 'S2', 'S3'];
+        $pendidikanIbuOptions = ['Tidak Sekolah', 'SD', 'SMP', 'SMA', 'D1', 'D2', 'D3', 'D4', 'S1', 'S2', 'S3'];
+        return view('admin.data-ortu.edit', compact('dataOrtu', 'pendidikanAyahOptions', 'pendidikanIbuOptions'));
     }
 
     public function update(Request $request, $id)
@@ -113,20 +146,41 @@ class OrtuController extends Controller
         }
 
         // Validasi input
-        $validated = $request->validate([
-            'nama_ayah' => 'required|string|max:255',
-            'nama_ibu' => 'required|string|max:255',
-            'alamat_ayah' => 'required|string|max:500',
-            'alamat_ibu' => 'required|string|max:500',
-            'tempat_lahir_tanggal_lahir_ayah' => 'required|string|max:255',
-            'tempat_lahir_tanggal_lahir_ibu' => 'required|string|max:255',
-            'nik_ayah' => 'required|string|max:20',
-            'nik_ibu' => 'required|string|max:20',
-            'pendidikan_ayah' => 'required|string|max:255',
-            'pendidikan_ibu' => 'required|string|max:255',
-            'pekerjaan_ayah' => 'required|string|max:255',
-            'pekerjaan_ibu' => 'required|string|max:255',
-        ]);
+        $validated = $request->validate(
+            [
+                'nama_ayah' => 'required|string|max:255',
+                'nama_ibu' => 'required|string|max:255',
+                'alamat_ayah' => 'required|string|max:500',
+                'alamat_ibu' => 'required|string|max:500',
+                'tempat_lahir_ayah' => 'required|string|max:255',
+                'tanggal_lahir_ayah' => 'required|date',
+                'tempat_lahir_ibu' => 'required|string|max:255',
+                'tanggal_lahir_ibu' => 'required|date',
+                'nik_ayah' => 'required|string|max:20',
+                'nik_ibu' => 'required|string|max:20',
+                'pendidikan_ayah' => 'required|string|max:255',
+                'pendidikan_ibu' => 'required|string|max:255',
+                'pekerjaan_ayah' => 'required|string|max:255',
+                'pekerjaan_ibu' => 'required|string|max:255',
+            ],
+            [
+                'nama_ayah.required' => 'Nama harus Ayah diisi',
+                'nama_ibu.required' => 'Nama harus Ibu diisi',
+                'alamat_ayah.required' => 'Alamat harus Ayah diisi',
+                'alamat_ibu.required' => 'Alamat harus Ibu diisi',
+                'tempat_lahir_ayah.required' => 'Tempat lahir Ayah harus diisi',
+                'tanggal_lahir_ayah.required' => 'Tanggal lahir Ayah harus diisi',
+                'tempat_lahir_ibu.required' => 'Tempat lahir Ibu harus diisi',
+                'tanggal_lahir_ibu.required' => 'Tanggal lahir Ibu harus diisi',
+                'nik_ayah.required' => 'NIK harus Ayah diisi',
+                'nik_ibu.required' => 'NIK harus Ibu diisi',
+                'pendidikan_ayah.required' => 'Pendidikan harus Ayah dipilih',
+                'pendidikan_ibu.required' => 'Pendidikan harus Ayah dipilih',
+                'pekerjaan_ayah.required' => 'Pekerjaan harus Ayah diisi',
+                'pekerjaan_ibu.required' => 'Pekerjaan harus Ayah diisi',
+
+            ]
+        );
 
         try {
             DB::beginTransaction();
@@ -139,8 +193,10 @@ class OrtuController extends Controller
             $ortu->nama_ibu = $validated['nama_ibu'];
             $ortu->alamat_ayah = $validated['alamat_ayah'];
             $ortu->alamat_ibu = $validated['alamat_ibu'];
-            $ortu->tempat_lahir_tanggal_lahir_ayah = $validated['tempat_lahir_tanggal_lahir_ayah'];
-            $ortu->tempat_lahir_tanggal_lahir_ibu = $validated['tempat_lahir_tanggal_lahir_ibu'];
+            $ortu->tempat_lahir_ayah = $validated['tempat_lahir_ayah'];
+            $ortu->tanggal_lahir_ayah = $validated['tanggal_lahir_ayah'];
+            $ortu->tempat_lahir_ibu = $validated['tempat_lahir_ibu'];
+            $ortu->tanggal_lahir_ibu = $validated['tanggal_lahir_ibu'];
             $ortu->nik_ayah = $validated['nik_ayah'];
             $ortu->nik_ibu = $validated['nik_ibu'];
             $ortu->pendidikan_ayah = $validated['pendidikan_ayah'];

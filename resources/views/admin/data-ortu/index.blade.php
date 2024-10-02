@@ -44,12 +44,14 @@
                                 <div class="col-lg-12">
                                     <table class="table mb-0 table-bordered table-striped">
                                         <tr>
-                                            <th scope="col">Nama Ayah</th>
+                                            <th scope="col" class="w-25">Nama Ayah</th>
                                             <td>{{ $dataOrtu->nama_ayah }}</td>
                                         </tr>
                                         <tr>
-                                            <th scope="col">Tempat Tanggal Lahir Ayah</th>
-                                            <td>{{ $dataOrtu->tempat_lahir_tanggal_lahir_ayah }}</td>
+                                            <th scope="col" class="w-25">Tempat, Tanggal Lahir Ayah</th>
+                                            <td>{{ $dataOrtu->tempat_lahir_ayah ?? '' }},
+                                                {{ $dataOrtu->tanggal_lahir_ayah ?? '' }}</td>
+                                        </tr>
                                         </tr>
                                         <tr>
                                             <th scope="col">NIK Ayah</th>
@@ -74,12 +76,13 @@
                                 <div class="col-lg-12">
                                     <table class="table mb-0 table-bordered table-striped">
                                         <tr>
-                                            <th scope="col">Nama Ibu</th>
+                                            <th scope="col" class="w-25">Nama Ibu</th>
                                             <td>{{ $dataOrtu->nama_ibu }}</td>
                                         </tr>
                                         <tr>
                                             <th scope="col">Tempat Tanggal Lahir Ibu</th>
-                                            <td>{{ $dataOrtu->tempat_lahir_tanggal_lahir_ibu }}</td>
+                                            <td>{{ $dataOrtu->tempat_lahir_ibu ?? '' }},
+                                                {{ $dataOrtu->tanggal_lahir_ibu ?? '' }}</td>
                                         </tr>
                                         <tr>
                                             <th scope="col">NIK Ibu</th>
@@ -122,3 +125,18 @@
         </div>
     </div>
 @endsection
+
+@push('js')
+    <script>
+        let successMessage = '{{ session('success') }}';
+        if (successMessage !== '') {
+            Swal.fire({
+                icon: "success",
+                title: "Success!",
+                text: successMessage,
+                showConfirmButton: false,
+                timer: 1500
+            });
+        }
+    </script>
+@endpush

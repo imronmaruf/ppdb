@@ -58,6 +58,11 @@
                                         <input type="text" id="alamat" name="alamat" class="form-control"
                                             placeholder="alamat" value="{{ old('alamat') }}">
                                     </div>
+                                    <div class="mb-3">
+                                        <label for="email" class="form-label">Email</label>
+                                        <input type="text" id="email" name="email" class="form-control"
+                                            placeholder="email" value="{{ old('email') }}">
+                                    </div>
                                 </div>
 
                                 <div class="col-lg-6">

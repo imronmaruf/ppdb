@@ -34,18 +34,30 @@
                         <div class="d-flex justify-content-between mb-3">
                             <h4 class="header-title">Data Berkas</h4>
                             <div>
-                                @if ($dataBerkas)
-                                    <!-- Tombol Edit Data jika data sudah ada -->
-                                    <a type="button" class="btn btn-warning me-2"
-                                        href="{{ route('data-berkas.edit', $dataBerkas->id) }}">
-                                        <i class="mdi mdi-pencil"></i> <span>Edit Data</span>
-                                    </a>
-                                @else
-                                    <!-- Tombol Tambah Data jika data belum ada -->
-                                    <a type="button" class="btn btn-info" href="{{ route('data-berkas.create') }}">
-                                        <i class="mdi mdi-plus me-2"></i> <span>Tambah Data</span>
-                                    </a>
-                                @endif
+                                <div>
+                                    @if (!$dataBerkas)
+                                        <!-- Tombol Tambah Data jika data belum ada sama sekali -->
+                                        <a type="button" class="btn btn-info" href="{{ route('data-berkas.create') }}">
+                                            <i class="mdi mdi-plus me-2"></i> <span>Tambah Data</span>
+                                        </a>
+                                    @elseif ($dataBerkas && $dataBerkas->isIncomplete())
+                                        <!-- Tombol Edit Data dan Lengkapi Data jika data ada namun belum lengkap -->
+                                        <a type="button" class="btn btn-warning me-2"
+                                            href="{{ route('data-berkas.edit', $dataBerkas->id) }}">
+                                            <i class="mdi mdi-pencil"></i> <span>Edit Data</span>
+                                        </a>
+                                        <a type="button" class="btn btn-info"
+                                            href="{{ route('data-berkas.lengkapi', $dataBerkas->id) }}">
+                                            <i class="mdi mdi-plus me-2"></i> <span>Lengkapi Berkas</span>
+                                        </a>
+                                    @else
+                                        <!-- Tombol Edit Data jika data sudah lengkap -->
+                                        <a type="button" class="btn btn-warning me-2"
+                                            href="{{ route('data-berkas.edit', $dataBerkas->id) }}">
+                                            <i class="mdi mdi-pencil"></i> <span>Edit Data</span>
+                                        </a>
+                                    @endif
+                                </div>
                             </div>
                         </div>
 
@@ -58,51 +70,65 @@
                                             <th scope="col">Akte Kelahiran</th>
                                             {{-- <td>{{ $dataBerkas->akte_kelahiran }}</td> --}}
                                             <td>
-                                                <a href="{{ asset($dataBerkas->akte_kelahiran) }}"
-                                                    download="{{ $dataBerkas->akte_kelahiran }}" target="_blank">
-                                                    <span class="text-primary text-decoration-underline">Download</span>
-                                                </a>
-                                                <br>
-                                                <iframe src="{{ asset($dataBerkas->akte_kelahiran) }}"
-                                                    class="pdf-viewer mt-2" frameborder="0">
-                                                    Your browser does not support PDFs.
-                                                    <a href="{{ asset($dataBerkas->akte_kelahiran) }}">Download
-                                                        the PDF</a>
-                                                </iframe>
+                                                @if ($dataBerkas && $dataBerkas->akte_kelahiran)
+                                                    <a href="{{ asset($dataBerkas->akte_kelahiran) }}"
+                                                        download="{{ $dataBerkas->akte_kelahiran }}" target="_blank">
+                                                        <span class="text-primary text-decoration-underline">Download</span>
+                                                    </a>
+                                                    <br>
+                                                    <iframe src="{{ asset($dataBerkas->akte_kelahiran) }}"
+                                                        class="pdf-viewer mt-2" frameborder="0">
+                                                        Your browser does not support PDFs.
+                                                        <a href="{{ asset($dataBerkas->akte_kelahiran) }}">Download
+                                                            the PDF</a>
+                                                    </iframe>
+                                                @else
+                                                    <span class="badge bg-danger">Belum Upload</span>
+                                                @endif
+
                                             </td>
                                         </tr>
                                         <tr>
                                             <th scope="col">Kartu Keluarga</th>
                                             {{-- <td>{{ $dataBerkas->kk }}</td> --}}
                                             <td>
-                                                <a href="{{ asset($dataBerkas->kk) }}" download="{{ $dataBerkas->kk }}"
-                                                    target="_blank">
-                                                    <span class="text-primary text-decoration-underline">Download</span>
-                                                </a>
-                                                <br>
-                                                <iframe src="{{ asset($dataBerkas->kk) }}" class="pdf-viewer mt-2"
-                                                    frameborder="0">
-                                                    Your browser does not support PDFs.
-                                                    <a href="{{ asset($dataBerkas->kk) }}">Download
-                                                        the PDF</a>
-                                                </iframe>
+                                                @if ($dataBerkas && $dataBerkas->kk)
+                                                    <a href="{{ asset($dataBerkas->kk) }}" download="{{ $dataBerkas->kk }}"
+                                                        target="_blank">
+                                                        <span class="text-primary text-decoration-underline">Download</span>
+                                                    </a>
+                                                    <br>
+                                                    <iframe src="{{ asset($dataBerkas->kk) }}" class="pdf-viewer mt-2"
+                                                        frameborder="0">
+                                                        Your browser does not support PDFs.
+                                                        <a href="{{ asset($dataBerkas->kk) }}">Download
+                                                            the PDF</a>
+                                                    </iframe>
+                                                @else
+                                                    <span class="badge bg-danger">Belum Upload</span>
+                                                @endif
+
                                             </td>
                                         </tr>
                                         <tr>
                                             <th scope="col">KTP Orang Tua / Wali</th>
                                             {{-- <td>{{ $dataBerkas->ktp_ortu }}</td> --}}
                                             <td>
-                                                <a href="{{ asset($dataBerkas->ktp_ortu) }}"
-                                                    download="{{ $dataBerkas->ktp_ortu }}" target="_blank">
-                                                    <span class="text-primary text-decoration-underline">Download</span>
-                                                </a>
-                                                <br>
-                                                <iframe src="{{ asset($dataBerkas->ktp_ortu) }}" class="pdf-viewer mt-2"
-                                                    frameborder="0">
-                                                    Your browser does not support PDFs.
-                                                    <a href="{{ asset($dataBerkas->ktp_ortu) }}">Download
-                                                        the PDF</a>
-                                                </iframe>
+                                                @if ($dataBerkas && $dataBerkas->ktp_ortu)
+                                                    <a href="{{ asset($dataBerkas->ktp_ortu) }}"
+                                                        download="{{ $dataBerkas->ktp_ortu }}" target="_blank">
+                                                        <span class="text-primary text-decoration-underline">Download</span>
+                                                    </a>
+                                                    <br>
+                                                    <iframe src="{{ asset($dataBerkas->ktp_ortu) }}"
+                                                        class="pdf-viewer mt-2" frameborder="0">
+                                                        Your browser does not support PDFs.
+                                                        <a href="{{ asset($dataBerkas->ktp_ortu) }}">Download
+                                                            the PDF</a>
+                                                    </iframe>
+                                                @else
+                                                    <span class="badge bg-danger">Belum Upload</span>
+                                                @endif
                                             </td>
                                         </tr>
                                         <tr>
@@ -120,7 +146,7 @@
                                                         <a href="{{ asset($dataBerkas->ijazah) }}">Download the PDF</a>
                                                     </iframe>
                                                 @else
-                                                    <span>-</span>
+                                                    <span class="badge bg-danger">Belum Upload</span>
                                                 @endif
                                             </td>
                                         </tr>
@@ -140,7 +166,7 @@
                                                         <a href="{{ asset($dataBerkas->kartu_pkh) }}">Download the PDF</a>
                                                     </iframe>
                                                 @else
-                                                    <span>-</span>
+                                                    <span class="badge bg-danger">Belum Upload</span>
                                                 @endif
                                             </td>
                                         </tr>

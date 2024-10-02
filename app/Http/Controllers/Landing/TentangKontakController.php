@@ -30,6 +30,7 @@ class TentangKontakController extends Controller
                 'konten_tentang' => 'required',
                 'foto' => 'required|file|mimes:jpg,png,jpeg|max:2048',
                 'alamat' => 'required',
+                'email' => 'required|email',
                 'no_telp' => 'required',
                 'wa_link' => 'required|url',
             ],
@@ -37,6 +38,7 @@ class TentangKontakController extends Controller
                 'konten_tentang.required' => 'Konten harus diisi',
                 'foto.required' => 'Foto harus diisi',
                 'alamat.required' => 'Alamat harus diisi',
+                'email.required' => 'Email harus diisi',
                 'foto.file' => 'Foto harus berupa file JPEG, PNG, jpg ',
                 'no_telp.required' => 'No. Telp harus diisi',
                 'wa_link.required' => 'WA Link harus diisi',
@@ -56,6 +58,7 @@ class TentangKontakController extends Controller
                 'konten_tentang' => $request->konten_tentang,
                 'foto' => $fotoUrl,
                 'alamat' => $request->alamat,
+                'email' => $request->email,
                 'no_telp' => $request->no_telp,
                 'wa_link' => $request->wa_link,
             ]);
@@ -82,9 +85,19 @@ class TentangKontakController extends Controller
             [
                 'konten_tentang' => 'required',
                 'foto' => 'nullable|file|mimes:jpg,png,jpeg|max:2048',
+                'email' => 'required|email',
                 'alamat' => 'required',
                 'no_telp' => 'required',
                 'wa_link' => 'required|url',
+            ],
+            [
+                'konten_tentang.required' => 'Konten harus diisi',
+                'foto.file' => 'Foto harus berupa file JPEG, PNG, jpg ',
+                'email.required' => 'Email harus diisi',
+                'no_telp.required' => 'No. Telp harus diisi',
+                'wa_link.required' => 'WA Link harus diisi',
+                'wa_link.url' => 'WA Link harus berupa URL',
+
             ]
         );
 
@@ -99,6 +112,7 @@ class TentangKontakController extends Controller
                 'konten_tentang' => $request->konten_tentang,
                 'foto' => $fotoUrl,
                 'alamat' => $request->alamat,
+                'email' => $request->email,
                 'no_telp' => $request->no_telp,
                 'wa_link' => $request->wa_link,
             ]);

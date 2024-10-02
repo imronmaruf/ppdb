@@ -26,19 +26,44 @@
         </div>
         <!-- end page title -->
 
+
+
         <div class="row">
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
-                        <div class="d-flex justify-content-between mb-3">
-                            <h4 class="header-title mb-3">Data Peserta PPDB</h4>
-                            <a href="{{ route('admin.cetakLaporan') }}" target="_blank" class="btn btn-info">
-                                <i class="mdi mdi-printer me-1"></i> <span>Cetak Laporan PPDB</span>
-                            </a>
-                            {{-- 
-                            <a href="{{ route('admin.cetakLaporan') }}" type="button" class="btn btn-info"><i
-                                    class="mdi mdi-printer me-1"></i> <span>Cetak Laporan PPDB</span> </a> --}}
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <h4 class="header-title mb-0">Data Peserta PPDB </h4>
+
+                            <!-- Filter Form -->
+                            <div class="d-flex gap-2">
+                                <button id="filterCetakButton" class="btn btn-success">
+                                    <i class="mdi mdi-printer me-1"></i> <span>Filter & Cetak PDF</span>
+                                </button>
+
+                                <form method="GET" action="{{ route('kepsek.data-pendaftar') }}" id="filterForm"
+                                    class="d-flex gap-2">
+                                    <div class="form-group">
+                                        <input type="number" name="tahun" class="form-control"
+                                            value="{{ request('tahun', now()->year) }}" placeholder="Filter Tahun">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <select name="status" class="form-control">
+                                            <option value="">----Pilih Status----</option>
+                                            <option value="verifikasi"
+                                                {{ request('status') == 'verifikasi' ? 'selected' : '' }}>Verifikasi
+                                            </option>
+                                            <option value="diterima"
+                                                {{ request('status') == 'diterima' ? 'selected' : '' }}>Diterima</option>
+                                            <option value="ditolak" {{ request('status') == 'ditolak' ? 'selected' : '' }}>
+                                                Ditolak</option>
+                                        </select>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
+
                         <div class="tab-content">
                             <div id="basic-datatable_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
                                 <div class="row">
@@ -52,10 +77,11 @@
                                                     <th>No.</th>
                                                     <th>Nama</th>
                                                     <th>Jenis Kelamin</th>
+                                                    <th>No. Handphone</th>
                                                     <th>Nama Ayah</th>
                                                     <th>Nama Ibu</th>
                                                     <th>Nama Wali</th>
-                                                    <th>No. Hp Wali</th>
+                                                    <th>Tahun</th>
                                                     <th>Status</th>
                                                     <th>Action</th>
                                                 </tr>
@@ -66,10 +92,13 @@
                                                         <td>{{ $loop->iteration }}</td>
                                                         <td>{{ $peserta->name }}</td>
                                                         <td>{{ ucfirst($peserta->jenis_kelamin) }}</td>
+                                                        <td>{{ $peserta->no_telp }}</td>
                                                         <td>{{ $peserta->ortu->nama_ayah ?? '-' }}</td>
                                                         <td>{{ $peserta->ortu->nama_ibu ?? '-' }}</td>
                                                         <td>{{ $peserta->wali->nama_wali ?? '-' }}</td>
-                                                        <td>{{ $peserta->wali->no_telp ?? '-' }}</td>
+                                                        <td>{{ $peserta->created_at ? $peserta->created_at->format('Y') : '' }}
+                                                        </td>
+
                                                         <td>
                                                             @if (is_null($peserta->ortu) || is_null($peserta->wali) || is_null($peserta->berkas))
                                                                 <span class="badge bg-danger">Peserta Belum Melengkapi
@@ -119,4 +148,26 @@
     <!-- demo app -->
     <script src="{{ asset('admin/assets/js/pages/demo.datatable-init.js') }}"></script>
     <!-- end demo js-->
+
+
+    <script>
+        document.getElementById('filterCetakButton').addEventListener('click', function() {
+            // Get the values of the filter form
+            var tahun = document.querySelector('input[name="tahun"]').value;
+            var status = document.querySelector('select[name="status"]').value;
+
+            // Build the URL for PDF generation with filter parameters
+            var cetakUrl = "{{ route('kepsek.cetakLaporan') }}";
+            var urlParams = new URLSearchParams();
+            if (tahun) {
+                urlParams.append('tahun', tahun);
+            }
+            if (status) {
+                urlParams.append('status', status);
+            }
+
+            // Open the PDF generation URL in a new tab
+            window.open(cetakUrl + '?' + urlParams.toString(), '_blank');
+        });
+    </script>
 @endpush

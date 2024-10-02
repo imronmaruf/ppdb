@@ -45,7 +45,7 @@
                                     <table class="table mb-0 table-bordered table-striped">
                                         <tr>
                                             <th scope="col">Nama Lengkap Calon Siswa</th>
-                                            <td>{{ $dataPendaftar->name ?? 'Data Belum Diisi' }}</td>
+                                            <td>{{ ucfirst(Str::title($dataPendaftar->name ?? '')) }}</td>
                                         </tr>
                                         <tr>
                                             <th scope="col">Jenis Kelamin</th>
@@ -90,6 +90,10 @@
                                         <tr>
                                             <th scope="col">Tinggal Bersama</th>
                                             <td>{{ $dataPendaftar->tinggal_dengan ?? 'Data Belum Diisi' }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="col">No. Handphone</th>
+                                            <td>{{ $dataPendaftar->no_telp ?? 'Data Belum Diisi' }}</td>
                                         </tr>
                                         <tr>
                                             <th scope="col">Anak Ke</th>

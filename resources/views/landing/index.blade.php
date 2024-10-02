@@ -80,7 +80,7 @@
                 </div>
                 <div class="col-lg-6 content order-last order-lg-first" data-aos="fade-up" data-aos-delay="100">
                     <h3>SD Negeri 18 Dewantara</h3>
-                    <p>
+                    <p class="text-justify text">
                         {{ $tentangKontak->konten_tentang ?? 'Informasi tentang sekolah belum tersedia.' }}
                     </p>
 
@@ -90,14 +90,14 @@
                             <strong> Identitas Sekolah</strong>
                         </div>
                         <div class="card-body">
-                            <p><strong>NPSN :</strong> 10100711</p>
-                            <p><strong>Status :</strong> Negeri</p>
-                            <p><strong>Bentuk Pendidikan :</strong> SD</p>
-                            <p><strong>Status Kepemilikan :</strong> Pemerintah Daerah</p>
-                            <p><strong>SK Pendirian Sekolah :</strong> 2007</p>
-                            <p><strong>Tanggal SK Pendirian :</strong> 2006-07-16</p>
-                            <p><strong>SK Izin Operasional :</strong> 420/630/2019</p>
-                            <p><strong>Tanggal SK Izin Operasional :</strong> 2019-08-20</p>
+                            <p class="mb-0"><strong>NPSN :</strong> 10100711</p>
+                            <p class="mb-0"><strong>Status :</strong> Negeri</p>
+                            <p class="mb-0"><strong>Bentuk Pendidikan :</strong> SD</p>
+                            <p class="mb-0"><strong>Status Kepemilikan :</strong> Pemerintah Daerah</p>
+                            <p class="mb-0"><strong>SK Pendirian Sekolah :</strong> 2007</p>
+                            <p class="mb-0"><strong>Tanggal SK Pendirian :</strong> 2006-07-16</p>
+                            <p class="mb-0"><strong>SK Izin Operasional :</strong> 420/630/2019</p>
+                            <p class="mb-0"><strong>Tanggal SK Izin Operasional :</strong> 2019-08-20</p>
                         </div>
                     </div>
 
@@ -169,10 +169,6 @@
     <section id="stats" class="stats section accent-background">
     </section><!-- /Stats Section -->
 
-    <!-- Call To Action Section -->
-    <section id="call-to-action" class="call-to-action section dark-background">
-        <img src="{{ asset('assets/img/img1.jpg') }}" alt="">
-    </section><!-- /Call To Action Section -->
 
     <!-- Galeri Section -->
     {{-- <section id="galeri" class="portfolio section">

@@ -25,4 +25,8 @@ class Berkas extends Model
     {
         return $this->belongsTo(PesertaPpdb::class, 'peserta_ppdb_id');
     }
+    public function isIncomplete()
+    {
+        return !$this->akte_kelahiran || !$this->kk || !$this->ktp_ortu || !$this->ijazah || !$this->kartu_pkh || !$this->pas_foto;
+    }
 }

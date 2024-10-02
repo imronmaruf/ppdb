@@ -6,11 +6,13 @@
                 <a href="index.html" class="logo d-flex align-items-center">
                     <span class="sitename">PPDB SD N 18 Dewantara</span>
                 </a>
-                {{-- <p>Cras fermentum odio eu feugiat lide par naso tierra. Justo eget nada terra videa magna derita
-                    valies darta donna mare fermentum iaculis eu non diam phasellus.</p> --}}
+                {{-- <p>{{ Str::words($tentangKontak->konten_tentang, 50, '...') }}</p> --}}
+
                 <div class="social-links d-flex mt-4">
                     <a href="{{ $tentangKontak->wa_link ?? '#' }}"><i class="bi bi-whatsapp"></i></a>
                     <p></p>
+                    {{-- <a href="{{ $tentangKontak->email ?? '#' }}"><i class="bi bi-whatsapp"></i></a>
+                    <p></p> --}}
                 </div>
             </div>
 
@@ -18,6 +20,7 @@
                 <h4>Hubungi Kami</h4>
                 <p>{{ $tentangKontak->alamat ?? '-' }}</p>
                 <p class="mt-4"><strong>Telepon:</strong> <span>{{ $tentangKontak->no_telp ?? '-' }}</span></p>
+                <p class="mt-0"><strong>Email:</strong> <span>{{ $tentangKontak->email ?? '-' }}</span></p>
             </div>
 
         </div>

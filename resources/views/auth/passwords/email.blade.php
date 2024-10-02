@@ -39,9 +39,8 @@
                                 <div class="mb-3">
                                     <label for="email" class="form-label">Alamat Email</label>
                                     <input type="email" id="email" name="email"
-                                        class="form-control @error('email') is-invalid @enderror" required
-                                        autocomplete="email" autofocus value="{{ old('email') }}"
-                                        placeholder="Masukkan alamat email anda">
+                                        class="form-control @error('email') is-invalid @enderror" autocomplete="email"
+                                        autofocus value="{{ old('email') }}" placeholder="Masukkan email dengan  benar">
                                     @error('email')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -51,21 +50,19 @@
 
                                 <div class="mb-0 text-center">
                                     <button type="submit" class="btn btn-primary">
-                                        {{ __('Send Password Reset Link') }}
+                                        {{ __('Kirim Tautan Reset Password') }}
                                     </button>
                                 </div>
                             </form>
                         </div> <!-- end card-body-->
+                        <div class="row mb-2">
+                            <div class="col-12 text-center">
+                                <p class="text-muted">Kembali &raquo; <a href="{{ route('login') }}"
+                                        class="text-muted ms-1"><b>Masuk</b></a></p>
+                            </div> <!-- end col -->
+                        </div>
                     </div>
                     <!-- end card -->
-
-                    <div class="row mt-3">
-                        <div class="col-12 text-center">
-                            <p class="text-muted">Kembali &raquo; <a href="{{ route('login') }}"
-                                    class="text-muted ms-1"><b>Masuk</b></a></p>
-                        </div> <!-- end col -->
-                    </div>
-                    <!-- end row -->
 
                 </div> <!-- end col -->
             </div>

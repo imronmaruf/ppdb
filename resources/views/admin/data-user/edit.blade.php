@@ -52,7 +52,7 @@
                                     <div class="mb-3">
                                         <label for="email" class="form-label">Email</label>
                                         <input type="text" id="email" name="email" class="form-control"
-                                            placeholder="email" value="{{ old('email', $dataUser->email) }}" readonly>
+                                            placeholder="email" value="{{ old('email', $dataUser->email) }}">
                                     </div>
                                 </div> <!-- end col -->
 
