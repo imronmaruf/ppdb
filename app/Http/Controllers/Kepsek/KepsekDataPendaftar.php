@@ -6,10 +6,13 @@ use PDF;
 use App\Models\Ortu;
 use App\Models\User;
 use App\Models\Wali;
+use App\Exports\PpdbExport;
 use App\Models\PesertaPpdb;
 use Illuminate\Http\Request;
 use App\Models\TentangKontak;
+use App\Exports\PesertaPpdbExport;
 use App\Http\Controllers\Controller;
+use Maatwebsite\Excel\Facades\Excel;
 
 class KepsekDataPendaftar extends Controller
 {
@@ -69,8 +72,7 @@ class KepsekDataPendaftar extends Controller
             })
             ->when($status, function ($query) use ($status) {
                 return $query->where('status', $status);
-            })
-            ->get();
+            })->get();
 
         // Menghitung total peserta berdasarkan status dengan filter tahun
         $totalPesertaDiterima = PesertaPpdb::when($tahun, function ($query) use ($tahun) {
@@ -97,7 +99,6 @@ class KepsekDataPendaftar extends Controller
         $kepsek = User::where('role', 'kepsek')->first();
         $email = TentangKontak::pluck('email')->first();
 
-
         return view('admin.data-cetak.cetak_laporan', [
             'dataPendaftaran' => $dataPendaftaran,
             'totalPesertaDiterima' => $totalPesertaDiterima,
@@ -107,5 +108,12 @@ class KepsekDataPendaftar extends Controller
             'kepsek' => $kepsek,
             'email' => $email
         ]);
+    }
+
+    public function exportExcel(Request $request)
+    {
+        $tahun = $request->input('tahun');
+        $status = $request->input('status');
+        return Excel::download(new PpdbExport($tahun, $status), 'data-ppdb.xlsx');
     }
 }

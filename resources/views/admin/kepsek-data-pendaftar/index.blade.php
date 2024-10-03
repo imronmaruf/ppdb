@@ -26,8 +26,6 @@
         </div>
         <!-- end page title -->
 
-
-
         <div class="row">
             <div class="col-12">
                 <div class="card">
@@ -37,8 +35,12 @@
 
                             <!-- Filter Form -->
                             <div class="d-flex gap-2">
-                                <button id="filterCetakButton" class="btn btn-success">
+                                <button id="filterCetakButton" class="btn btn-primary">
                                     <i class="mdi mdi-printer me-1"></i> <span>Filter & Cetak PDF</span>
+                                </button>
+
+                                <button id="filterExportExcel" class="btn btn-outline-success">
+                                    <i class="mdi mdi-microsoft-excel me-1"></i> <span>Export Excel</span>
                                 </button>
 
                                 <form method="GET" action="{{ route('kepsek.data-pendaftar') }}" id="filterForm"
@@ -155,7 +157,6 @@
             // Get the values of the filter form
             var tahun = document.querySelector('input[name="tahun"]').value;
             var status = document.querySelector('select[name="status"]').value;
-
             // Build the URL for PDF generation with filter parameters
             var cetakUrl = "{{ route('kepsek.cetakLaporan') }}";
             var urlParams = new URLSearchParams();
@@ -165,9 +166,23 @@
             if (status) {
                 urlParams.append('status', status);
             }
-
             // Open the PDF generation URL in a new tab
             window.open(cetakUrl + '?' + urlParams.toString(), '_blank');
+        });
+
+        document.getElementById('filterExportExcel').addEventListener('click', function() {
+            var tahun = document.querySelector('input[name="tahun"]').value;
+            var status = document.querySelector('select[name="status"]').value;
+
+            var exportUrl = "{{ route('kepsek.exportExcel') }}";
+            var urlParams = new URLSearchParams();
+            if (tahun) {
+                urlParams.append('tahun', tahun);
+            }
+            if (status) {
+                urlParams.append('status', status);
+            }
+            window.location.href = exportUrl + '?' + urlParams.toString();
         });
     </script>
 @endpush

@@ -103,6 +103,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/show/{id}', [KepsekDataPendaftar::class, 'show'])->name('kepsek-data-pendaftar.show');
         Route::get('/kepsek/data-pendaftar', [KepsekDataPendaftar::class, 'index'])->name('kepsek.data-pendaftar');
         Route::get('/kepsek/cetak-laporan', [KepsekDataPendaftar::class, 'cetakLaporan'])->name('kepsek.cetakLaporan');
+        Route::get('/export-excel', [KepsekDataPendaftar::class, 'exportExcel'])->name('kepsek.exportExcel');
     });
 
 

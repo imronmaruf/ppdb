@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Models\User;
 use App\Models\PesertaPpdb;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -28,6 +29,14 @@ class FormPendaftaranController extends Controller
 
     public function store(Request $request)
     {
+
+        $birthDate = Carbon::parse($request->input('tanggal_lahir'));
+        $age = $birthDate->age;
+
+        if ($age < 7) {
+            return redirect()->back()->withErrors(['error' => 'Umur tidak memenuhi syarat, harus 7 tahun'])->withInput();
+        }
+
         // Validasi input dengan kondisi
         $validated = $request->validate(
             [
@@ -142,6 +151,13 @@ class FormPendaftaranController extends Controller
 
     public function update(Request $request, $id)
     {
+        $birthDate = Carbon::parse($request->input('tanggal_lahir'));
+        $age = $birthDate->age;
+
+        if ($age < 7) {
+            return redirect()->back()->withErrors(['error' => 'Umur tidak memenuhi syarat, harus 7 tahun'])->withInput();
+        }
+
         // Validasi input dengan kondisi
         $validated = $request->validate(
             [

@@ -29,13 +29,6 @@
                             memilih <strong> "Ada"</strong>
                         </div>
 
-                        <!-- Alert untuk pesan sukses -->
-                        {{-- @if (session('success'))
-                            <div class="alert alert-success">
-                                {{ session('success') }}
-                            </div>
-                        @endif --}}
-
                         <!-- Alert untuk pesan error -->
                         @if ($errors->any())
                             <div class="alert alert-danger alert-dismissible bg-danger text-white border-0 fade show"
@@ -100,8 +93,21 @@
                                     </div>
                                 </div> <!-- end col -->
 
-
                                 <div class="col-lg-6">
+                                    <div class="mb-3">
+                                        <label for="tanggal_lahir" class="form-label">Tanggal Lahir<span
+                                                class="text-danger">*</span></label>
+                                        <div id="usia-message" class="text-danger mb-2" style="display: none;"></div>
+                                        <input type="date" id="tanggal_lahir" name="tanggal_lahir"
+                                            class="form-control @error('tanggal_lahir') is-invalid @enderror"
+                                            value="{{ old('tanggal_lahir') }}">
+                                        @error('tanggal_lahir')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                </div>
+
+                                {{-- <div class="col-lg-6">
                                     <div class="mb-3">
                                         <label for="tanggal_lahir" class="form-label">Tanggal Lahir<span
                                                 class="text-danger">*</span></label>
@@ -112,13 +118,13 @@
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>
-                                </div>
+                                </div> --}}
 
                                 <div class="col-lg-6">
                                     <div class="mb-3">
                                         <label for="kk" class="form-label">Nomor Kartu Keluarga (KK)<span
                                                 class="text-danger">*</span></label>
-                                        <input type="text" id="kk" name="kk"
+                                        <input type="number" id="kk" name="kk"
                                             class="form-control @error('kk') is-invalid @enderror" placeholder="Nomor KK"
                                             maxlength="20" value="{{ old('kk') }}">
                                         @error('kk')
@@ -132,7 +138,7 @@
                                     <div class="mb-3">
                                         <label for="nik" class="form-label">Nomor Induk Kependudukan (NIK)<span
                                                 class="text-danger">*</span></label>
-                                        <input type="text" id="nik" name="nik"
+                                        <input type="number" id="nik" name="nik"
                                             class="form-control @error('nik') is-invalid @enderror" placeholder="Nomor NIK"
                                             maxlength="16" value="{{ old('nik') }}">
                                         @error('nik')
@@ -154,36 +160,6 @@
                                         @enderror
                                     </div>
                                 </div>
-                                {{-- <div class="col-lg-6">
-                                    <div class="mb-3">
-                                        <label for="status_pkh" class="form-label">Status Program Keluarga Harapan
-                                            (PKH)<span class="text-danger">*</span></label>
-                                        <select class="form-select @error('status_pkh') is-invalid @enderror"
-                                            id="status_pkh" name="status_pkh">
-                                            <option value="ada" {{ old('status_pkh') == 'ada' ? 'selected' : '' }}>Ada
-                                            </option>
-                                            <option value="tidak" {{ old('status_pkh') == 'tidak' ? 'selected' : '' }}>
-                                                Tidak</option>
-                                        </select>
-                                        @error('status_pkh')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                </div> --}}
-
-                                {{-- <div class="col lg 6">
-                                    <div class="mb-3">
-                                        <label for="no_pkh" class="form-label">No. Kartu Program Keluarga Harapan
-                                            (PKH)<span class="text-danger"> **</span><br>Keterangan : <code>Nomor Wajib
-                                                Diisi Jika Status PKH ada, jika tidak boleh kosong</code></label>
-                                        <input type="text" id="no_pkh" name="no_pkh"
-                                            class="form-control @error('no_pkh') is-invalid @enderror"
-                                            placeholder="No kartu PKH" value="{{ old('no_pkh') }}">
-                                        @error('no_pkh')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                </div> --}}
 
                                 <div class="col-lg-6">
                                     <div class="mb-3">
@@ -263,7 +239,7 @@
                                         <label for="no_telp"
                                             class="form-label @error('no_telp') is-invalid @enderror">No.
                                             Handphone Aktif<span class="text-danger"> *</span></label>
-                                        <input type="text" id="no_telp" name="no_telp" class="form-control"
+                                        <input type="number" id="no_telp" name="no_telp" class="form-control"
                                             placeholder="No Telp" value="{{ old('no_telp') }}">
                                         @error('no_telp')
                                             <div class="invalid-feedback">{{ $message }}</div>
@@ -290,7 +266,7 @@
                                     <div class="mb-3">
                                         <label for="jml_saudara_kandung" class="form-label">Jumlah Saudara Kandung<span
                                                 class="text-danger">*</span></label>
-                                        <input type="text" id="jml_saudara_kandung" name="jml_saudara_kandung"
+                                        <input type="number" id="jml_saudara_kandung" name="jml_saudara_kandung"
                                             class="form-control @error('jml_saudara_kandung') is-invalid @enderror"
                                             placeholder="Jumlah Saudara Kandung" maxlength="2"
                                             value="{{ old('jml_saudara_kandung') }}">
@@ -369,7 +345,7 @@
         </div>
     </div> <!-- end container-fluid -->
 @endsection
-
+{{-- 
 @push('js')
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -388,6 +364,89 @@
             toggleNoPkh();
             // event listener untuk mendeteksi perubahan pada Status PKH
             statusPkhSelect.addEventListener('change', toggleNoPkh);
+        });
+    </script>
+@endpush --}}
+
+@push('js')
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const statusPkhSelect = document.getElementById('status_pkh');
+            const noPkhInput = document.getElementById('no_pkh');
+            const tanggalLahirInput = document.getElementById('tanggal_lahir');
+            const usiaMessage = document.getElementById('usia-message');
+            const form = document.querySelector('form');
+            const allInputs = form.querySelectorAll('input, select, textarea');
+
+            function toggleNoPkh() {
+                if (statusPkhSelect.value === 'ada') {
+                    noPkhInput.disabled = false;
+                } else {
+                    noPkhInput.disabled = true;
+                    noPkhInput.value = '';
+                }
+            }
+
+            function hitungUsia(tanggalLahir) {
+                const today = new Date();
+                const birthDate = new Date(tanggalLahir);
+                let age = today.getFullYear() - birthDate.getFullYear();
+                const m = today.getMonth() - birthDate.getMonth();
+                if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+                    age--;
+                }
+                const months = (today.getMonth() + 12 * today.getFullYear()) -
+                    (birthDate.getMonth() + 12 * birthDate.getFullYear());
+                const days = Math.floor((today - birthDate) / (24 * 60 * 60 * 1000));
+                return {
+                    years: age,
+                    months: months % 12,
+                    days: days % 30
+                };
+            }
+
+            function checkAge() {
+                const tanggalLahir = tanggalLahirInput.value;
+                if (tanggalLahir) {
+                    const usia = hitungUsia(tanggalLahir);
+                    const message =
+                        `Usia calon siswa adalah: ${usia.years} tahun, ${usia.months} bulan, ${usia.days} hari`;
+                    usiaMessage.textContent = message;
+                    usiaMessage.style.display = 'block';
+
+                    if (usia.years < 7) {
+                        allInputs.forEach(input => {
+                            if (input !== tanggalLahirInput) {
+                                input.disabled = true;
+                            }
+                        });
+                        usiaMessage.innerHTML +=
+                            ". Usia harus 7 tahun.<br>Jika umur dibawah 7 Tahun maka status pendaftaran otomatis DITOLAK.";
+
+                    } else {
+                        allInputs.forEach(input => {
+                            input.disabled = false;
+                        });
+                        toggleNoPkh(); // Pastikan status No PKH tetap sesuai
+                    }
+                } else {
+                    usiaMessage.style.display = 'none';
+                    allInputs.forEach(input => {
+                        input.disabled = false;
+                    });
+                    toggleNoPkh(); // Pastikan status No PKH tetap sesuai
+                }
+            }
+
+            // Jalankan fungsi ketika halaman pertama kali dimuat
+            toggleNoPkh();
+            checkAge();
+
+            // Event listener untuk mendeteksi perubahan pada Status PKH
+            statusPkhSelect.addEventListener('change', toggleNoPkh);
+
+            // Event listener untuk mendeteksi perubahan pada tanggal lahir
+            tanggalLahirInput.addEventListener('change', checkAge);
         });
     </script>
 @endpush
