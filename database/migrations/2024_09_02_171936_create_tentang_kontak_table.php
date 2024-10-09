@@ -16,6 +16,7 @@ return new class extends Migration
             $table->text('konten_tentang');
             $table->string('foto');
             $table->string('alamat');
+            $table->string('email');
             $table->string('no_telp', 20);
             $table->string('wa_link');
             $table->timestamps();

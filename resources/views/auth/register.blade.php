@@ -40,11 +40,11 @@
                             <form method="POST" action="{{ route('register') }}">
                                 @csrf
 
-                                <div class="mb-3">
+                                <div class="mb-2">
                                     <label for="name" class="form-label">Nama Lengkap</label>
                                     <input class="form-control" type="text" id="name"
                                         @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}"
-                                        required autocomplete="name" autofocus placeholder="Masukkan nama lengkap">
+                                        autocomplete="name" autofocus placeholder="Masukkan nama lengkap">
 
                                     @error('name')
                                         <span class="invalid-feedback" role="alert">
@@ -52,11 +52,11 @@
                                         </span>
                                     @enderror
                                 </div>
-                                <div class="mb-3">
+                                <div class="mb-2">
                                     <label for="email" class="form-label">Alamat Email</label>
                                     <input class="form-control" type="email" id="email"
                                         @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}"
-                                        required autocomplete="email" placeholder="Masukkan email anda">
+                                        autocomplete="email" placeholder="Masukkan email, contoh: contoh@gmail.com">
                                     @error('email')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -64,11 +64,11 @@
                                     @enderror
 
                                 </div>
-                                <div class="mb-3">
+                                <div class="mb-2">
                                     <label for="password" class="form-label">Password</label>
                                     <input class="form-control" type="password" id="password"
-                                        @error('password') is-invalid @enderror" name="password" required
-                                        autocomplete="new-password" placeholder="Masukkan password">
+                                        @error('password') is-invalid @enderror" name="password" autocomplete="new-password"
+                                        placeholder="Masukkan password">
 
                                     @error('password')
                                         <span class="invalid-feedback" role="alert">
@@ -77,10 +77,10 @@
                                     @enderror
                                 </div>
 
-                                <div class="mb-3">
+                                <div class="mb-2">
                                     <label for="password-confirm" class="form-label">Konfirmasi Password</label>
                                     <input class="form-control" type="password" id="password-confirm"
-                                        @error('password') is-invalid @enderror" name="password_confirmation" required
+                                        @error('password') is-invalid @enderror" name="password_confirmation"
                                         autocomplete="new-password" placeholder="Enter your password">
 
                                     @error('password')
@@ -98,17 +98,14 @@
 
                             </form>
                         </div> <!-- end card-body -->
+                        <div class="row">
+                            <div class="col-12 text-center">
+                                <p class="text-muted">Sudah Punya Akun? <a href="{{ route('login') }}"
+                                        class="text-muted ms-1"><b>Login</b></a></p>
+                            </div> <!-- end col -->
+                        </div>
                     </div>
                     <!-- end card -->
-
-
-                    <div class="row mt-3">
-                        <div class="col-12 text-center">
-                            <p class="text-muted">Sudah Punya Akun? <a href="{{ route('login') }}"
-                                    class="text-muted ms-1"><b>Login</b></a></p>
-                        </div> <!-- end col -->
-                    </div>
-                    <!-- end row -->
 
                 </div> <!-- end col -->
             </div>

@@ -27,6 +27,7 @@
                         </a>
                     </div>
                     <h4 class="page-title">Detail Peserta</h4>
+
                 </div>
             </div>
         </div>
@@ -35,8 +36,14 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
-                    <div class="d-flex justify-content-between mb-3">
+                    <div class="d-flex justify-content-between mb-2">
                         <h4 class="header-title">Data Lengkap Calon Siswa</h4>
+
+                        @if (!empty($dataPendaftar->berkas) && !empty($dataPendaftar->berkas->pas_foto))
+                            <img src="{{ asset($dataPendaftar->berkas->pas_foto) }}" alt="foto {{ $dataPendaftar->name }}"
+                                class="img-fluid" style="max-width: 150px; border-radius: 5%;">
+                        @endif
+
                     </div>
 
                     <h4 class="header-title">A. Identitas Calon Siswa</h4>
@@ -101,6 +108,10 @@
                                                 <td class="w-75">{{ $dataPendaftar->tinggal_dengan }}</td>
                                             </tr>
                                             <tr>
+                                                <th scope="row" class="w-25">No. Handphone Aktif</th>
+                                                <td class="w-75">{{ $dataPendaftar->no_telp ?? '-' }}</td>
+                                            </tr>
+                                            <tr>
                                                 <th scope="row" class="w-25">Anak Ke</th>
                                                 <td class="w-75">{{ $dataPendaftar->anak_ke }}</td>
                                             </tr>
@@ -141,7 +152,8 @@
                                             <tr>
                                                 <th scope="row" class="w-25">Tempat Tanggal Lahir Ayah</th>
                                                 <td class="w-75">
-                                                    {{ $dataPendaftar->ortu->tempat_lahir_tanggal_lahir_ayah ?? '-' }}
+                                                    {{ $dataPendaftar->ortu->tempat_lahir_ayah ?? '-' }},
+                                                    {{ $dataPendaftar->ortu->tanggal_lahir_ayah ?? '-' }}
                                                 </td>
                                             </tr>
                                             <tr>
@@ -159,7 +171,8 @@
                                             <tr>
                                                 <th scope="row" class="w-25">Tempat Tanggal Lahir Ibu</th>
                                                 <td class="w-75">
-                                                    {{ $dataPendaftar->ortu->tempat_lahir_tanggal_lahir_ibu ?? '-' }}
+                                                    {{ $dataPendaftar->ortu->tempat_lahir_ibu ?? '-' }},
+                                                    {{ $dataPendaftar->ortu->tanggal_lahir_ibu ?? '-' }}
                                                 </td>
                                             </tr>
                                             <tr>
@@ -220,10 +233,6 @@
                                                 <th scope="row" class="w-25">Alamat Wali</th>
                                                 <td class="w-75">{{ $dataPendaftar->wali->alamat ?? '-' }}</td>
                                             </tr>
-                                            <tr>
-                                                <th scope="row" class="w-25">No. HP Wali</th>
-                                                <td class="w-75">{{ $dataPendaftar->wali->no_telp ?? '-' }}</td>
-                                            </tr>
                                         @endif
                                     </tbody>
                                 </table>
@@ -248,90 +257,114 @@
                                             <tr>
                                                 <th scope="col">Akte Kelahiran</th>
                                                 <td>
-                                                    <a href="{{ asset($dataPendaftar->berkas->akte_kelahiran) }}"
-                                                        download="{{ $dataPendaftar->berkas->akte_kelahiran }}"
-                                                        target="_blank">
-                                                        <span
-                                                            class="text-primary text-decoration-underline">Download</span>
-                                                    </a>
-                                                    <br>
-                                                    <iframe src="{{ asset($dataPendaftar->berkas->akte_kelahiran) }}"
-                                                        class="pdf-viewer mt-2" frameborder="0">
-                                                        Your browser does not support PDFs.
-                                                        <a href="{{ asset($dataPendaftar->berkas->akte_kelahiran) }}">Download
-                                                            the PDF</a>
-                                                    </iframe>
+                                                    @if ($dataPendaftar && $dataPendaftar->berkas->akte_kelahiran)
+                                                        <a href="{{ asset($dataPendaftar->berkas->akte_kelahiran) }}"
+                                                            download="{{ $dataPendaftar->berkas->akte_kelahiran }}"
+                                                            target="_blank">
+                                                            <span
+                                                                class="text-primary text-decoration-underline">Download</span>
+                                                        </a>
+                                                        <br>
+                                                        <iframe src="{{ asset($dataPendaftar->berkas->akte_kelahiran) }}"
+                                                            class="pdf-viewer mt-2" frameborder="0">
+                                                            Your browser does not support PDFs.
+                                                            <a href="{{ asset($dataPendaftar->berkas->akte_kelahiran) }}">Download
+                                                                the PDF</a>
+                                                        </iframe>
+                                                    @else
+                                                        <span class="badge bg-danger">Belum Upload</span>
+                                                    @endif
+
                                                 </td>
                                             </tr>
 
                                             <tr>
                                                 <th scope="col">Kartu Keluarga</th>
                                                 <td>
-                                                    <a href="{{ asset($dataPendaftar->berkas->kk) }}"
-                                                        download="{{ $dataPendaftar->berkas->kk }}" target="_blank">
-                                                        <span
-                                                            class="text-primary text-decoration-underline">Download</span>
-                                                    </a>
-                                                    <br>
-                                                    <iframe src="{{ asset($dataPendaftar->berkas->kk) }}"
-                                                        class="pdf-viewer mt-2" frameborder="0">
-                                                        Your browser does not support PDFs.
-                                                        <a href="{{ asset($dataPendaftar->berkas->kk) }}">Download
-                                                            the PDF</a>
-                                                    </iframe>
+                                                    @if ($dataPendaftar && $dataPendaftar->berkas->kk)
+                                                        <a href="{{ asset($dataPendaftar->berkas->kk) }}"
+                                                            download="{{ $dataPendaftar->berkas->kk }}" target="_blank">
+                                                            <span
+                                                                class="text-primary text-decoration-underline">Download</span>
+                                                        </a>
+                                                        <br>
+                                                        <iframe src="{{ asset($dataPendaftar->berkas->kk) }}"
+                                                            class="pdf-viewer mt-2" frameborder="0">
+                                                            Your browser does not support PDFs.
+                                                            <a href="{{ asset($dataPendaftar->berkas->kk) }}">Download
+                                                                the PDF</a>
+                                                        </iframe>
+                                                    @else
+                                                        <span class="badge bg-danger">Belum Upload</span>
+                                                    @endif
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <th scope="col">KTP Orang Tua</th>
                                                 <td>
-                                                    <a href="{{ asset($dataPendaftar->berkas->ktp_ortu) }}"
-                                                        download="{{ $dataPendaftar->berkas->ktp_ortu }}"
-                                                        target="_blank">
-                                                        <span
-                                                            class="text-primary text-decoration-underline">Download</span>
-                                                    </a>
-                                                    <br>
-                                                    <iframe src="{{ asset($dataPendaftar->berkas->ktp_ortu) }}"
-                                                        class="pdf-viewer mt-2" frameborder="0">
-                                                        Your browser does not support PDFs.
-                                                        <a href="{{ asset($dataPendaftar->berkas->ktp_ortu) }}">Download
-                                                            the PDF</a>
-                                                    </iframe>
+                                                    @if ($dataPendaftar && $dataPendaftar->berkas->ktp_ortu)
+                                                        <a href="{{ asset($dataPendaftar->berkas->ktp_ortu) }}"
+                                                            download="{{ $dataPendaftar->berkas->ktp_ortu }}"
+                                                            target="_blank">
+                                                            <span
+                                                                class="text-primary text-decoration-underline">Download</span>
+                                                        </a>
+                                                        <br>
+                                                        <iframe src="{{ asset($dataPendaftar->berkas->ktp_ortu) }}"
+                                                            class="pdf-viewer mt-2" frameborder="0">
+                                                            Your browser does not support PDFs.
+                                                            <a href="{{ asset($dataPendaftar->berkas->ktp_ortu) }}">Download
+                                                                the PDF</a>
+                                                        </iframe>
+                                                    @else
+                                                        <span class="badge bg-danger">Belum Upload</span>
+                                                    @endif
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <th scope="col">Ijazah TK</th>
                                                 <td>
-                                                    <a href="{{ asset($dataPendaftar->berkas->ijazah) }}"
-                                                        download="{{ $dataPendaftar->berkas->ijazah }}" target="_blank">
-                                                        <span
-                                                            class="text-primary text-decoration-underline">Download</span>
-                                                    </a>
-                                                    <br>
-                                                    <iframe src="{{ asset($dataPendaftar->berkas->ijazah) }}"
-                                                        class="pdf-viewer mt-2" frameborder="0">
-                                                        Your browser does not support PDFs.
-                                                        <a href="{{ asset($dataPendaftar->berkas->ijazah) }}">Download
-                                                            the PDF</a>
-                                                    </iframe>
+                                                    @if ($dataPendaftar->berkas && $dataPendaftar->berkas->ijazah)
+                                                        <a href="{{ asset($dataPendaftar->berkas->ijazah) }}"
+                                                            download="{{ $dataPendaftar->berkas->ijazah }}"
+                                                            target="_blank">
+                                                            <span
+                                                                class="text-primary text-decoration-underline">Download</span>
+                                                        </a>
+                                                        <br>
+                                                        <iframe src="{{ asset($dataPendaftar->berkas->ijazah) }}"
+                                                            class="pdf-viewer mt-2" frameborder="0">
+                                                            Your browser does not support PDFs.
+                                                            <a href="{{ asset($dataPendaftar->berkas->ijazah) }}">Download
+                                                                the PDF</a>
+                                                        </iframe>
+                                                    @else
+                                                        <span>-</span>
+                                                    @endif
+
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <th scope="col">Kartu PKH</th>
                                                 <td>
-                                                    <a href="{{ asset($dataPendaftar->berkas->kartu_pkh) }}"
-                                                        download="{{ $dataPendaftar->berkas->kartu_pkh }}"
-                                                        target="_blank">
-                                                        <span
-                                                            class="text-primary text-decoration-underline">Download</span>
-                                                    </a>
-                                                    <br>
-                                                    <iframe src="{{ asset($dataPendaftar->berkas->kartu_pkh) }}"
-                                                        class="pdf-viewer mt-2" frameborder="0">
-                                                        Your browser does not support PDFs.
-                                                        <a href="{{ asset($dataPendaftar->berkas->kartu_pkh) }}">Download
-                                                            the PDF</a>
-                                                    </iframe>
+                                                    @if ($dataPendaftar->berkas && $dataPendaftar->berkas->ijazah)
+                                                        <a href="{{ asset($dataPendaftar->berkas->kartu_pkh) }}"
+                                                            download="{{ $dataPendaftar->berkas->kartu_pkh }}"
+                                                            target="_blank">
+                                                            <span
+                                                                class="text-primary text-decoration-underline">Download</span>
+                                                        </a>
+                                                        <br>
+                                                        <iframe src="{{ asset($dataPendaftar->berkas->kartu_pkh) }}"
+                                                            class="pdf-viewer mt-2" frameborder="0">
+                                                            Your browser does not support PDFs.
+                                                            <a href="{{ asset($dataPendaftar->berkas->kartu_pkh) }}">Download
+                                                                the PDF</a>
+                                                        </iframe>
+                                                    @else
+                                                        <span class="badge bg-danger">Tidak ada</span>
+                                                    @endif
+
                                                 </td>
                                             </tr>
                                         @endif

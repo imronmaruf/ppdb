@@ -53,7 +53,7 @@
     <!-- END wrapper -->
 
     <!-- Right Sidebar -->
-    <div class="end-bar">
+    {{-- <div class="end-bar">
 
         <div class="rightbar-title">
             <a href="javascript:void(0);" class="end-bar-toggle float-end">
@@ -137,7 +137,7 @@
             </div> <!-- end padding-->
 
         </div>
-    </div>
+    </div> --}}
 
     <div class="rightbar-overlay"></div>
     <!-- /End-bar -->
@@ -147,16 +147,16 @@
     <script src="{{ asset('admin/assets/js/app.min.js') }}"></script>
 
     <!-- third party js -->
-    <!-- <script src="assets/js/vendor/Chart.bundle.min.js"></script> -->
+    {{-- <script src="{{ asset('admin/assets/js/vendor/Chart.bundle.min.js') }}"></script> --}}
     {{-- <script src="{{ asset('admin/assets/js/vendor/apexcharts.min.js') }}"></script> --}}
-    <script src="{{ asset('admin/assets/js/vendor/jquery-jvectormap-1.2.2.min.js') }}"></script>
-    <script src="{{ asset('admin/assets/js/vendor/jquery-jvectormap-world-mill-en.js') }}"></script>
+    {{-- <script src="{{ asset('admin/assets/js/vendor/jquery-jvectormap-1.2.2.min.js') }}"></script> --}}
+    {{-- <script src="{{ asset('admin/assets/js/vendor/jquery-jvectormap-world-mill-en.js') }}"></script> --}}
     <!-- third party js ends -->
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <!-- demo app -->
-    <script src="{{ asset('admin/assets/js/pages/demo.dashboard-analytics.js') }}"></script>
+    <script src="{{ asset('admin/assets/js/pages/demo.dashboard.js') }}"></script>
     @stack('js')
     <!-- end demo js-->
 </body>

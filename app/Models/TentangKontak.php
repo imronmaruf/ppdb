@@ -15,6 +15,7 @@ class TentangKontak extends Model
         'konten_tentang',
         'foto',
         'alamat',
+        'email',
         'no_telp',
         'wa_link'
     ];

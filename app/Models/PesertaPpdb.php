@@ -26,6 +26,7 @@ class PesertaPpdb extends Model
         'agama',
         'alamat',
         'tinggal_dengan',
+        'no_telp',
         'anak_ke',
         'jml_saudara_kandung',
         'tinggi_badan',

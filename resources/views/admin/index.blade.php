@@ -93,8 +93,175 @@
                     <div class="card">
                         <div class="card-body">
                             <h4 class="header-title mb-2">Alur Pengisian Formulir</h4>
-                            <div data-simplebar style="max-height: 330px;">
-                                <div class="timeline-alt pb-0">
+                            <div data-simplebar style="max-height: 350px;">
+                                <div class="row justify-content-center ">
+                                    <div class="col-lg-10 col-md-10 col-sm-12">
+
+                                        <div class="d-flex justify-content-between mt-3">
+                                            <h5 class="text-warning">Mulai</h5>
+                                            <h5 class="text-success font-weight-bolder">Selesai</h5>
+                                        </div>
+
+                                        <div class="horizontal-steps mb-4 pb-5" id="tooltip-container">
+                                            <div class="horizontal-steps-content">
+                                                <div
+                                                    class="step-item {{ $progresBar['regisAkun'] ? 'completed' : ($currentStep == 'regisAkun' ? 'current' : '') }}">
+                                                    <span class="text-center"
+                                                        @if ($progresBar['regisAkun']) data-bs-container="#tooltip-container" 
+                                                            data-bs-toggle="tooltip" 
+                                                            data-bs-placement="bottom" 
+                                                            data-bs-original-title="{{ $dataUser->created_at->setTimezone('Asia/Jakarta')->format('d/m/Y H:i') }} WIB" @endif>
+                                                        Mendaftar Akun
+                                                    </span>
+                                                </div>
+
+                                                <div
+                                                    class="step-item {{ $progresBar['formsiswa'] ? 'completed' : ($currentStep == 'formsiswa' ? 'current' : '') }}">
+                                                    <span class="text-center"
+                                                        @if ($progresBar['formsiswa']) data-bs-container="#tooltip-container" 
+                                                            data-bs-toggle="tooltip" 
+                                                            data-bs-placement="bottom" 
+                                                            data-bs-original-title="{{ $dataPendaftaran->created_at->setTimezone('Asia/Jakarta')->format('d/m/Y H:i') }} WIB" @endif>
+                                                        Mengisi Form <br> Calon Siswa
+                                                    </span>
+                                                </div>
+
+                                                <div
+                                                    class="step-item {{ $progresBar['ortu'] ? 'completed' : ($currentStep == 'ortu' ? 'current' : '') }}">
+                                                    <span class="text-center"
+                                                        @if ($progresBar['ortu']) data-bs-container="#tooltip-container" 
+                                                            data-bs-toggle="tooltip" 
+                                                            data-bs-placement="bottom" 
+                                                            data-bs-original-title="{{ $dataOrtu->created_at->setTimezone('Asia/Jakarta')->format('d/m/Y H:i') }} WIB" @endif>
+                                                        Mengisi Form <br> Identitas Orang Tua</span>
+                                                </div>
+
+                                                <div
+                                                    class="step-item {{ $progresBar['wali'] ? 'completed' : ($currentStep == 'wali' ? 'current' : '') }}">
+                                                    <span class="text-center"
+                                                        @if ($progresBar['wali']) data-bs-container="#tooltip-container" 
+                                                            data-bs-toggle="tooltip" 
+                                                            data-bs-placement="bottom" 
+                                                            data-bs-original-title="{{ $dataWali->created_at->setTimezone('Asia/Jakarta')->format('d/m/Y H:i') }} WIB" @endif>
+                                                        Mengisi Form <br> Wali
+                                                    </span>
+                                                </div>
+
+                                                <div
+                                                    class="step-item {{ $progresBar['berkas'] ? 'completed' : ($currentStep == 'berkas' ? 'current' : '') }}">
+                                                    <span class="text-center"
+                                                        @if ($progresBar['berkas']) data-bs-container="#tooltip-container" 
+                                                            data-bs-toggle="tooltip" 
+                                                            data-bs-placement="bottom" 
+                                                            data-bs-original-title="{{ $dataBerkas->created_at->setTimezone('Asia/Jakarta')->format('d/m/Y H:i') }} WIB" @endif>
+                                                        Mengupload <br> Berkas
+                                                    </span>
+                                                </div>
+
+
+                                                <div
+                                                    class="step-item {{ $progresBar['status'] == 'verifikasi' ? 'bg-warning' : ($progresBar['status'] == 'diterima' ? 'text-success' : ($progresBar['status'] == 'ditolak' ? 'text-danger' : '')) }}">
+
+                                                    <span class="text-center"
+                                                        @if ($progresBar['status'] != 'Belum Melengkapi Data') data-bs-container="#tooltip-container"
+                                                                data-bs-toggle="tooltip"
+                                                                data-bs-placement="bottom"
+                                                                data-bs-original-title="{{ $dataPendaftaran->updated_at->setTimezone('Asia/Jakarta')->format('d/m/Y H:i') }} WIB" @endif>
+                                                        Status Penerimaan
+                                                    </span>
+                                                    <div class="d-flex flex-column align-items-center justify-content-center">
+
+                                                        <p
+                                                            class="badge {{ $progresBar['status'] == 'verifikasi' ? 'bg-warning' : ($progresBar['status'] == 'diterima' ? 'bg-success' : ($progresBar['status'] == 'ditolak' ? 'bg-danger' : 'bg-secondary')) }}">
+                                                            {{ ucfirst($progresBar['status']) }}
+                                                        </p>
+                                                    </div>
+                                                </div>
+
+
+                                                <div
+                                                    class="step-item {{ $progresBar['status'] == 'diterima' ? 'bg-success' : '' }}">
+                                                    <span
+                                                        class="text-center  {{ $progresBar['status'] == 'diterima' ? 'text-success' : '' }}">Pengantaran
+                                                        berkas <br> <a href="{{ route('admin.cetakFormulir') }}"
+                                                            id="cetakFormulir"target="__blank"
+                                                            class="text-decoration-underline">Hasil
+                                                            Formulir<br></a> ke
+                                                        sekolah</span>
+                                                </div>
+
+                                            </div>
+                                            <div class="process-line" style="width: {{ $progressPercentage }}%;"></div>
+                                        </div>
+
+                                        {{-- <div class="horizontal-steps  mb-4 pb-5" id="tooltip-container">
+                                            <div class="horizontal-steps-content">
+                                                <div class="step-item">
+                                                    <span data-bs-container="#tooltip-container" data-bs-toggle="tooltip"
+                                                        data-bs-placement="bottom" title=""
+                                                        data-bs-original-title="20/08/2018 07:24 PM">Mendaftar Akun</span>
+                                                </div>
+                                                <div class="step-item current">
+                                                    <span class="text-center" data-bs-container="#tooltip-container"
+                                                        data-bs-toggle="tooltip" data-bs-placement="bottom"
+                                                        title="21/08/2018 11:32 AM">Mengisi Form <br>
+                                                        Identitas Siswa</span>
+                                                </div>
+                                                <div class="step-item ">
+                                                    <span class="text-center">Mengisi Form <br> Identitas Orang Tua</span>
+                                                </div>
+                                                <div class="step-item">
+                                                    <span class="text-center">Mengisi Form <br> Identitas Wali</span>
+                                                </div>
+                                                <div class="step-item">
+                                                    <span>Upload Berkas</span>
+                                                </div>
+                                                <div class="step-item">
+                                                    <span>Status Penerimaan <br>
+                                                        <p class="badge bg-danger">diterima</p>
+                                                    </span>
+                                                </div>
+                                                <div class="step-item">
+                                                    <span class="text-center">Pengantaran berkas <br> ke sekolah</span>
+                                                </div>
+                                            </div>
+                                            <div class="process-line" style="width: 16.7%;"></div>
+                                        </div> --}}
+                                    </div>
+                                </div>
+
+                                {{-- <div class="progress" style="height: 40px;"> <!-- Ubah tinggi progress bar -->
+                                    <div class="progress-bar" role="progressbar" style="width: 14.29%;" aria-valuenow="14"
+                                        aria-valuemin="0" aria-valuemax="100">
+                                        <h6>Mendaftar Akun</h6>
+                                    </div>
+                                    <div class="progress-bar bg-success" role="progressbar" style="width: 14.29%;"
+                                        aria-valuenow="14" aria-valuemin="0" aria-valuemax="100">
+                                        <h6>Mendaftar Akun</h6>
+                                    </div>
+                                    <div class="progress-bar bg-info" role="progressbar" style="width: 14.29%;"
+                                        aria-valuenow="14" aria-valuemin="0" aria-valuemax="100">
+                                        14.29%
+                                    </div>
+                                    <div class="progress-bar bg-danger" role="progressbar" style="width: 14.29%;"
+                                        aria-valuenow="14" aria-valuemin="0" aria-valuemax="100">
+                                        14.29%
+                                    </div>
+                                    <div class="progress-bar bg-warning" role="progressbar" style="width: 14.29%;"
+                                        aria-valuenow="14" aria-valuemin="0" aria-valuemax="100">
+                                        14.29%
+                                    </div>
+                                    <div class="progress-bar bg-secondary" role="progressbar" style="width: 14.29%;"
+                                        aria-valuenow="14" aria-valuemin="0" aria-valuemax="100">
+                                        14.29%
+                                    </div>
+                                    <div class="progress-bar" role="progressbar" style="width: 14.29%;" aria-valuenow="14"
+                                        aria-valuemin="0" aria-valuemax="100">
+                                        14.29%
+                                    </div>
+                                </div> --}}
+
+                                {{-- <div class="timeline-alt pb-0">
                                     <div class="timeline-item">
                                         <i class="mdi mdi-18px mdi-numeric-1 bg-info-lighten text-info timeline-icon"></i>
                                         <div class="timeline-item-info">
@@ -119,7 +286,7 @@
                                         </div>
                                     </div>
 
-                                </div>
+                                </div> --}}
                                 <!-- end timeline -->
                             </div>
                         </div>
@@ -134,9 +301,15 @@
                         <div class="card-body">
                             <div class="d-flex justify-content-between mb-3">
                                 <h4 class="header-title">Data Formulir Calon Siswa</h4>
-                                <a href="{{ route('admin.cetakFormulir') }}" type="button" class="btn btn-info"><i
+                                {{-- <a href="{{ route('admin.cetakFormulir') }}" type="button" class="btn btn-info"><i
                                         class="mdi mdi-printer me-1"></i> <span>Cetak
-                                        Hasil Formulir</span> </a>
+                                        Hasil Formulir</span> </a> --}}
+                                <a href="{{ route('admin.cetakFormulir') }}" id="cetakFormulir" type="button" target="__blank"
+                                    class="btn btn-info">
+                                    <i class="mdi mdi-printer me-1"></i>
+                                    <span>Cetak Hasil Formulir</span>
+                                </a>
+
 
                             </div>
 
@@ -165,7 +338,7 @@
                                                     @if ($dataPendaftaran)
                                                         <tr>
                                                             <th scope="col" class="w-25">Nama Lengkap Calon Siswa</th>
-                                                            <td>{{ $dataPendaftaran->name ?? '' }}</td>
+                                                            <td>{{ ucfirst(Str::title($dataPendaftaran->name ?? '')) }}</td>
                                                         </tr>
                                                         <tr>
                                                             <th scope="col" class="w-25">Jenis Kelamin</th>
@@ -174,7 +347,8 @@
                                                         <tr>
                                                             <th scope="col" class="w-25">Tempat Tanggal Lahir</th>
                                                             <td>{{ $dataPendaftaran->tempat_lahir ?? '' }},
-                                                                {{ $dataPendaftaran->tanggal_lahir ?? '' }}</td>
+                                                                {{ date('d-m-Y', strtotime($dataPendaftaran->tanggal_lahir)) ?? '' }}
+                                                            </td>
                                                         </tr>
                                                         <tr>
                                                             <th scope="col" class="w-25">No. KK</th>
@@ -205,7 +379,8 @@
                                                             <td>{{ ucfirst($dataPendaftaran->agama) ?? '' }}</td>
                                                         </tr>
                                                         <tr>
-                                                            <th scope="col" class="w-25">Alamat Lengkap Tempat Tinggal</th>
+                                                            <th scope="col" class="w-25">Alamat Lengkap Tempat Tinggal
+                                                            </th>
                                                             <td>{{ $dataPendaftaran->alamat ?? '' }}</td>
                                                         </tr>
                                                         <tr>
@@ -253,7 +428,9 @@
                                                         </tr>
                                                         <tr>
                                                             <th scope="col" class="w-25">Tempat Tanggal Lahir Ayah</th>
-                                                            <td>{{ $dataOrtu->tempat_lahir_tanggal_lahir_ayah ?? '' }}</td>
+                                                            <td>{{ $dataOrtu->tempat_lahir_ayah ?? '' }},
+                                                                {{ date('d-m-Y', strtotime($dataOrtu->tanggal_lahir_ayah)) ?? '' }}
+                                                            </td>
                                                         </tr>
                                                         <tr>
                                                             <th scope="col" class="w-25">NIK Ayah</th>
@@ -265,7 +442,10 @@
                                                         </tr>
                                                         <tr>
                                                             <th scope="col" class="w-25">Tempat Tanggal Lahir Ibu</th>
-                                                            <td>{{ $dataOrtu->tempat_lahir_tanggal_lahir_ibu ?? '' }}</td>
+                                                            <td>{{ $dataOrtu->tempat_lahir_ibu ?? '' }},
+                                                                {{ date('d-m-Y', strtotime($dataOrtu->tanggal_lahir_ibu)) ?? '' }}
+                                                            </td>
+                                                            {{-- <td>{{ $dataOrtu->tempat_lahir_tanggal_lahir_ibu ?? '' }}</td> --}}
                                                         </tr>
                                                         <tr>
                                                             <th scope="col" class="w-25">NIK Ibu</th>

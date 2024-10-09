@@ -51,10 +51,10 @@
                                             <th scope="col">Tahun Lahir Wali</th>
                                             <td>{{ $dataWali->tahun_lahir }}</td>
                                         </tr>
-                                        <tr>
+                                        {{-- <tr>
                                             <th scope="col">No. Telepon Wali</th>
                                             <td>{{ $dataWali->no_telp }}</td>
-                                        </tr>
+                                        </tr> --}}
                                         <tr>
                                             <th scope="col">Pendidikan Wali</th>
                                             <td>{{ $dataWali->pendidikan }}</td>
@@ -92,3 +92,18 @@
         </div>
     </div>
 @endsection
+
+@push('js')
+    <script>
+        let successMessage = '{{ session('success') }}';
+        if (successMessage !== '') {
+            Swal.fire({
+                icon: "success",
+                title: "Success!",
+                text: successMessage,
+                showConfirmButton: false,
+                timer: 1500
+            });
+        }
+    </script>
+@endpush

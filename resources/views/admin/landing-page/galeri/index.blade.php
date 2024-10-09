@@ -29,42 +29,62 @@
                                 </a>
                             </div>
                         </div>
+
                         @if ($dataGaleriAkademik->count() || $dataGaleriNonAkademik->count())
                             <form id="delete-selected-form" action="{{ route('galeri.delete.selected') }}" method="POST">
                                 @csrf
                                 @method('DELETE')
-                                <div class="row">
-                                    <!-- Kategori Akademik -->
-                                    <h4 class="header-title mt-3">Akademik</h4>
-                                    @foreach ($dataGaleriAkademik as $galeri)
-                                        <div class="col-lg-2 col-md-3 col-sm-4 mb-3">
-                                            <div class="position-relative">
-                                                <img src="{{ asset($galeri->foto_url) }}" class="img-fluid rounded-2"
-                                                    alt="{{ $galeri->kategori }}">
-                                                <input type="checkbox" name="selected_files[]" value="{{ $galeri->id }}"
-                                                    class="position-absolute top-0 end-0 m-2 bg-white"
-                                                    style="cursor: pointer;">
+                                <div class="table-responsive">
+                                    <table class="table table-striped table-bordered">
+                                        <thead class="table-dark">
+                                            <tr>
+                                                <th><input type="checkbox" id="select-all" class="form-check-input"></th>
+                                                <th>Foto</th>
+                                                <th>Judul</th>
+                                                <th>Caption</th>
+                                                <th>Kategori</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <!-- Kategori Akademik -->
+                                            <tr>
+                                                <td><input type="checkbox" id="select-akademik" class="form-check-input">
+                                                </td>
+                                                <td colspan="5"><strong>Akademik</strong></td>
+                                            </tr>
+                                            @foreach ($dataGaleriAkademik as $galeri)
+                                                <tr class="akademik-row">
+                                                    <td><input type="checkbox" name="selected_files[]"
+                                                            value="{{ $galeri->id }}" class="form-check-input"></td>
+                                                    <td><img src="{{ asset($galeri->foto_url) }}"
+                                                            class="img-fluid rounded-2" style="max-width: 200px;"
+                                                            alt="Foto"></td>
+                                                    <td>{{ $galeri->title }}</td>
+                                                    <td>{!! Str::words($galeri->caption, 30, '...') !!}</td>
+                                                    <td>{{ $galeri->kategori }}</td>
+                                                </tr>
+                                            @endforeach
 
-                                                <label for=""> {{ $galeri->kategori }}</label>
-                                            </div>
-                                        </div>
-                                    @endforeach
-
-                                    <!-- Kategori Non-Akademik -->
-                                    <h4 class="header-title mt-3">Non-Akademik</h4>
-                                    @foreach ($dataGaleriNonAkademik as $galeri)
-                                        <div class="col-lg-2 col-md-3 col-sm-4 mb-3">
-                                            <div class="position-relative">
-                                                <img src="{{ asset($galeri->foto_url) }}" class="img-fluid rounded-2"
-                                                    alt="{{ $galeri->judul }}">
-                                                <input type="checkbox" name="selected_files[]" value="{{ $galeri->id }}"
-                                                    class="position-absolute top-0 end-0 m-2 bg-white"
-                                                    style="cursor: pointer;">
-
-                                                <label for=""> {{ $galeri->kategori }}</label>
-                                            </div>
-                                        </div>
-                                    @endforeach
+                                            <!-- Kategori Non-Akademik -->
+                                            <tr>
+                                                <td><input type="checkbox" id="select-non-akademik"
+                                                        class="form-check-input"></td>
+                                                <td colspan="5"><strong>Non-Akademik</strong></td>
+                                            </tr>
+                                            @foreach ($dataGaleriNonAkademik as $galeri)
+                                                <tr class="non-akademik-row">
+                                                    <td><input type="checkbox" name="selected_files[]"
+                                                            value="{{ $galeri->id }}" class="form-check-input"></td>
+                                                    <td><img src="{{ asset($galeri->foto_url) }}"
+                                                            class="img-fluid rounded-2" style="max-width: 200px;"
+                                                            alt="Foto"></td>
+                                                    <td>{{ $galeri->title }}</td>
+                                                    <td>{!! Str::words($galeri->caption, 30, '...') !!}</td>
+                                                    <td>{{ $galeri->kategori }}</td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
                                 </div>
                                 <button type="submit" id="delete-button" class="btn btn-danger mt-3">Hapus
                                     Terpilih</button>
@@ -80,24 +100,47 @@
                                             </td>
                                         </tr>
                                     </table>
-                                </div> <!-- end col -->
+                                </div>
                             </div>
                         @endif
                     </div>
-                    <!-- end row -->
-                </div> <!-- end card-body -->
-            </div> <!-- end card -->
-        </div><!-- end col -->
+                </div>
+            </div>
+        </div>
     </div>
 @endsection
 
 @push('js')
     <script>
+        // JavaScript untuk memilih semua checkbox di tabel
+        document.getElementById('select-all').addEventListener('change', function() {
+            const isChecked = this.checked;
+            document.querySelectorAll('input[name="selected_files[]"]').forEach(checkbox => {
+                checkbox.checked = isChecked;
+            });
+        });
+
+        // JavaScript untuk memilih semua checkbox dalam kategori Akademik
+        document.getElementById('select-akademik').addEventListener('change', function() {
+            const isChecked = this.checked;
+            document.querySelectorAll('.akademik-row input[name="selected_files[]"]').forEach(checkbox => {
+                checkbox.checked = isChecked;
+            });
+        });
+
+        // JavaScript untuk memilih semua checkbox dalam kategori Non-Akademik
+        document.getElementById('select-non-akademik').addEventListener('change', function() {
+            const isChecked = this.checked;
+            document.querySelectorAll('.non-akademik-row input[name="selected_files[]"]').forEach(checkbox => {
+                checkbox.checked = isChecked;
+            });
+        });
+
+        // JavaScript untuk menangani tombol hapus
         document.getElementById('delete-button').addEventListener('click', function(event) {
-            // Cek apakah ada checkbox yang terpilih
             const checkboxes = document.querySelectorAll('input[name="selected_files[]"]:checked');
             if (checkboxes.length === 0) {
-                event.preventDefault(); // Mencegah form dari pengiriman
+                event.preventDefault();
                 Swal.fire({
                     icon: 'warning',
                     title: 'Peringatan!',
@@ -106,7 +149,7 @@
             }
         });
 
-        // Cek apakah ada pesan sukses di session
+        // JavaScript untuk menampilkan notifikasi sukses
         @if (session('success'))
             Swal.fire({
                 icon: "success",

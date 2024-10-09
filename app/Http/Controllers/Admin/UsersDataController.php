@@ -11,9 +11,10 @@ class UsersDataController extends Controller
 {
     public function index()
     {
-        $dataUser = User::all();
+        $dataUser = User::orderByRaw("FIELD(role, 'admin', 'kepsek', 'siswa')")->get();
         return view('admin.data-user.index', compact('dataUser'));
     }
+
 
     public function edit($id)
     {
@@ -26,6 +27,7 @@ class UsersDataController extends Controller
         // Validasi data yang diterima
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
             'role' => 'required|in:admin,kepsek,siswa',
         ]);
 
@@ -39,6 +41,7 @@ class UsersDataController extends Controller
         // Perbarui data pengguna
         $dataUser->name = $validatedData['name'];
         $dataUser->role = $validatedData['role'];
+        $dataUser->email = $validatedData['email'];
         $dataUser->save();
 
         // Redirect ke halaman index dengan pesan sukses

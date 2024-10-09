@@ -60,6 +60,12 @@
                                         <input type="text" id="alamat" name="alamat" class="form-control"
                                             placeholder="Alamat" value="{{ old('alamat', $dataTentangKontak->alamat) }}">
                                     </div>
+
+                                    <div class="mb-3">
+                                        <label for="email" class="form-label">Email</label>
+                                        <input type="text" id="email" name="email" class="form-control"
+                                            placeholder="email" value="{{ old('email', $dataTentangKontak->email) }}">
+                                    </div>
                                 </div>
 
                                 <div class="col-lg-6">

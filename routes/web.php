@@ -73,6 +73,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::prefix('data-berkas')->middleware('can:siswa-only')->group(function () {
         Route::get('/', [BerkasController::class, 'index'])->name('data-berkas.index');
         Route::get('/create', [BerkasController::class, 'create'])->name('data-berkas.create');
+        Route::get('/lengkapi/{id}', [BerkasController::class, 'lengkapiBerkas'])->name('data-berkas.lengkapi');
         Route::post('/store', [BerkasController::class, 'store'])->name('data-berkas.store');
         Route::get('/edit/{id}', [BerkasController::class, 'edit'])->name('data-berkas.edit');
         Route::put('/update/{id}', [BerkasController::class, 'update'])->name('data-berkas.update');
@@ -100,7 +101,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::prefix('kepsek-data-pendaftar')->middleware('can:kepsek-only')->group(function () {
         Route::get('/', [KepsekDataPendaftar::class, 'index'])->name('kepsek-data-pendaftar.index');
         Route::get('/show/{id}', [KepsekDataPendaftar::class, 'show'])->name('kepsek-data-pendaftar.show');
-        Route::get('/admin/cetak-laporan', [KepsekDataPendaftar::class, 'cetakLaporan'])->name('admin.cetakLaporan');
+        Route::get('/kepsek/data-pendaftar', [KepsekDataPendaftar::class, 'index'])->name('kepsek.data-pendaftar');
+        Route::get('/kepsek/cetak-laporan', [KepsekDataPendaftar::class, 'cetakLaporan'])->name('kepsek.cetakLaporan');
+        Route::get('/export-excel', [KepsekDataPendaftar::class, 'exportExcel'])->name('kepsek.exportExcel');
     });
 
 

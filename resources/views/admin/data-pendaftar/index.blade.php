@@ -47,10 +47,11 @@
                                                     <th>No.</th>
                                                     <th>Nama</th>
                                                     <th>Jenis Kelamin</th>
+                                                    <th>No. Hp </th>
                                                     <th>Nama Ayah</th>
                                                     <th>Nama Ibu</th>
                                                     <th>Nama Wali</th>
-                                                    <th>No. Hp Wali</th>
+                                                    <th>Tahun</th>
                                                     <th>Status</th>
                                                     <th>Action</th>
                                                 </tr>
@@ -61,14 +62,15 @@
                                                         <td>{{ $loop->iteration }}</td>
                                                         <td>{{ $peserta->name }}</td>
                                                         <td>{{ ucfirst($peserta->jenis_kelamin) }}</td>
+                                                        <td>{{ $peserta->no_telp ?? '-' }}</td>
                                                         <td>{{ $peserta->ortu->nama_ayah ?? '-' }}</td>
                                                         <td>{{ $peserta->ortu->nama_ibu ?? '-' }}</td>
                                                         <td>{{ $peserta->wali->nama_wali ?? '-' }}</td>
-                                                        <td>{{ $peserta->wali->no_telp ?? '-' }}</td>
+                                                        <td>{{ $peserta->created_at ? $peserta->created_at->format('Y') : '' }}
+                                                        </td>
                                                         <td>
                                                             @if (is_null($peserta->ortu) || is_null($peserta->wali) || is_null($peserta->berkas))
-                                                                <span class="badge bg-danger">Peserta Belum Melengkapi
-                                                                    Data</span>
+                                                                <span class="badge bg-danger">Data Belum Lengkap</span>
                                                             @else
                                                                 <span
                                                                     class="badge bg-{{ $peserta->status === 'diterima' ? 'success' : ($peserta->status === 'ditolak' ? 'danger' : 'warning') }}">
@@ -77,7 +79,7 @@
                                                             @endif
                                                         </td>
                                                         <td>
-                                                            <div class="d-flex justify-content-between">
+                                                            <div class="d-flex justify-content-center gap-1">
                                                                 <!-- Delete Button -->
                                                                 <form
                                                                     action="{{ route('data-pendaftar.destroy', $peserta->id) }}"

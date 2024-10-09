@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\User;
 use App\Models\PesertaPpdb;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -22,32 +24,75 @@ class FormPendaftaranController extends Controller
 
     public function create()
     {
-
         return view('admin.form-pendaftaran.create');
     }
 
     public function store(Request $request)
     {
+
+        $birthDate = Carbon::parse($request->input('tanggal_lahir'));
+        $age = $birthDate->age;
+
+        if ($age < 7) {
+            return redirect()->back()->withErrors(['error' => 'Umur tidak memenuhi syarat, harus 7 tahun'])->withInput();
+        }
+
         // Validasi input dengan kondisi
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'jenis_kelamin' => 'required|in:laki-laki,perempuan',
-            'tempat_lahir' => 'required|string|max:255',
-            'tanggal_lahir' => 'required|date',
-            'kk' => 'required|string|max:20',
-            'nik' => 'required|string|max:16|unique:peserta_ppdb,nik',
-            'no_akte_kelahiran' => 'required|string|max:20',
-            'status_pkh' => 'required|in:ada,tidak',
-            'no_pkh' => $request->input('status_pkh') === 'ada' ? 'required|string|max:20' : 'nullable|string|max:20',
-            'asal_sekolah' => 'nullable|string|max:255',
-            'agama' => 'required|in:islam,katolik,protestan,hindu,buddha,konghucu',
-            'alamat' => 'required|string|max:500',
-            'tinggal_dengan' => 'required|string|max:255',
-            'anak_ke' => 'required|string|max:2',
-            'jml_saudara_kandung' => 'required|string|max:2',
-            'tinggi_badan' => 'required|numeric|min:0',
-            'berat_badan' => 'required|numeric|min:0',
-        ]);
+        $validated = $request->validate(
+            [
+                'name' => 'required|string|max:255',
+                'jenis_kelamin' => 'required|in:laki-laki,perempuan',
+                'tempat_lahir' => 'required|string|max:255',
+                'tanggal_lahir' => 'required|date',
+                'kk' => 'required|string|max:20',
+                'nik' => 'required|string|max:16|unique:peserta_ppdb,nik',
+                'no_akte_kelahiran' => 'required|string|max:20',
+                'status_pkh' => 'required|in:ada,tidak',
+                'no_pkh' => $request->input('status_pkh') === 'ada' ? 'required|string' : 'nullable',
+                'asal_sekolah' => 'nullable|string|max:255',
+                'agama' => 'required|in:islam,katolik,protestan,hindu,buddha,konghucu',
+                'alamat' => 'required|string|max:500',
+                'tinggal_dengan' => 'required|string|max:255',
+                'no_telp' => 'required|string|max:20',
+                'anak_ke' => 'required|string',
+                'jml_saudara_kandung' => 'required|string|max:2',
+                'tinggi_badan' => 'required|numeric|min:0',
+                'berat_badan' => 'required|numeric|min:0',
+            ],
+            [
+                'name.required' => 'Nama harus diisi',
+                'tempat_lahir.required' => 'Tempat lahir harus diisi',
+                'tanggal_lahir.required' => 'Tanggal lahir harus diisi',
+                'kk.required' => 'No. KK harus diisi',
+                'nik.required' => 'NIK harus diisi',
+                'no_akte_kelahiran.required' => 'No. Akte Kelahiran harus diisi',
+                'no_pkh.required' => 'Nomor PKH wajib diisi jika status PKH ada.',
+                'alamat.required' => 'Alamat harus diisi',
+                'jml_saudara_kandung.required' => 'Jumlah saudara kandung harus diisi',
+                'tinggi_badan.required' => 'Tinggi badan harus diisi',
+                'berat_badan.required' => 'Berat badan harus diisi',
+                'nik.unique' => 'NIK sudah terdaftar',
+                'no_pkh.unique' => 'No. PKH sudah terdaftar',
+                'no_akte_kelahiran.unique' => 'No. Akte Kelahiran sudah terdaftar',
+                'kk.unique' => 'No. KK sudah terdaftar',
+                'nik.max' => 'NIK tidak boleh lebih dari 16 karakter',
+                'no_pkh.max' => 'No. PKH tidak boleh lebih dari 20 karakter',
+                'no_akte_kelahiran.max' => 'No. Akte Kelahiran tidak boleh lebih dari 20 karakter',
+                'kk.max' => 'No. KK tidak boleh lebih dari 20 karakter',
+                'nik.min' => 'NIK tidak boleh kurang dari 16 karakter',
+                'no_pkh.min' => 'No. PKH tidak boleh kurang dari 20 karakter',
+                'no_akte_kelahiran.min' => 'No. Akte Kelahiran tidak boleh kurang dari 20 karakter',
+                'kk.min' => 'No. KK tidak boleh kurang dari 20 karakter',
+                'tinggi_badan.min' => 'Tinggi badan tidak boleh kurang dari 0',
+                'berat_badan.min' => 'Berat badan tidak boleh kurang dari 0',
+                'agama.in' => 'Agama harus dipilih',
+                'status_pkh.in' => 'Status PKH harus dipilih',
+                'jenis_kelamin.in' => 'Jenis kelamin harus dipilih',
+                'tinggal_dengan.required' => 'Tinggal dengan harus diisi',
+                'anak_ke.required' => 'Anak ke harus diisi',
+                'no_telp.required' => 'No. Telepon harus diisi',
+            ]
+        );
 
         try {
             DB::beginTransaction();
@@ -63,20 +108,28 @@ class FormPendaftaranController extends Controller
             $pesertaPpdb->nik = $validated['nik'];
             $pesertaPpdb->no_akte_kelahiran = $validated['no_akte_kelahiran'];
             $pesertaPpdb->status_pkh = $validated['status_pkh'];
-            $pesertaPpdb->no_pkh = $validated['no_pkh'];
+            $pesertaPpdb->no_pkh = $request->input('status_pkh') === 'ada' ? $validated['no_pkh'] : null;
             $pesertaPpdb->asal_sekolah = $validated['asal_sekolah'];
             $pesertaPpdb->agama = $validated['agama'];
             $pesertaPpdb->alamat = $validated['alamat'];
             $pesertaPpdb->tinggal_dengan = $validated['tinggal_dengan'];
+            $pesertaPpdb->no_telp = $validated['no_telp'];
             $pesertaPpdb->anak_ke = $validated['anak_ke'];
             $pesertaPpdb->jml_saudara_kandung = $validated['jml_saudara_kandung'];
             $pesertaPpdb->tinggi_badan = $validated['tinggi_badan'];
             $pesertaPpdb->berat_badan = $validated['berat_badan'];
             $pesertaPpdb->status = 'verifikasi'; // Status default
 
+
             // Simpan data ke database
             $pesertaPpdb->save();
 
+            // Update nama di tabel users
+            $user = Auth::user();
+            if ($user) {
+                $user->name = $validated['name'];
+                $user->save();
+            }
             DB::commit();
 
             // Redirect dengan pesan sukses
@@ -98,26 +151,69 @@ class FormPendaftaranController extends Controller
 
     public function update(Request $request, $id)
     {
+        $birthDate = Carbon::parse($request->input('tanggal_lahir'));
+        $age = $birthDate->age;
+
+        if ($age < 7) {
+            return redirect()->back()->withErrors(['error' => 'Umur tidak memenuhi syarat, harus 7 tahun'])->withInput();
+        }
+
         // Validasi input dengan kondisi
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'jenis_kelamin' => 'required|in:laki-laki,perempuan',
-            'tempat_lahir' => 'required|string|max:255',
-            'tanggal_lahir' => 'required|date',
-            'kk' => 'required|string|max:20',
-            'nik' => 'required|string|max:16|unique:peserta_ppdb,nik,' . $id,
-            'no_akte_kelahiran' => 'required|string|max:20',
-            'status_pkh' => 'required|in:ada,tidak',
-            'no_pkh' => $request->input('status_pkh') === 'ada' ? 'required|string|max:20' : 'nullable|string|max:20',
-            'asal_sekolah' => 'nullable|string|max:255',
-            'agama' => 'required|in:islam,katolik,protestan,hindu,buddha,konghucu',
-            'alamat' => 'required|string|max:500',
-            'tinggal_dengan' => 'required|string|max:255',
-            'anak_ke' => 'required|string|max:2',
-            'jml_saudara_kandung' => 'required|string|max:2',
-            'tinggi_badan' => 'required|numeric|min:0',
-            'berat_badan' => 'required|numeric|min:0',
-        ]);
+        $validated = $request->validate(
+            [
+                'name' => 'required|string|max:255',
+                'jenis_kelamin' => 'required|in:laki-laki,perempuan',
+                'tempat_lahir' => 'required|string|max:255',
+                'tanggal_lahir' => 'required|date',
+                'kk' => 'required|string|max:20',
+                'nik' => 'required|string|max:16|unique:peserta_ppdb,nik,',
+                'no_akte_kelahiran' => 'required|string|max:20',
+                'status_pkh' => 'required|in:ada,tidak',
+                'no_pkh' => $request->input('status_pkh') === 'ada' ? 'required|string|max:20' : 'nullable|string|max:20',
+                'asal_sekolah' => 'nullable|string|max:255',
+                'agama' => 'required|in:islam,katolik,protestan,hindu,buddha,konghucu',
+                'alamat' => 'required|string|max:500',
+                'tinggal_dengan' => 'required|string|max:255',
+                'no_telp' => 'required|string|max:20',
+                'anak_ke' => 'required|string',
+                'jml_saudara_kandung' => 'required|string|max:2',
+                'tinggi_badan' => 'required|numeric|min:0',
+                'berat_badan' => 'required|numeric|min:0',
+            ],
+            [
+                'name.required' => 'Nama harus diisi',
+                'tempat_lahir.required' => 'Tempat lahir harus diisi',
+                'tanggal_lahir.required' => 'Tanggal lahir harus diisi',
+                'kk.required' => 'No. KK harus diisi',
+                'nik.required' => 'NIK harus diisi',
+                'no_akte_kelahiran.required' => 'No. Akte Kelahiran harus diisi',
+                'no_pkh.required' => 'No. PKH harus diisi',
+                'no_telp.required' => 'No. Telepon harus diisi',
+                'alamat.required' => 'Alamat harus diisi',
+                'jml_saudara_kandung.required' => 'Jumlah saudara kandung harus diisi',
+                'tinggi_badan.required' => 'Tinggi badan harus diisi',
+                'berat_badan.required' => 'Berat badan harus diisi',
+                'nik.unique' => 'NIK sudah terdaftar',
+                'no_pkh.unique' => 'No. PKH sudah terdaftar',
+                'no_akte_kelahiran.unique' => 'No. Akte Kelahiran sudah terdaftar',
+                'kk.unique' => 'No. KK sudah terdaftar',
+                'nik.max' => 'NIK tidak boleh lebih dari 16 karakter',
+                'no_pkh.max' => 'No. PKH tidak boleh lebih dari 20 karakter',
+                'no_akte_kelahiran.max' => 'No. Akte Kelahiran tidak boleh lebih dari 20 karakter',
+                'kk.max' => 'No. KK tidak boleh lebih dari 20 karakter',
+                'nik.min' => 'NIK tidak boleh kurang dari 16 karakter',
+                'no_pkh.min' => 'No. PKH tidak boleh kurang dari 20 karakter',
+                'no_akte_kelahiran.min' => 'No. Akte Kelahiran tidak boleh kurang dari 20 karakter',
+                'kk.min' => 'No. KK tidak boleh kurang dari 20 karakter',
+                'tinggi_badan.min' => 'Tinggi badan tidak boleh kurang dari 0',
+                'berat_badan.min' => 'Berat badan tidak boleh kurang dari 0',
+                'agama.in' => 'Agama harus dipilih',
+                'status_pkh.in' => 'Status PKH harus dipilih',
+                'jenis_kelamin.in' => 'Jenis kelamin harus dipilih',
+                'tinggal_dengan.required' => 'Tinggal dengan harus diisi',
+                'anak_ke.required' => 'Anak ke harus diisi',
+            ]
+        );
 
         try {
             DB::beginTransaction();
@@ -134,11 +230,13 @@ class FormPendaftaranController extends Controller
             $pesertaPpdb->nik = $validated['nik'];
             $pesertaPpdb->no_akte_kelahiran = $validated['no_akte_kelahiran'];
             $pesertaPpdb->status_pkh = $validated['status_pkh'];
-            $pesertaPpdb->no_pkh = $validated['no_pkh'];
+            // $pesertaPpdb->no_pkh = $validated['no_pkh'];
+            $pesertaPpdb->no_pkh = $request->input('status_pkh') === 'ada' ? $validated['no_pkh'] : null;
             $pesertaPpdb->asal_sekolah = $validated['asal_sekolah'];
             $pesertaPpdb->agama = $validated['agama'];
             $pesertaPpdb->alamat = $validated['alamat'];
             $pesertaPpdb->tinggal_dengan = $validated['tinggal_dengan'];
+            $pesertaPpdb->no_telp = $validated['no_telp'];
             $pesertaPpdb->anak_ke = $validated['anak_ke'];
             $pesertaPpdb->jml_saudara_kandung = $validated['jml_saudara_kandung'];
             $pesertaPpdb->tinggi_badan = $validated['tinggi_badan'];
@@ -146,6 +244,13 @@ class FormPendaftaranController extends Controller
 
             // Simpan perubahan ke database
             $pesertaPpdb->save();
+
+            // Update nama di tabel users
+            $user = User::find($pesertaPpdb->user_id);
+            if ($user) {
+                $user->name = $validated['name'];
+                $user->save();
+            }
 
             DB::commit();
 

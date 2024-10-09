@@ -5,7 +5,7 @@
         <a href="/" class="logo d-flex align-items-center me-auto">
             <!-- Uncomment the line below if you also wish to use an image logo -->
             <img src="{{ asset('assets/logo.png') }}" alt="">
-            <h1 class="sitename">PPDB SDN 18 DEWANTARA</h1>
+            <h1 class="sitename">SDN 18 DEWANTARA</h1>
         </a>
 
         <nav id="navmenu" class="navmenu">

@@ -80,7 +80,7 @@
                 </div>
                 <div class="col-lg-6 content order-last order-lg-first" data-aos="fade-up" data-aos-delay="100">
                     <h3>SD Negeri 18 Dewantara</h3>
-                    <p>
+                    <p class="text-justify text">
                         {{ $tentangKontak->konten_tentang ?? 'Informasi tentang sekolah belum tersedia.' }}
                     </p>
 
@@ -90,14 +90,14 @@
                             <strong> Identitas Sekolah</strong>
                         </div>
                         <div class="card-body">
-                            <p><strong>NPSN :</strong> 10100711</p>
-                            <p><strong>Status :</strong> Negeri</p>
-                            <p><strong>Bentuk Pendidikan :</strong> SD</p>
-                            <p><strong>Status Kepemilikan :</strong> Pemerintah Daerah</p>
-                            <p><strong>SK Pendirian Sekolah :</strong> 2007</p>
-                            <p><strong>Tanggal SK Pendirian :</strong> 2006-07-16</p>
-                            <p><strong>SK Izin Operasional :</strong> 420/630/2019</p>
-                            <p><strong>Tanggal SK Izin Operasional :</strong> 2019-08-20</p>
+                            <p class="mb-0"><strong>NPSN :</strong> 10100711</p>
+                            <p class="mb-0"><strong>Status :</strong> Negeri</p>
+                            <p class="mb-0"><strong>Bentuk Pendidikan :</strong> SD</p>
+                            <p class="mb-0"><strong>Status Kepemilikan :</strong> Pemerintah Daerah</p>
+                            <p class="mb-0"><strong>SK Pendirian Sekolah :</strong> 2007</p>
+                            <p class="mb-0"><strong>Tanggal SK Pendirian :</strong> 2006-07-16</p>
+                            <p class="mb-0"><strong>SK Izin Operasional :</strong> 420/630/2019</p>
+                            <p class="mb-0"><strong>Tanggal SK Izin Operasional :</strong> 2019-08-20</p>
                         </div>
                     </div>
 
@@ -106,8 +106,36 @@
         </div>
     </section><!-- /tentang Section -->
 
+
     <!-- Fasilitas Section -->
-    <section id="fasilitas" class="services light-background">
+
+    <section id="team" class="team section light-background">
+
+        <!-- Section Title -->
+        <div class="container section-title aos-init aos-animate" data-aos="fade-up">
+            <h2>Fasilitas</h2>
+            <p>Fasilitas belajar merupakan sarana dan prasarana pembelajaran. Prasarana meliputi kantin, ruang
+                belajar, lapangan olahraga, Ruang Guru, Ruang Perpustakaan dll.</p>
+        </div><!-- End Section Title -->
+
+        <div class="container">
+
+            <div class="row gy-4">
+                @foreach ($fasilitas as $item)
+                    <div class="col-xl-3 col-md-6 d-flex aos-init aos-animate" data-aos="fade-up" data-aos-delay="100">
+                        <div class="member">
+                            <img src="{{ asset($item->foto_url) }}" class="img-fluid" alt="">
+                            <h4>{{ $item->name }}</h4>
+                            {{-- <span>{{ $item->name }}</span> --}}
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+    </section><!-- /Fasilitas Section -->
+
+    <!-- Fasilitas Section -->
+    {{-- <section id="fasilitas" class="services light-background">
         <div class="container">
             <div class="row">
                 <div class="col-lg-4">
@@ -121,8 +149,12 @@
                     <div class="row">
                         @foreach ($fasilitas as $item)
                             <div class="col-md-4 d-flex align-items-stretch mt-4">
-                                <div class="icon-box align-self-center" data-aos="zoom-in" data-aos-delay="100">
-                                    <img src="{{ asset($item->foto_url) }}" class="img-fluid rounded-2" alt="">
+                                <div class="card align-self-center" data-aos="zoom-in" data-aos-delay="100">
+                                    <img src="{{ asset($item->foto_url) }}" class="card-img-top img-fluid"
+                                        alt="Image description">
+                                    <div class="card-body">
+                                        <p class="card-text">asad</p>
+                                    </div>
                                 </div>
                             </div>
                         @endforeach
@@ -130,17 +162,13 @@
                 </div>
             </div>
         </div>
-    </section><!-- /Fasilitas Section -->
+    </section><!-- /Fasilitas Section --> --}}
 
 
     <!-- Stats Section -->
     <section id="stats" class="stats section accent-background">
     </section><!-- /Stats Section -->
 
-    <!-- Call To Action Section -->
-    <section id="call-to-action" class="call-to-action section dark-background">
-        <img src="{{ asset('assets/img/img1.jpg') }}" alt="">
-    </section><!-- /Call To Action Section -->
 
     <!-- Galeri Section -->
     {{-- <section id="galeri" class="portfolio section">
@@ -197,13 +225,18 @@
                 <div class="row gy-4 isotope-container align-items-center justify-content-center" data-aos="fade-up"
                     data-aos-delay="200">
                     @foreach ($galeri as $item)
-                        <div class="col-lg-2 col-md-6 portfolio-item isotope-item filter-{{ $item->kategori }}">
+                        <div class="col-lg-3 col-md-6 portfolio-item isotope-item filter-{{ $item->kategori }}">
                             <div class="portfolio-content h-100">
                                 <a href="{{ asset($item->foto_url) }}" data-gallery="portfolio-gallery-app"
                                     class="glightbox">
                                     <img src="{{ asset($item->foto_url) }}" class="img-fluid" alt="">
                                 </a>
+                                <div class="portfolio-info">
+                                    <h4>{{ $item->title }}</h4>
+                                    <p>{{ $item->caption }}</p>
+                                </div>
                             </div>
+
                         </div>
                     @endforeach
                 </div>

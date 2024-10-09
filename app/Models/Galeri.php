@@ -11,6 +11,8 @@ class Galeri extends Model
     protected $table = 'galeri';
 
     protected $fillable = [
+        'title',
+        'caption',
         'foto_url',
         'kategori'
     ];

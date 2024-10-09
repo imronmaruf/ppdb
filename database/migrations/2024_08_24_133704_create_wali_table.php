@@ -15,9 +15,8 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->foreignUuid('peserta_ppdb_id');
             $table->string('nama_wali');
-            $table->string('no_telp', 20);
             $table->string('tahun_lahir');
-            $table->string('pendidikan');
+            $table->enum('pendidikan', ['Tidak Sekolah', 'SD', 'SMP', 'SMA', 'D1', 'D2', 'D3', 'D4', 'S1', 'S2', 'S3']);
             $table->string('pekerjaan');
             $table->string('alamat');
             $table->timestamps();

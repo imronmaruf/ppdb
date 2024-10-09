@@ -38,12 +38,16 @@
                                     <h4 class="header-title mt-3">Foto</h4>
                                     @foreach ($dataFasilitas as $fasilitas)
                                         <div class="col-lg-2 col-md-4 col-sm-6 mb-3">
-                                            <div class="position-relative">
-                                                <img src="{{ asset($fasilitas->foto_url) }}" class="img-fluid rounded-2"
-                                                    alt="fasilitas">
-                                                <input type="checkbox" name="selected_files[]" value="{{ $fasilitas->id }}"
-                                                    class="position-absolute top-0 end-0 m-2 bg-white"
-                                                    style="cursor: pointer;">
+                                            <div class="card text-center">
+                                                <div class="position-relative">
+                                                    <img src="{{ asset($fasilitas->foto_url) }}"
+                                                        class="card-img-top img-fluid rounded-2" alt="fasilitas">
+                                                    <input type="checkbox" name="selected_files[]"
+                                                        value="{{ $fasilitas->id }}"
+                                                        class="position-absolute top-0 end-0 m-2 bg-white"
+                                                        style="cursor: pointer;">
+                                                    <p class="card-text m-2 "><strong>{{ $fasilitas->name }}</strong></p>
+                                                </div>
                                             </div>
                                         </div>
                                     @endforeach
@@ -77,10 +81,9 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         document.getElementById('delete-button').addEventListener('click', function(event) {
-            // Cek apakah ada checkbox yang terpilih
             const checkboxes = document.querySelectorAll('input[name="selected_files[]"]:checked');
             if (checkboxes.length === 0) {
-                event.preventDefault(); // Mencegah form dari pengiriman
+                event.preventDefault();
                 Swal.fire({
                     icon: 'warning',
                     title: 'Peringatan!',
@@ -89,7 +92,6 @@
             }
         });
 
-        // Cek apakah ada pesan sukses di session
         @if (session('success'))
             Swal.fire({
                 icon: "success",

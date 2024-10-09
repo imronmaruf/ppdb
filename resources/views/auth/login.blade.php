@@ -36,13 +36,14 @@
                             @endif
 
                             <form method="POST" action="{{ route('login') }}">
-                                <div class="mb-3">
+                                <div class="mb-2">
                                     @csrf
 
-                                    <label for="email" class="form-label">ALamat Email</label>
+                                    <label for="email" class="form-label">Alamat Email</label>
                                     <input class="form-control" type="email" id="email"
                                         @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}"
-                                        required autocomplete="email" autofocus placeholder="Enter your email">
+                                        autocomplete="email" autofocus
+                                        placeholder="Masukkan Email, contoh: contoh@gmail.com">
                                     @error('email')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -57,7 +58,7 @@
                                     <label for="password" class="form-label">Password</label>
                                     <input class="form-control" type="password" id="password"
                                         @error('password') is-invalid @enderror" name="password"
-                                        autocomplete="current-password" placeholder="Enter your password">
+                                        autocomplete="current-password" placeholder="Masukkan Password Anda">
                                     @error('password')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -78,18 +79,15 @@
                                     </button>
                                 </div>
                             </form>
+                            <div class="col-12 text-center mt-3">
+                                <p class="text-muted">Belum Punya Akun? <a href="{{ route('register') }}"
+                                        class="text-muted ms-1"><b>Register</b></a></p>
+                            </div> <!-- end col -->
                         </div> <!-- end card-body -->
                     </div>
                     <!-- end card -->
 
 
-
-                    <div class="row mt-3">
-                        <div class="col-12 text-center">
-                            <p class="text-muted">Belum Punya Akun? <a href="{{ route('register') }}"
-                                    class="text-muted ms-1"><b>Register</b></a></p>
-                        </div> <!-- end col -->
-                    </div>
                     <!-- end row -->
 
                 </div> <!-- end col -->
