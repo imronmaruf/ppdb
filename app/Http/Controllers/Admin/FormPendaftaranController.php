@@ -29,7 +29,7 @@ class FormPendaftaranController extends Controller
 
     public function store(Request $request)
     {
-
+        //logic untuk menghitung umur harus 7 tahun
         $birthDate = Carbon::parse($request->input('tanggal_lahir'));
         $age = $birthDate->age;
 
@@ -108,7 +108,7 @@ class FormPendaftaranController extends Controller
             $pesertaPpdb->nik = $validated['nik'];
             $pesertaPpdb->no_akte_kelahiran = $validated['no_akte_kelahiran'];
             $pesertaPpdb->status_pkh = $validated['status_pkh'];
-            $pesertaPpdb->no_pkh = $request->input('status_pkh') === 'ada' ? $validated['no_pkh'] : null;
+            $pesertaPpdb->no_pkh = $request->input('status_pkh') === 'ada' ? $validated['no_pkh'] : null; // jika status pkh ada maka no_pkh wajib diisi. jika tidak boleh null
             $pesertaPpdb->asal_sekolah = $validated['asal_sekolah'];
             $pesertaPpdb->agama = $validated['agama'];
             $pesertaPpdb->alamat = $validated['alamat'];
@@ -119,8 +119,6 @@ class FormPendaftaranController extends Controller
             $pesertaPpdb->tinggi_badan = $validated['tinggi_badan'];
             $pesertaPpdb->berat_badan = $validated['berat_badan'];
             $pesertaPpdb->status = 'verifikasi'; // Status default
-
-
             // Simpan data ke database
             $pesertaPpdb->save();
 

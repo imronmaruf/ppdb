@@ -78,14 +78,6 @@
                     </div>
                 </li>
 
-                {{-- <li class="side-nav-item">
-                    <a href="{{ route('data-pendaftar.index') }}" class="side-nav-link">
-                        <i class="uil-clipboard-alt"></i>
-                        <span>Pendaftar </span>
-                        <span class="badge bg-success float-end">{{ $jumlahPesertaVerifikasi }} data baru </span>
-                    </a>
-                </li> --}}
-
                 <li class="side-nav-item">
                     <a href="{{ route('data-user.index') }}" class="side-nav-link">
                         <i class="uil-users-alt"></i>
@@ -93,8 +85,7 @@
                     </a>
                 </li>
 
-
-                <li class="side-nav-title side-nav-item">Setting Landing Page</li>
+                <li class="side-nav-title side-nav-item">Konten Landing Page</li>
                 <li class="side-nav-item">
                     <a data-bs-toggle="collapse" href="#sidebarLanding" aria-expanded="false" aria-controls="sidebarLanding"
                         class="side-nav-link">
@@ -112,6 +103,28 @@
                             </li>
                             <li>
                                 <a href="{{ route('galeri.index') }}">Galeri</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+
+                <li class="side-nav-item">
+                    <a data-bs-toggle="collapse" href="#sidebarBerita" aria-expanded="false" aria-controls="sidebarBerita"
+                        class="side-nav-link">
+                        <i class="uil-newspaper"></i>
+                        <span> Berita </span>
+                        <span class="menu-arrow"></span>
+                    </a>
+                    <div class="collapse" id="sidebarBerita">
+                        <ul class="side-nav-second-level">
+                            <li>
+                                <a href="{{ route('kategori-berita.index') }}">Kategori Berita</a>
+                            </li>
+                            <li>
+                                <a href="{{ route('berita.index') }}">Daftar Berita</a>
+                            </li>
+                            <li>
+                                <a href="{{ route('berita.create') }}">Buat Berita</a>
                             </li>
                         </ul>
                     </div>

@@ -1,7 +1,7 @@
 @extends('admin.layouts.main')
 
 @push('title')
-    Dashboard {{ ucfirst(Auth::user()->role ?? '') }} | Data User
+    Dashboard {{ ucfirst(Auth::user()->role ?? '') }} | Berita
 @endpush
 
 @push('css')
@@ -19,7 +19,7 @@
         <div class="row">
             <div class="col-12">
                 <div class="page-title-box">
-                    <h4 class="page-title">Page &raquo; Data User</h4>
+                    <h4 class="page-title">Page &raquo; Data Berita</h4>
                 </div>
             </div>
         </div>
@@ -29,7 +29,12 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="header-title mb-3">Data User</h4>
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <h4 class="header-title mb-3">Data Berita</h4>
+                            <a type="button" class="btn btn-info" href="{{ route('berita.create') }}">
+                                <i class="mdi mdi-plus me-2"></i> <span>Buat Data</span>
+                            </a>
+                        </div>
 
                         <div class="tab-content">
                             <div id="basic-datatable_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
@@ -42,23 +47,48 @@
                                             <thead>
                                                 <tr role="row">
                                                     <th>No.</th>
-                                                    <th>Nama</th>
-                                                    <th>Email</th>
-                                                    <th>Role</th>
+                                                    <th>Judul</th>
+                                                    <th>Kategori</th>
+                                                    <th>Gambar</th>
+                                                    <th>Status</th>
                                                     <th>Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach ($dataUser as $data)
+                                                @foreach ($dataBerita as $data)
                                                     <tr>
                                                         <td>{{ $loop->iteration }}</td>
-                                                        <td>{{ $data->name }}</td>
-                                                        <td>{{ $data->email }}</td>
-                                                        <td>{{ $data->role }}</td>
+                                                        <td>{{ $data->judul }}</td>
+                                                        <td>{{ $data->kategoriBerita->name }}</td>
+                                                        <td><img src="{{ $data->gambar }}" alt="gambar" class="img-fluid"
+                                                                style="width: 300px"></td>
                                                         <td>
-                                                            <div class="d-flex justify-content-center align-items-center">
+                                                            @if ($data->status == 'draft')
+                                                                <h5><span
+                                                                        class="badge bg-warning">{{ ucfirst($data->status) }}</span>
+                                                                </h5>
+                                                            @else
+                                                                <h5><span
+                                                                        class="badge bg-success">{{ ucfirst($data->status) }}</span>
+                                                                </h5>
+                                                            @endif
+                                                        </td>
+                                                        <td>
+                                                            <div
+                                                                class="d-flex justify-content-center align-items-center gap-2">
+
+                                                                <!-- Show Button -->
+                                                                <a href="{{ route('berita.show', $data->id) }}"
+                                                                    class="btn btn-success btn-sm">
+                                                                    <i class="mdi mdi-eye text-white"></i>
+                                                                </a>
+
+                                                                <a href="{{ route('berita.edit', $data->id) }}"
+                                                                    class="btn btn-warning btn-sm">
+                                                                    <i class="mdi mdi-pencil text-white"></i>
+                                                                </a>
                                                                 <!-- Delete Button -->
-                                                                <form action="{{ route('data-user.destroy', $data->id) }}"
+                                                                <form action="{{ route('berita.destroy', $data->id) }}"
                                                                     method="POST" id="deleteForm{{ $data->id }}">
                                                                     @csrf
                                                                     @method('DELETE')
@@ -69,14 +99,8 @@
                                                                     </button>
                                                                 </form>
 
-                                                                <!-- EDIT Button -->
-                                                                <a href="{{ route('data-user.edit', $data->id) }}"
-                                                                    class="btn btn-info btn-sm">
-                                                                    <i class="mdi mdi-pencil text-white"></i>
-                                                                </a>
                                                             </div>
                                                         </td>
-
                                                     </tr>
                                                 @endforeach
                                             </tbody>

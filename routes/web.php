@@ -14,6 +14,8 @@ use App\Http\Controllers\Kepsek\KepsekDataPendaftar;
 use App\Http\Controllers\Landing\FasilitasController;
 use App\Http\Controllers\Admin\DataPendaftarController;
 use App\Http\Controllers\Admin\FormPendaftaranController;
+use App\Http\Controllers\Landing\BeritaController;
+use App\Http\Controllers\Landing\KategoriBeritaController;
 use App\Http\Controllers\Landing\TentangKontakController;
 
 /*
@@ -107,9 +109,7 @@ Route::group(['middleware' => ['auth']], function () {
     });
 
 
-
-
-    // Halaman Landing page
+    // crud Landing page
 
     Route::prefix('tentang-kontak')->middleware('can:admin-only')->group(function () {
         Route::get('/', [TentangKontakController::class, 'index'])->name('tentang-kontak.index');
@@ -135,5 +135,26 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/edit/{id}', [GaleriController::class, 'edit'])->name('galeri.edit');
         Route::put('/update/{id}', [GaleriController::class, 'update'])->name('galeri.update');
         Route::delete('galeri/delete-selected', [GaleriController::class, 'deleteSelected'])->name('galeri.delete.selected');
+    });
+
+    // berita
+
+    Route::prefix('kategori-berita')->middleware('can:admin-only')->group(function () {
+        Route::get('/', [KategoriBeritaController::class, 'index'])->name('kategori-berita.index');
+        Route::get('/create', [KategoriBeritaController::class, 'create'])->name('kategori-berita.create');
+        Route::post('/store', [KategoriBeritaController::class, 'store'])->name('kategori-berita.store');
+        Route::get('/edit/{id}', [KategoriBeritaController::class, 'edit'])->name('kategori-berita.edit');
+        Route::put('/update/{id}', [KategoriBeritaController::class, 'update'])->name('kategori-berita.update');
+        Route::delete('/destroy/{id}', [KategoriBeritaController::class, 'destroy'])->name('kategori-berita.destroy');
+    });
+
+    Route::prefix('berita')->middleware('can:admin-only')->group(function () {
+        Route::get('/', [BeritaController::class, 'index'])->name('berita.index');
+        Route::get('/show/{id}', [BeritaController::class, 'show'])->name('berita.show');
+        Route::get('/create', [BeritaController::class, 'create'])->name('berita.create');
+        Route::post('/store', [BeritaController::class, 'store'])->name('berita.store');
+        Route::get('/edit/{id}', [BeritaController::class, 'edit'])->name('berita.edit');
+        Route::put('/update/{id}', [BeritaController::class, 'update'])->name('berita.update');
+        Route::delete('/destroy/{id}', [BeritaController::class, 'destroy'])->name('berita.destroy');
     });
 });

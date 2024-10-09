@@ -1,7 +1,7 @@
 @extends('admin.layouts.main')
 
 @push('title')
-    Dashboard {{ ucfirst(Auth::user()->role ?? '') }} | Data User
+    Dashboard {{ ucfirst(Auth::user()->role ?? '') }} | Data Kategori Berita
 @endpush
 
 @push('css')
@@ -19,7 +19,7 @@
         <div class="row">
             <div class="col-12">
                 <div class="page-title-box">
-                    <h4 class="page-title">Page &raquo; Data User</h4>
+                    <h4 class="page-title">Page &raquo; Data Kategori Berita</h4>
                 </div>
             </div>
         </div>
@@ -29,7 +29,12 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="header-title mb-3">Data User</h4>
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <h4 class="header-title mb-3">Data Kategori Berita</h4>
+                            <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#modalAdd">
+                                <i class="mdi mdi-plus me-1"></i> <span>Tambah Data</span>
+                            </button>
+                        </div>
 
                         <div class="tab-content">
                             <div id="basic-datatable_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
@@ -42,23 +47,22 @@
                                             <thead>
                                                 <tr role="row">
                                                     <th>No.</th>
-                                                    <th>Nama</th>
-                                                    <th>Email</th>
-                                                    <th>Role</th>
+                                                    <th>Nama Kategori</th>
+                                                    <th>Slug</th>
                                                     <th>Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach ($dataUser as $data)
+                                                @foreach ($dataKategoriBerita as $data)
                                                     <tr>
                                                         <td>{{ $loop->iteration }}</td>
                                                         <td>{{ $data->name }}</td>
-                                                        <td>{{ $data->email }}</td>
-                                                        <td>{{ $data->role }}</td>
+                                                        <td>{{ $data->slug }}</td>
                                                         <td>
                                                             <div class="d-flex justify-content-center align-items-center">
                                                                 <!-- Delete Button -->
-                                                                <form action="{{ route('data-user.destroy', $data->id) }}"
+                                                                <form
+                                                                    action="{{ route('kategori-berita.destroy', $data->id) }}"
                                                                     method="POST" id="deleteForm{{ $data->id }}">
                                                                     @csrf
                                                                     @method('DELETE')
@@ -69,14 +73,16 @@
                                                                     </button>
                                                                 </form>
 
-                                                                <!-- EDIT Button -->
-                                                                <a href="{{ route('data-user.edit', $data->id) }}"
-                                                                    class="btn btn-info btn-sm">
+                                                                <!-- Edit Button -->
+                                                                <!-- Edit Button -->
+                                                                <button type="button" class="btn btn-info btn-sm"
+                                                                    data-bs-toggle="modal"
+                                                                    data-bs-target="#modalEdit{{ $data->id }}">
                                                                     <i class="mdi mdi-pencil text-white"></i>
-                                                                </a>
+                                                                </button>
+
                                                             </div>
                                                         </td>
-
                                                     </tr>
                                                 @endforeach
                                             </tbody>
@@ -92,6 +98,7 @@
             </div><!-- end col-->
         </div>
     </div>
+    @include('admin.landing-page.kategori-berita.modal')
 @endsection
 @push('js')
     <script src="{{ asset('admin/assets/js/vendor/jquery.dataTables.min.js') }}"></script>
