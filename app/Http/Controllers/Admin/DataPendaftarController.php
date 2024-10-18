@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\User;
+use App\Exports\PpdbExport;
 use App\Helpers\DeleteFile;
 use App\Models\PesertaPpdb;
 use Illuminate\Http\Request;
+use App\Models\TentangKontak;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Gate;
+use Maatwebsite\Excel\Facades\Excel;
 
 class DataPendaftarController extends Controller
 {
@@ -76,5 +80,63 @@ class DataPendaftarController extends Controller
 
         // Mengarahkan kembali ke halaman index dengan pesan sukses
         return redirect()->route('data-pendaftar.index')->with('success', 'Data berhasil dihapus.');
+    }
+
+    public function cetakLaporan(Request $request)
+    {
+        // Ambil filter tahun dan status dari request
+        $tahun = $request->input('tahun');
+        $status = $request->input('status');
+
+        // Query untuk peserta_ppdb dengan filter tahun dan status
+        $dataPendaftaran = PesertaPpdb::with(['ortu', 'wali', 'berkas'])
+            ->when($tahun, function ($query) use ($tahun) {
+                return $query->whereYear('created_at', $tahun);
+            })
+            ->when($status, function ($query) use ($status) {
+                return $query->where('status', $status);
+            })->get();
+
+        // Menghitung total peserta berdasarkan status dengan filter tahun
+        $totalPesertaDiterima = PesertaPpdb::when($tahun, function ($query) use ($tahun) {
+            return $query->whereYear('created_at', $tahun);
+        })->where('status', 'diterima')->count();
+
+        $totalPesertaDitolak = PesertaPpdb::when($tahun, function ($query) use ($tahun) {
+            return $query->whereYear('created_at', $tahun);
+        })->where('status', 'ditolak')->count();
+
+        $totalPesertaVerifikasi = PesertaPpdb::when($tahun, function ($query) use ($tahun) {
+            return $query->whereYear('created_at', $tahun);
+        })->where('status', 'verifikasi')->count();
+
+        $totalPesertaBelumMelengkapiData = PesertaPpdb::when($tahun, function ($query) use ($tahun) {
+            return $query->whereYear('created_at', $tahun);
+        })->where(function ($query) {
+            $query->whereDoesntHave('ortu')
+                ->orWhereDoesntHave('wali')
+                ->orWhereDoesntHave('berkas');
+        })->count();
+
+        // Ambil data kepsek
+        $kepsek = User::where('role', 'kepsek')->first();
+        $email = TentangKontak::pluck('email')->first();
+
+        return view('admin.data-cetak.cetak_laporan', [
+            'dataPendaftaran' => $dataPendaftaran,
+            'totalPesertaDiterima' => $totalPesertaDiterima,
+            'totalPesertaDitolak' => $totalPesertaDitolak,
+            'totalPesertaVerifikasi' => $totalPesertaVerifikasi,
+            'totalPesertaBelumMelengkapiData' => $totalPesertaBelumMelengkapiData,
+            'kepsek' => $kepsek,
+            'email' => $email
+        ]);
+    }
+
+    public function exportExcel(Request $request)
+    {
+        $tahun = $request->input('tahun');
+        $status = $request->input('status');
+        return Excel::download(new PpdbExport($tahun, $status), 'data-ppdb.xlsx');
     }
 }

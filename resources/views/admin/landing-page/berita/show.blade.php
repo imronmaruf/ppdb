@@ -22,7 +22,7 @@
             <div class="col-12">
                 <div class="page-title-box">
                     <div class="page-title-right">
-                        <a type="button" class="btn btn-secondary" href="{{ route('berita.index') }}">
+                        <a type="button" class="btn btn-secondary" href="{{ route('data-berita.index') }}">
                             <i class="mdi mdi-arrow-left me-2"></i> <span>Kembali</span>
                         </a>
                     </div>
@@ -81,33 +81,49 @@
                                                     style="width:50%"></td>
                                         </tr>
                                         <tr>
-                                            <th scope="col">Akte Kelahiran</th>
+                                            <th scope="col">File</th>
                                             <td>
                                                 @if ($dataBerita && $dataBerita->file)
-                                                    <a href="{{ asset($dataBerita->file) }}"
-                                                        download="{{ $dataBerita->file }}" target="_blank">
-                                                        <span class="text-primary text-decoration-underline">Download</span>
-                                                    </a>
-                                                    <br>
-                                                    <iframe src="{{ asset($dataBerita->file) }}" class="pdf-viewer mt-2"
-                                                        frameborder="0">
-                                                        Your browser does not support PDFs.
-                                                        <a href="{{ asset($dataBerita->file) }}">Download
-                                                            the PDF</a>
-                                                    </iframe>
+                                                    @php
+                                                        $filePath = asset($dataBerita->file);
+                                                        $fileExtension = pathinfo(
+                                                            $dataBerita->file,
+                                                            PATHINFO_EXTENSION,
+                                                        );
+                                                    @endphp
+
+                                                    @if (strtolower($fileExtension) === 'pdf')
+                                                        <a href="{{ $filePath }}" target="_blank">
+                                                            <span
+                                                                class="text-primary text-decoration-underline">Download</span>
+                                                        </a>
+                                                        <br>
+                                                        <iframe src="{{ $filePath }}" class="pdf-viewer mt-2"
+                                                            frameborder="0">
+                                                            Your browser does not support PDFs.
+                                                            <a href="{{ $filePath }}">Download the PDF</a>
+                                                        </iframe>
+                                                    @else
+                                                        <a href="{{ $filePath }}" download="{{ $dataBerita->file }}"
+                                                            target="_blank">
+                                                            <span
+                                                                class="text-primary text-decoration-underline">Download</span>
+                                                        </a>
+                                                        <span class="badge bg-info">File bukan PDF</span>
+                                                    @endif
                                                 @else
                                                     <span class="badge bg-danger">Belum Upload</span>
                                                 @endif
-
                                             </td>
                                         </tr>
+
                                     </tbody>
                                 </table>
                             </div>
                         </div> <!-- end col -->
                     </div>
 
-                    <a type="button" class="btn btn-secondary mt-3" href="{{ route('berita.index') }}">
+                    <a type="button" class="btn btn-secondary mt-3" href="{{ route('data-berita.index') }}">
                         <i class="mdi mdi-arrow-left me-2"></i> <span>Kembali</span>
                     </a>
                 </div>

@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\OrtuController;
 use App\Http\Controllers\Admin\WaliController;
 use App\Http\Controllers\Admin\BerkasController;
 use App\Http\Controllers\Admin\PendaftarDiterima;
+use App\Http\Controllers\Landing\BeritaController;
 use App\Http\Controllers\Landing\GaleriController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\UsersDataController;
@@ -14,9 +15,9 @@ use App\Http\Controllers\Kepsek\KepsekDataPendaftar;
 use App\Http\Controllers\Landing\FasilitasController;
 use App\Http\Controllers\Admin\DataPendaftarController;
 use App\Http\Controllers\Admin\FormPendaftaranController;
-use App\Http\Controllers\Landing\BeritaController;
-use App\Http\Controllers\Landing\KategoriBeritaController;
+use App\Http\Controllers\Landing\LandingBeritaController;
 use App\Http\Controllers\Landing\TentangKontakController;
+use App\Http\Controllers\Landing\KategoriBeritaController;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,6 +36,20 @@ use App\Http\Controllers\Landing\TentangKontakController;
 
 // ===== Landings Route ===== //
 Route::get('/', [LandingController::class, 'index'])->name('landing.index');
+// Route::get('/blog', [LandingBeritaController::class, 'index'])->name('blog.index');
+// Route::get('/blog/detail', [LandingBeritaController::class, 'detailBerita'])->name('detail.index');
+
+// Route::group(['prefix' => 'berita'], function () {
+//     Route::get('/', [LandingBeritaController::class, 'index'])->name('berita.index');
+//     Route::get('/{slug}', [LandingBeritaController::class, 'show'])->name('berita.show');
+// });
+
+Route::group(['prefix' => 'berita'], function () {
+    Route::get('/', [LandingBeritaController::class, 'index'])->name('berita.index');
+    Route::get('/pengumuman', [LandingBeritaController::class, 'indexPengumuman'])->name('berita.indexPengumuman');
+    Route::get('/{slug}', [LandingBeritaController::class, 'show'])->name('berita.show');
+});
+
 
 
 Auth::routes();
@@ -98,6 +113,9 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('/data-pendaftar/{id}/update-status', [DataPendaftarController::class, 'updateStatus'])->name('data-pendaftar.update-status');
         Route::delete('/destroy/{id}', [DataPendaftarController::class, 'destroy'])->name('data-pendaftar.destroy');
         Route::get('/diterima', [PendaftarDiterima::class, 'index'])->name('data-pendaftar.diterima');
+        Route::get('/admin/data-pendaftar', [DataPendaftarController::class, 'index'])->name('admin.data-pendaftar');
+        Route::get('/admin/cetak-laporan', [DataPendaftarController::class, 'cetakLaporan'])->name('admin.cetakLaporan');
+        Route::get('/export-excel', [DataPendaftarController::class, 'exportExcel'])->name('admin.exportExcel');
     });
 
     Route::prefix('kepsek-data-pendaftar')->middleware('can:kepsek-only')->group(function () {
@@ -148,13 +166,13 @@ Route::group(['middleware' => ['auth']], function () {
         Route::delete('/destroy/{id}', [KategoriBeritaController::class, 'destroy'])->name('kategori-berita.destroy');
     });
 
-    Route::prefix('berita')->middleware('can:admin-only')->group(function () {
-        Route::get('/', [BeritaController::class, 'index'])->name('berita.index');
-        Route::get('/show/{id}', [BeritaController::class, 'show'])->name('berita.show');
-        Route::get('/create', [BeritaController::class, 'create'])->name('berita.create');
-        Route::post('/store', [BeritaController::class, 'store'])->name('berita.store');
-        Route::get('/edit/{id}', [BeritaController::class, 'edit'])->name('berita.edit');
-        Route::put('/update/{id}', [BeritaController::class, 'update'])->name('berita.update');
-        Route::delete('/destroy/{id}', [BeritaController::class, 'destroy'])->name('berita.destroy');
+    Route::prefix('data-berita')->middleware('can:admin-only')->group(function () {
+        Route::get('/', [BeritaController::class, 'index'])->name('data-berita.index');
+        Route::get('/show/{id}', [BeritaController::class, 'show'])->name('data-berita.show');
+        Route::get('/create', [BeritaController::class, 'create'])->name('data-berita.create');
+        Route::post('/store', [BeritaController::class, 'store'])->name('data-berita.store');
+        Route::get('/edit/{id}', [BeritaController::class, 'edit'])->name('data-berita.edit');
+        Route::put('/update/{id}', [BeritaController::class, 'update'])->name('data-berita.update');
+        Route::delete('/destroy/{id}', [BeritaController::class, 'destroy'])->name('data-berita.destroy');
     });
 });

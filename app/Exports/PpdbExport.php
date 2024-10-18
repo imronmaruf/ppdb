@@ -63,7 +63,6 @@ class PesertaPpdbSheet implements FromQuery, WithTitle, WithHeadings, WithMappin
     public function headings(): array
     {
         return [
-            'ID',
             'Nama',
             'Jenis Kelamin',
             'Tempat Lahir',
@@ -89,7 +88,6 @@ class PesertaPpdbSheet implements FromQuery, WithTitle, WithHeadings, WithMappin
     public function map($peserta): array
     {
         return [
-            $peserta->id,
             $peserta->name,
             $peserta->jenis_kelamin,
             $peserta->tempat_lahir,
@@ -138,7 +136,6 @@ class OrtuSheet implements FromQuery, WithTitle, WithHeadings, WithMapping, With
     public function headings(): array
     {
         return [
-            'ID',
             'Nama Peserta',
             'Nama Ayah',
             'Nama Ibu',
@@ -160,7 +157,6 @@ class OrtuSheet implements FromQuery, WithTitle, WithHeadings, WithMapping, With
     public function map($ortu): array
     {
         return [
-            $ortu->id,
             $ortu->pesertaPpdb->name,
             $ortu->nama_ayah,
             $ortu->nama_ibu,
@@ -205,7 +201,6 @@ class WaliSheet implements FromQuery, WithTitle, WithHeadings, WithMapping, With
     public function headings(): array
     {
         return [
-            'ID',
             'Nama Peserta',
             'Nama Wali',
             'Tahun Lahir',
@@ -218,7 +213,6 @@ class WaliSheet implements FromQuery, WithTitle, WithHeadings, WithMapping, With
     public function map($wali): array
     {
         return [
-            $wali->id,
             $wali->pesertaPpdb->name,
             $wali->nama_wali,
             $wali->tahun_lahir,
@@ -254,7 +248,6 @@ class BerkasSheet implements FromQuery, WithTitle, WithHeadings, WithMapping, Wi
     public function headings(): array
     {
         return [
-            'ID',
             'Nama Peserta',
             'Akte Kelahiran',
             'KK',
@@ -268,7 +261,6 @@ class BerkasSheet implements FromQuery, WithTitle, WithHeadings, WithMapping, Wi
     public function map($berkas): array
     {
         return [
-            $berkas->id,
             $berkas->pesertaPpdb->name,
             $berkas->akte_kelahiran,
             $berkas->kk,

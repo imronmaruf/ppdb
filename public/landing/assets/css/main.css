@@ -763,7 +763,7 @@ h6 {
 .page-title {
     color: var(--default-color);
     background-color: var(--background-color);
-    padding: 150px 0 60px 0;
+    padding: 120px 0 60px 0;
     text-align: center;
     position: relative;
 }

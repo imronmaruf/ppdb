@@ -83,7 +83,7 @@ class BeritaController extends Controller
 
             DB::commit();
             session()->flash('success', 'Data Berita Berhasil Disimpan');
-            return redirect()->route('berita.index');
+            return redirect()->route('data-berita.index');
         } catch (\Exception $e) {
             DB::rollBack();
             return redirect()->back()->with('error', $e->getMessage());
@@ -153,7 +153,7 @@ class BeritaController extends Controller
 
             DB::commit();
             session()->flash('success', 'Data Berita Berhasil Disimpan');
-            return redirect()->route('berita.index');
+            return redirect()->route('data-berita.index');
         } catch (\Exception $e) {
             DB::rollBack();
             return redirect()->back()->with('error', $e->getMessage());
@@ -176,7 +176,7 @@ class BeritaController extends Controller
             DB::commit();
 
             session()->flash('success', 'Data Berita Berhasil dihapus');
-            return redirect()->route('berita.index');
+            return redirect()->route('data-berita.index');
         } catch (\Exception $e) {
             DB::rollBack();
             return redirect()->back()->with('error', $e->getMessage());

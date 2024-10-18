@@ -30,7 +30,7 @@
                             <h3 class="text-uppercase mb-3">Buat Berita</h3>
                         </div>
 
-                        <form action="{{ route('berita.store') }}" method="POST" enctype="multipart/form-data">
+                        <form action="{{ route('data-berita.store') }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             <div class="tab-content">
                                 <div class="row">
@@ -118,7 +118,8 @@
                                     <div class="col-sm-6">
                                         <label for="file" class="form-label">File</label>
                                         <input class="form-control @error('file') is-invalid @enderror" type="file"
-                                            id="file" name="file" accept=".pdf,.doc,.docx">
+                                            id="file" name="file"
+                                            accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt">
                                         @error('file')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
@@ -133,25 +134,11 @@
                                     <div class="col-sm-6">
                                         <iframe id="preview-pdf" style="width: 100%; height: 350px; display: none;"
                                             frameborder="0"></iframe>
+                                        <div id="preview-file" class="mt-2" style="display: none;">
+                                            <!-- File preview area for non-image and non-PDF files -->
+                                        </div>
                                     </div>
                                 </div>
-
-                                <!-- Preview Image -->
-                                {{-- <div class="row mb-2">
-                                    <div class="col-sm-6">
-                                        <img id="preview-image" src="" alt="" class="img-fluid"
-                                            style="display: none;">
-                                    </div>
-                                </div>
-
-                                <!-- Preview PDF -->
-                                <div class="row mb-2">
-                                    <div class="col-sm-6">
-                                        <iframe id="preview-pdf" style="width: 100%; height: 500px; display: none;"
-                                            frameborder="0"></iframe>
-                                    </div>
-                                </div> --}}
-
 
                                 <!-- Editor -->
                                 <div class="mb-3">
@@ -179,6 +166,8 @@
 
 @push('js')
     <script src="{{ asset('admin/assets/js/vendor/quill.min.js') }}"></script>
+    <script src="{{ asset('admin/assets/js/quill.js') }}"></script>
+
     {{-- <script src="{{ asset('admin/assets/js/pages/demo.quilljs.js') }}"></script> --}}
     <script>
         let errorMessage = '{{ session('error') }}';
@@ -191,55 +180,7 @@
                 // timer: 1500
             });
         }
-        // Inisialisasi Quill Editor
-        var quill = new Quill('#snow-editor', {
-            theme: 'snow',
-            modules: {
-                toolbar: [
-                    [{
-                        font: []
-                    }, {
-                        size: []
-                    }],
-                    ["bold", "italic", "underline", "strike"],
-                    [{
-                        color: []
-                    }, {
-                        background: []
-                    }],
-                    [{
-                        script: "super"
-                    }, {
-                        script: "sub"
-                    }],
-                    [{
-                        header: [!1, 1, 2, 3, 4, 5, 6]
-                    }, "blockquote", "code-block"],
-                    [{
-                            list: "ordered"
-                        },
-                        {
-                            list: "bullet"
-                        },
-                        {
-                            indent: "-1"
-                        },
-                        {
-                            indent: "+1"
-                        },
-                    ],
-                    ["direction", {
-                        align: []
-                    }],
-                    ["link", "image"],
-                    ["clean"],
-                ],
-            },
-        });
 
-        quill.on('text-change', function() {
-            document.querySelector("input[name='isi']").value = quill.root.innerHTML;
-        });
 
         // Preview Gambar
         document.getElementById('gambar').addEventListener('change', function() {
@@ -258,22 +199,39 @@
             }
         });
 
-        // Preview PDF
+        // Preview Word, Excel, and other document types
         document.getElementById('file').addEventListener('change', function() {
             const file = this.files[0];
-            if (file && file.type === 'application/pdf') { // Cek apakah file adalah PDF
-                let reader = new FileReader();
-                reader.onload = function(event) {
-                    let pdfElement = document.getElementById('preview-pdf');
-                    pdfElement.src = event.target.result;
-                    pdfElement.style.display = 'block'; // Tampilkan PDF setelah preview
+            const fileTypes = ['application/pdf', 'application/msword',
+                'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+                'application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                'application/vnd.ms-powerpoint',
+                'application/vnd.openxmlformats-officedocument.presentationml.presentation'
+            ];
+
+            if (file && fileTypes.includes(file.type)) {
+                let previewElement = document.getElementById('preview-file');
+
+                if (file.type === 'application/pdf') {
+                    // Preview PDF
+                    let reader = new FileReader();
+                    reader.onload = function(event) {
+                        let pdfElement = document.getElementById('preview-pdf');
+                        pdfElement.src = event.target.result;
+                        pdfElement.style.display = 'block'; // Show PDF after preview
+                    };
+                    reader.readAsDataURL(file);
+                } else {
+                    // For Word, Excel, and PowerPoint: show file icon or message
+                    previewElement.innerHTML = `<span class="file-icon">${file.name}</span>`;
+                    previewElement.style.display = 'block';
                 }
-                reader.readAsDataURL(file);
             } else {
-                alert('File yang dipilih bukan PDF. Silakan pilih file PDF.');
-                this.value = ''; // Reset input jika bukan PDF
+                alert('File type not supported for preview.');
+                this.value = ''; // Reset input if not supported
             }
         });
+
 
 
         document.getElementById('judul').addEventListener('input', function() {

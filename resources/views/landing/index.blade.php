@@ -5,6 +5,8 @@
 @endpush
 
 @push('css')
+    <link href="{{ asset('landing/assets/css/blog.css') }}" rel="stylesheet">
+
     <style>
         .pagination-container {
             text-align: center;
@@ -109,8 +111,7 @@
 
     <!-- Fasilitas Section -->
 
-    <section id="team" class="team section light-background">
-
+    <section id="fasilitas" class="team section light-background">
         <!-- Section Title -->
         <div class="container section-title aos-init aos-animate" data-aos="fade-up">
             <h2>Fasilitas</h2>
@@ -119,7 +120,6 @@
         </div><!-- End Section Title -->
 
         <div class="container">
-
             <div class="row gy-4">
                 @foreach ($fasilitas as $item)
                     <div class="col-xl-3 col-md-6 d-flex aos-init aos-animate" data-aos="fade-up" data-aos-delay="100">
@@ -134,71 +134,11 @@
         </div>
     </section><!-- /Fasilitas Section -->
 
-    <!-- Fasilitas Section -->
-    {{-- <section id="fasilitas" class="services light-background">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-4">
-                    <div class="section-title" data-aos="fade-right">
-                        <h2>Fasilitas</h2>
-                        <p>Fasilitas belajar merupakan sarana dan prasarana pembelajaran. Prasarana meliputi kantin, ruang
-                            belajar, lapangan olahraga, Ruang Guru, Ruang Perpustakaan dll.</p>
-                    </div>
-                </div>
-                <div class="col-lg-8">
-                    <div class="row">
-                        @foreach ($fasilitas as $item)
-                            <div class="col-md-4 d-flex align-items-stretch mt-4">
-                                <div class="card align-self-center" data-aos="zoom-in" data-aos-delay="100">
-                                    <img src="{{ asset($item->foto_url) }}" class="card-img-top img-fluid"
-                                        alt="Image description">
-                                    <div class="card-body">
-                                        <p class="card-text">asad</p>
-                                    </div>
-                                </div>
-                            </div>
-                        @endforeach
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section><!-- /Fasilitas Section --> --}}
-
 
     <!-- Stats Section -->
     <section id="stats" class="stats section accent-background">
     </section><!-- /Stats Section -->
 
-
-    <!-- Galeri Section -->
-    {{-- <section id="galeri" class="portfolio section">
-        <div class="container section-title" data-aos="fade-up">
-            <h2>Galeri</h2>
-            <p>Dibawah ini adalah bukti dokumentasi kegiatan akademik dan non akademik yang terdapat pada sekolah kami :</p>
-        </div>
-        <div class="container">
-            <div class="isotope-layout" data-default-filter="*" data-layout="masonry" data-sort="original-order">
-                <ul class="portfolio-filters isotope-filters" data-aos="fade-up" data-aos-delay="100">
-                    <li data-filter="*" class="filter-active">All</li>
-                    @foreach ($kategori as $cat)
-                        <li data-filter=".filter-{{ $cat->kategori }}">{{ ucfirst($cat->kategori) }}</li>
-                    @endforeach
-                </ul>
-                <div class="row gy-4 isotope-container" data-aos="fade-up" data-aos-delay="200">
-                    @foreach ($galeri as $item)
-                        <div class="col-lg-2 col-md-6 portfolio-item isotope-item filter-{{ $item->kategori }}">
-                            <div class="portfolio-content h-100">
-                                <a href="{{ asset($item->foto_url) }}" data-gallery="portfolio-gallery-app"
-                                    class="glightbox">
-                                    <img src="{{ asset($item->foto_url) }}" class="img-fluid" alt="">
-                                </a>
-                            </div>
-                        </div>
-                    @endforeach
-                </div>
-            </div>
-        </div>
-    </section><!-- /Galeri Section --> --}}
 
     <!-- Galeri Section -->
     <section id="galeri" class="portfolio section">
@@ -241,31 +181,39 @@
                     @endforeach
                 </div>
 
-
-                <div class="d-flex flex-column align-items-center mt-4">
-                    <nav data-aos="fade-up" data-aos-delay="100">
-                        <ul class="pagination">
-                            <li class="page-item">
-                                <a class="page-link"
-                                    href="{{ $galeri->appends(['kategori' => request('kategori')])->previousPageUrl() }}#galeri">Previous</a>
-                            </li>
-                            @for ($i = 1; $i <= $galeri->lastPage(); $i++)
-                                <li class="page-item {{ $galeri->currentPage() == $i ? 'active' : '' }}">
-                                    <a class="page-link"
-                                        href="{{ $galeri->appends(['kategori' => request('kategori')])->url($i) }}#galeri">{{ $i }}</a>
+                <section id="blog-pagination" class="blog-pagination section mt-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="container">
+                        <div class="d-flex justify-content-center">
+                            <ul>
+                                <li>
+                                    <a
+                                        href="{{ $galeri->appends(['kategori' => request('kategori')])->previousPageUrl() }}#galeri">
+                                        <i class="bi bi-chevron-left"></i>
+                                    </a>
                                 </li>
-                            @endfor
-                            <li class="page-item">
-                                <a class="page-link"
-                                    href="{{ $galeri->appends(['kategori' => request('kategori')])->nextPageUrl() }}#galeri">Next</a>
-                            </li>
-                        </ul>
-                    </nav>
-                    <div class="text-center mt-2" data-aos="fade-up" data-aos-delay="200">
-                        <p>Showing {{ $galeri->firstItem() }} to {{ $galeri->lastItem() }} of {{ $galeri->total() }}
-                            results</p>
+
+                                @for ($i = 1; $i <= $galeri->lastPage(); $i++)
+                                    <li>
+                                        <a class="{{ $galeri->currentPage() == $i ? 'active' : '' }}"
+                                            href="{{ $galeri->appends(['kategori' => request('kategori')])->url($i) }}#galeri">{{ $i }}</a>
+                                    </li>
+                                @endfor
+
+                                <li>
+                                    <a
+                                        href="{{ $galeri->appends(['kategori' => request('kategori')])->nextPageUrl() }}#galeri">
+                                        <i class="bi bi-chevron-right"></i></a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="text-center mt-2" data-aos="fade-up" data-aos-delay="200">
+                            <p>Showing {{ $galeri->firstItem() }} to {{ $galeri->lastItem() }} of
+                                {{ $galeri->total() }}
+                                results</p>
+                        </div>
                     </div>
-                </div>
+
+                </section>
             </div>
         </div>
     </section><!-- /Galeri Section -->

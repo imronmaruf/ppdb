@@ -40,7 +40,6 @@ class BerkasSheet implements FromQuery, WithTitle, WithHeadings, WithMapping
     public function headings(): array
     {
         return [
-            'ID',
             'Peserta PPDB ID',
             'Akte Kelahiran',
             'KK',
@@ -56,7 +55,6 @@ class BerkasSheet implements FromQuery, WithTitle, WithHeadings, WithMapping
     public function map($berkas): array
     {
         return [
-            $berkas->id,
             $berkas->peserta_ppdb_id,
             $berkas->akte_kelahiran,
             $berkas->kk,
