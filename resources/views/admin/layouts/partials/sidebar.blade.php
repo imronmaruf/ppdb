@@ -22,13 +22,23 @@
                     <span> Dashboard </span>
                 </a>
             </li>
+            @can('admin-only')
+                <li class="side-nav-item">
+                    <a href="{{ route('ppdb-settings.index') }}"
+                        class="side-nav-link @if (Route::is('ppdb-settings.index')) active @endif">
+                        <i class="uil-wrench"></i>
+                        <span> Jadwal </span>
+                    </a>
+                </li>
+            @endcan
 
             @can('siswa-only')
-                <li class="side-nav-title side-nav-item">Formulir Pendaftaran</li>
+                <li class="side-nav-title side-nav-item @if (Route::is('data-pendaftaran.*')) menuitem-active @endif">Formulir
+                    Pendaftaran</li>
 
                 <li class="side-nav-item">
                     <a href="{{ route('data-pendaftaran.index') }}"
-                        class="side-nav-link @if (Route::is('data-pendaftaran.index')) active @endif">
+                        class="side-nav-link @if (Route::is('data-pendaftaran.index') || Route::is('data-pendaftaran.create')) active @endif">
                         <i class="uil-comments-alt"></i>
                         <span> Formulir Calon Siswa </span>
                     </a>

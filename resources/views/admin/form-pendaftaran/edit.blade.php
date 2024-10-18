@@ -317,7 +317,10 @@
                                 <div class="col-lg-12">
                                     <div class="mb-3">
                                         <label for="alamat" class="form-label">Alamat<span
-                                                class="text-danger">*</span></label>
+                                                class="text-danger">*</span><br>
+                                            Contoh : <code>Nama Dusun, Nama Kelurahan, Kecamatan, Kabupaten</code><br>
+                                            <strong>Catatan:</strong> Alamat harus berada di Kecamatan Dewantara
+                                        </label>
                                         <textarea class="form-control @error('alamat') is-invalid @enderror" id="alamat" name="alamat" rows="5"
                                             placeholder="Alamat Lengkap">{{ old('alamat', $dataPendaftar->alamat) }}</textarea>
                                         @error('alamat')
@@ -342,6 +345,26 @@
 
 @push('js')
     <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const alamatInput = document.getElementById('alamat');
+            const alamatFeedback = document.createElement('div');
+            alamatFeedback.className = 'invalid-feedback';
+            alamatInput.parentNode.appendChild(alamatFeedback);
+
+            alamatInput.addEventListener('input', function() {
+                const alamat = this.value.toLowerCase();
+                if (alamat.includes('dewantara')) {
+                    this.classList.remove('is-invalid');
+                    this.classList.add('is-valid');
+                    alamatFeedback.style.display = 'none';
+                } else {
+                    this.classList.remove('is-valid');
+                    this.classList.add('is-invalid');
+                    alamatFeedback.textContent = 'Alamat harus berada di kecamatan "Dewantara".';
+                    alamatFeedback.style.display = 'block';
+                }
+            });
+        });
         document.addEventListener('DOMContentLoaded', function() {
             const statusPkhSelect = document.getElementById('status_pkh');
             const noPkhInput = document.getElementById('no_pkh');

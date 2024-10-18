@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\User;
 use App\Models\PesertaPpdb;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -51,7 +52,17 @@ class FormPendaftaranController extends Controller
                 'no_pkh' => $request->input('status_pkh') === 'ada' ? 'required|string' : 'nullable',
                 'asal_sekolah' => 'nullable|string|max:255',
                 'agama' => 'required|in:islam,katolik,protestan,hindu,buddha,konghucu',
-                'alamat' => 'required|string|max:500',
+                // 'alamat' => 'required|string|max:500',
+                'alamat' => [
+                    'required',
+                    'string',
+                    'max:500',
+                    function ($attribute, $value, $fail) {
+                        if (!Str::contains(Str::lower($value), 'dewantara')) {
+                            $fail('Alamat harus berada di Kecamatan Dewantara.');
+                        }
+                    },
+                ],
                 'tinggal_dengan' => 'required|string|max:255',
                 'no_telp' => 'required|string|max:20',
                 'anak_ke' => 'required|string',
@@ -111,6 +122,7 @@ class FormPendaftaranController extends Controller
             $pesertaPpdb->no_pkh = $request->input('status_pkh') === 'ada' ? $validated['no_pkh'] : null; // jika status pkh ada maka no_pkh wajib diisi. jika tidak boleh null
             $pesertaPpdb->asal_sekolah = $validated['asal_sekolah'];
             $pesertaPpdb->agama = $validated['agama'];
+
             $pesertaPpdb->alamat = $validated['alamat'];
             $pesertaPpdb->tinggal_dengan = $validated['tinggal_dengan'];
             $pesertaPpdb->no_telp = $validated['no_telp'];
@@ -164,13 +176,24 @@ class FormPendaftaranController extends Controller
                 'tempat_lahir' => 'required|string|max:255',
                 'tanggal_lahir' => 'required|date',
                 'kk' => 'required|string|max:20',
-                'nik' => 'required|string|max:16|unique:peserta_ppdb,nik,',
+                'nik' => 'required|string|max:16|unique:peserta_ppdb,nik,' . $id,
+                'no_akte_kelahiran' => 'required|string|max:20|unique:peserta_ppdb,no_akte_kelahiran,' . $id,
                 'no_akte_kelahiran' => 'required|string|max:20',
                 'status_pkh' => 'required|in:ada,tidak',
                 'no_pkh' => $request->input('status_pkh') === 'ada' ? 'required|string|max:20' : 'nullable|string|max:20',
                 'asal_sekolah' => 'nullable|string|max:255',
                 'agama' => 'required|in:islam,katolik,protestan,hindu,buddha,konghucu',
-                'alamat' => 'required|string|max:500',
+                // 'alamat' => 'required|string|max:500',
+                'alamat' => [
+                    'required',
+                    'string',
+                    'max:500',
+                    function ($attribute, $value, $fail) {
+                        if (!Str::contains(Str::lower($value), 'dewantara')) {
+                            $fail('Alamat harus berada di Kecamatan Dewantara.');
+                        }
+                    },
+                ],
                 'tinggal_dengan' => 'required|string|max:255',
                 'no_telp' => 'required|string|max:20',
                 'anak_ke' => 'required|string',

@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\UsersDataController;
 use App\Http\Controllers\Landing\LandingController;
 use App\Http\Controllers\Kepsek\KepsekDataPendaftar;
+use App\Http\Controllers\Admin\PpdbSettingController;
 use App\Http\Controllers\Landing\FasilitasController;
 use App\Http\Controllers\Admin\DataPendaftarController;
 use App\Http\Controllers\Admin\FormPendaftaranController;
@@ -56,13 +57,17 @@ Auth::routes();
 
 // Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
+Route::get('/ppdb-closed', function () {
+    return view('ppdb.closed');
+})->name('ppdb.closed');
+
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
     Route::get('/admin/cetak-formulir', [DashboardController::class, 'cetakFormulir'])->name('admin.cetakFormulir');
 
 
     // rute fungsi untuk siswa
-    Route::prefix('data-pendaftaran')->middleware('can:siswa-only')->group(function () {
+    Route::prefix('data-pendaftaran')->middleware('can:siswa-only', 'ppdb.open')->group(function () {
         Route::get('/', [FormPendaftaranController::class, 'index'])->name('data-pendaftaran.index');
         Route::get('/create', [FormPendaftaranController::class, 'create'])->name('data-pendaftaran.create');
         Route::post('/store', [FormPendaftaranController::class, 'store'])->name('data-pendaftaran.store');
@@ -70,7 +75,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::put('/update/{id}', [FormPendaftaranController::class, 'update'])->name('data-pendaftaran.update');
     });
 
-    Route::prefix('data-ortu')->middleware('can:siswa-only')->group(function () {
+    Route::prefix('data-ortu')->middleware('can:siswa-only', 'ppdb.open')->group(function () {
         Route::get('/', [OrtuController::class, 'index'])->name('data-ortu.index');
         Route::get('/create', [OrtuController::class, 'create'])->name('data-ortu.create');
         Route::post('/store', [OrtuController::class, 'store'])->name('data-ortu.store');
@@ -78,7 +83,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::put('/update/{id}', [OrtuController::class, 'update'])->name('data-ortu.update');
     });
 
-    Route::prefix('data-wali')->middleware('can:siswa-only')->group(function () {
+    Route::prefix('data-wali')->middleware('can:siswa-only', 'ppdb.open')->group(function () {
         Route::get('/', [WaliController::class, 'index'])->name('data-wali.index');
         Route::get('/create', [WaliController::class, 'create'])->name('data-wali.create');
         Route::post('/store', [WaliController::class, 'store'])->name('data-wali.store');
@@ -87,7 +92,7 @@ Route::group(['middleware' => ['auth']], function () {
     });
 
 
-    Route::prefix('data-berkas')->middleware('can:siswa-only')->group(function () {
+    Route::prefix('data-berkas')->middleware('can:siswa-only', 'ppdb.open')->group(function () {
         Route::get('/', [BerkasController::class, 'index'])->name('data-berkas.index');
         Route::get('/create', [BerkasController::class, 'create'])->name('data-berkas.create');
         Route::get('/lengkapi/{id}', [BerkasController::class, 'lengkapiBerkas'])->name('data-berkas.lengkapi');
@@ -98,6 +103,13 @@ Route::group(['middleware' => ['auth']], function () {
 
 
     // rute fungsi untuk admin
+
+    Route::prefix('ppdb-settings')->middleware(['auth', 'can:admin-only'])->group(function () {
+        Route::get('/', [PpdbSettingController::class, 'index'])->name('ppdb-settings.index');
+        Route::put('/update', [PpdbSettingController::class, 'update'])->name('ppdb-settings.update');
+        Route::post('/toggle', [PpdbSettingController::class, 'toggleStatus'])->name('ppdb-settings.toggle');
+    });
+
     Route::prefix('data-user')->middleware('can:admin-only')->group(function () {
         Route::get('/', [UsersDataController::class, 'index'])->name('data-user.index');
         Route::get('/create', [UsersDataController::class, 'create'])->name('data-user.create');

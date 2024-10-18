@@ -107,19 +107,6 @@
                                     </div>
                                 </div>
 
-                                {{-- <div class="col-lg-6">
-                                    <div class="mb-3">
-                                        <label for="tanggal_lahir" class="form-label">Tanggal Lahir<span
-                                                class="text-danger">*</span></label>
-                                        <input type="date" id="tanggal_lahir" name="tanggal_lahir"
-                                            class="form-control @error('tanggal_lahir') is-invalid @enderror"
-                                            value="{{ old('tanggal_lahir') }}">
-                                        @error('tanggal_lahir')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                </div> --}}
-
                                 <div class="col-lg-6">
                                     <div class="mb-3">
                                         <label for="kk" class="form-label">Nomor Kartu Keluarga (KK)<span
@@ -323,6 +310,21 @@
                                 <div class="col-lg-12">
                                     <div class="mb-3">
                                         <label for="alamat" class="form-label">Alamat<span
+                                                class="text-danger">*</span><br>
+                                            Contoh : <code>Nama Dusun, Nama Kelurahan, Kecamatan, Kabupaten</code><br>
+                                            <strong>Catatan:</strong> Alamat harus berada di Kecamatan Dewantara
+                                        </label>
+                                        <textarea class="form-control @error('alamat') is-invalid @enderror" id="alamat" name="alamat" rows="5"
+                                            placeholder="Alamat Lengkap">{{ old('alamat') }}</textarea>
+                                        @error('alamat')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                </div>
+
+                                {{-- <div class="col-lg-12">
+                                    <div class="mb-3">
+                                        <label for="alamat" class="form-label">Alamat<span
                                                 class="text-danger">*</span><br>Contoh : <code>Nama Dusun, Nama Kelurahan
                                                 ,Kecamatan, Kabupaten</code></label>
                                         <textarea class="form-control @error('alamat') is-invalid @enderror" id="alamat" name="alamat" rows="5"
@@ -331,7 +333,7 @@
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>
-                                </div>
+                                </div> --}}
                             </div> <!-- end row -->
 
                             <div class="text-end">
@@ -370,6 +372,26 @@
 
 @push('js')
     <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const alamatInput = document.getElementById('alamat');
+            const alamatFeedback = document.createElement('div');
+            alamatFeedback.className = 'invalid-feedback';
+            alamatInput.parentNode.appendChild(alamatFeedback);
+
+            alamatInput.addEventListener('input', function() {
+                const alamat = this.value.toLowerCase();
+                if (alamat.includes('dewantara')) {
+                    this.classList.remove('is-invalid');
+                    this.classList.add('is-valid');
+                    alamatFeedback.style.display = 'none';
+                } else {
+                    this.classList.remove('is-valid');
+                    this.classList.add('is-invalid');
+                    alamatFeedback.textContent = 'Alamat harus berada di kecamatan "Dewantara".';
+                    alamatFeedback.style.display = 'block';
+                }
+            });
+        });
         document.addEventListener('DOMContentLoaded', function() {
             const statusPkhSelect = document.getElementById('status_pkh');
             const noPkhInput = document.getElementById('no_pkh');
