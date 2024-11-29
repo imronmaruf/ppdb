@@ -17,8 +17,10 @@ class Ortu extends Model
         'nama_ibu',
         'alamat_ayah',
         'alamat_ibu',
-        'tempat_lahir_tanggal_lahir_ayah',
-        'tempat_lahir_tanggal_lahir_ibu',
+        'tempat_lahir_ayah',
+        'tanggal_lahir_ayah',
+        'tempat_lahir_ibu',
+        'tanggal_lahir_ibu',
         'nik_ayah',
         'nik_ibu',
         'pendidikan_ayah',
@@ -26,6 +28,7 @@ class Ortu extends Model
         'pekerjaan_ayah',
         'pekerjaan_ibu'
     ];
+
 
     public function pesertaPpdb()
     {

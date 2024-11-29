@@ -14,7 +14,6 @@ class Wali extends Model
     protected $fillable = [
         'peserta_ppdb_id',
         'nama_wali',
-        'no_telp',
         'tahun_lahir',
         'pendidikan',
         'pekerjaan',

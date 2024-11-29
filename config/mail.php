@@ -108,8 +108,8 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
-        'name' => env('MAIL_FROM_NAME', 'Example'),
+        'address' => env('MAIL_FROM_ADDRESS', 'imron.200180139@mhs.unimal.ac.id'),
+        'name' => env('MAIL_FROM_NAME', 'Web PPDB SD N 18 Dewantara'),
     ],
 
     /*

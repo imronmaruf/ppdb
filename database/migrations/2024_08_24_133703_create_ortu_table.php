@@ -18,12 +18,14 @@ return new class extends Migration
             $table->string('nama_ibu');
             $table->string('alamat_ayah');
             $table->string('alamat_ibu');
-            $table->string('tempat_lahir_tanggal_lahir_ayah');
-            $table->string('tempat_lahir_tanggal_lahir_ibu');
+            $table->string('tempat_lahir_ayah');
+            $table->date('tanggal_lahir_ayah');
+            $table->string('tempat_lahir_ibu');
+            $table->date('tanggal_lahir_ibu');
             $table->string('nik_ayah');
             $table->string('nik_ibu');
-            $table->string('pendidikan_ayah');
-            $table->string('pendidikan_ibu');
+            $table->enum('pendidikan_ayah', ['Tidak Sekolah', 'SD', 'SMP', 'SMA', 'D1', 'D2', 'D3', 'D4', 'S1', 'S2', 'S3']);
+            $table->enum('pendidikan_ibu', ['Tidak Sekolah', 'SD', 'SMP', 'SMA', 'D1', 'D2', 'D3', 'D4', 'S1', 'S2', 'S3']);
             $table->string('pekerjaan_ayah');
             $table->string('pekerjaan_ibu');
             $table->timestamps();

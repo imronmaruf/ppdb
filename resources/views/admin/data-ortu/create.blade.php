@@ -1,7 +1,7 @@
 @extends('admin.layouts.main')
 
 @push('title')
-    Dashboard {{ Auth::user()->role ?? '' }}
+    Form Identitas Orang Tua
 @endpush
 
 @section('content')
@@ -10,188 +10,237 @@
         <div class="row">
             <div class="col-12">
                 <div class="page-title-box">
-                    <div class="page-title-right">
-                        <form class="d-flex">
-                            <div class="input-group">
-                                <input type="text" class="form-control form-control-light" id="dash-daterange">
-                                <span class="input-group-text bg-primary border-primary text-white">
-                                    <i class="mdi mdi-calendar-range font-13"></i>
-                                </span>
-                            </div>
-                            <a href="javascript: void(0);" class="btn btn-primary ms-2">
-                                <i class="mdi mdi-autorenew"></i>
-                            </a>
-                        </form>
-                    </div>
-                    <h4 class="page-title">Analytics</h4>
+                    <h4 class="page-title"><strong>Page</strong> &raquo; Form Input Peserta PPDB</h4>
                 </div>
             </div>
         </div>
         <!-- end page title -->
 
-
         <div class="row">
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="header-title">Input Types</h4>
-                        <p class="text-muted font-14">
-                            Most common form control, text-based input fields. Includes support for all HTML5 types:
-                            <code>text</code>, <code>password</code>, <code>datetime</code>, <code>datetime-local</code>,
-                            <code>date</code>, <code>month</code>, <code>time</code>, <code>week</code>,
-                            <code>number</code>, <code>email</code>, <code>url</code>, <code>search</code>,
-                            <code>tel</code>, and <code>color</code>.
-                        </p>
-
-
-                        <div class="row">
-                            <div class="col-lg-6">
-                                <form>
-                                    <div class="mb-3">
-                                        <label for="simpleinput" class="form-label">Text</label>
-                                        <input type="text" id="simpleinput" class="form-control">
-                                    </div>
-
-                                    <div class="mb-3">
-                                        <label for="example-email" class="form-label">Email</label>
-                                        <input type="email" id="example-email" name="example-email" class="form-control"
-                                            placeholder="Email">
-                                    </div>
-
-                                    <div class="mb-3">
-                                        <label for="example-password" class="form-label">Password</label>
-                                        <input type="password" id="example-password" class="form-control" value="password">
-                                    </div>
-
-                                    <div class="mb-3">
-                                        <label for="password" class="form-label">Show/Hide Password</label>
-                                        <div class="input-group input-group-merge">
-                                            <input type="password" id="password" class="form-control"
-                                                placeholder="Enter your password">
-                                            <div class="input-group-text" data-password="false">
-                                                <span class="password-eye"></span>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="mb-3">
-                                        <label for="example-palaceholder" class="form-label">Placeholder</label>
-                                        <input type="text" id="example-palaceholder" class="form-control"
-                                            placeholder="placeholder">
-                                    </div>
-
-                                    <div class="mb-3">
-                                        <label for="example-textarea" class="form-label">Text area</label>
-                                        <textarea class="form-control" id="example-textarea" rows="5"></textarea>
-                                    </div>
-
-                                    <div class="mb-3">
-                                        <label for="example-readonly" class="form-label">Readonly</label>
-                                        <input type="text" id="example-readonly" class="form-control" readonly=""
-                                            value="Readonly value">
-                                    </div>
-
-                                    <div class="mb-3">
-                                        <label for="example-disable" class="form-label">Disabled</label>
-                                        <input type="text" class="form-control" id="example-disable" disabled=""
-                                            value="Disabled value">
-                                    </div>
-
-                                    <div class="mb-3">
-                                        <label for="example-static" class="form-label">Static control</label>
-                                        <input type="text" readonly="" class="form-control-plaintext"
-                                            id="example-static" value="email@example.com">
-                                    </div>
-
-                                    <div class="mb-0">
-                                        <label for="example-helping" class="form-label">Helping text</label>
-                                        <input type="text" id="example-helping" class="form-control"
-                                            placeholder="Helping text">
-                                        <span class="help-block"><small>A block of help text that breaks onto a new
-                                                line and may extend beyond one line.</small></span>
-                                    </div>
-
-                                </form>
-                            </div> <!-- end col -->
-
-                            <div class="col-lg-6">
-                                <form>
-
-                                    <div class="mb-3">
-                                        <label for="example-select" class="form-label">Input Select</label>
-                                        <select class="form-select" id="example-select">
-                                            <option>1</option>
-                                            <option>2</option>
-                                            <option>3</option>
-                                            <option>4</option>
-                                            <option>5</option>
-                                        </select>
-                                    </div>
-
-                                    <div class="mb-3">
-                                        <label for="example-multiselect" class="form-label">Multiple
-                                            Select</label>
-                                        <select id="example-multiselect" multiple="" class="form-control">
-                                            <option>1</option>
-                                            <option>2</option>
-                                            <option>3</option>
-                                            <option>4</option>
-                                            <option>5</option>
-                                        </select>
-                                    </div>
-
-                                    <div class="mb-3">
-                                        <label for="example-fileinput" class="form-label">Default file
-                                            input</label>
-                                        <input type="file" id="example-fileinput" class="form-control">
-                                    </div>
-
-                                    <div class="mb-3">
-                                        <label for="example-date" class="form-label">Date</label>
-                                        <input class="form-control" id="example-date" type="date" name="date">
-                                    </div>
-
-                                    <div class="mb-3">
-                                        <label for="example-month" class="form-label">Month</label>
-                                        <input class="form-control" id="example-month" type="month" name="month">
-                                    </div>
-
-                                    <div class="mb-3">
-                                        <label for="example-time" class="form-label">Time</label>
-                                        <input class="form-control" id="example-time" type="time" name="time">
-                                    </div>
-
-                                    <div class="mb-3">
-                                        <label for="example-week" class="form-label">Week</label>
-                                        <input class="form-control" id="example-week" type="week" name="week">
-                                    </div>
-
-                                    <div class="mb-3">
-                                        <label for="example-number" class="form-label">Number</label>
-                                        <input class="form-control" id="example-number" type="number" name="number">
-                                    </div>
-
-                                    <div class="mb-3">
-                                        <label for="example-color" class="form-label">Color</label>
-                                        <input class="form-control" id="example-color" type="color" name="color"
-                                            value="#727cf5">
-                                    </div>
-
-                                    <div class="mb-0">
-                                        <label for="example-range" class="form-label">Range</label>
-                                        <input class="form-range" id="example-range" type="range" name="range"
-                                            min="0" max="100">
-                                    </div>
-
-                                </form>
-                            </div> <!-- end col -->
+                        <h4 class="header-title">Input Identitas Orang Tua</h4>
+                        <div class="alert alert-success" role="alert">
+                            <i class="dripicons-information me-2"></i> Input yang memiliki tanda
+                            <strong class="text-danger">*</strong> adalah input yang harus diisi.
                         </div>
-                        <!-- end row-->
 
-                    </div> <!-- end card-body -->
-                </div> <!-- end card -->
-            </div><!-- end col -->
+                        <!-- Alert untuk pesan error -->
+                        @if ($errors->any())
+                            {{-- <div class="alert alert-danger bg-danger">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div> --}}
+                            <div class="alert alert-danger alert-dismissible bg-danger text-white border-0 fade show"
+                                role="alert">
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                    aria-label="Close"></button>
+                                <strong>Kesalahan - </strong>
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
+
+                        <form action="{{ route('data-ortu.store') }}" method="POST">
+                            @csrf
+                            <div class="row">
+                                <!-- Kolom Kiri -->
+                                <div class="col-lg-6">
+                                    <div class="mb-3">
+                                        <label for="nama_ayah" class="form-label">Nama Ayah<span
+                                                class="text-danger">*</span></label>
+                                        <input type="text" id="nama_ayah" name="nama_ayah"
+                                            class="form-control @error('nama_ayah') is-invalid @enderror"
+                                            placeholder="Nama Ayah" value="{{ old('nama_ayah') }}">
+                                        @error('nama_ayah')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="tempat_lahir_ayah" class="form-label">Tempat Lahir Ayah Sesuai KTP<span
+                                                class="text-danger">*</span></label>
+                                        <input type="text" id="tempat_lahir_ayah" name="tempat_lahir_ayah"
+                                            class="form-control @error('tempat_lahir_ayah') is-invalid @enderror"
+                                            placeholder="Tempat Lahir Ayah" value="{{ old('tempat_lahir_ayah') }}">
+                                        @error('tempat_lahir_ayah')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="tanggal_lahir_ayah" class="form-label">Tanggal Lahir Ayah<span
+                                                class="text-danger">*</span></label>
+                                        <input type="date" id="tanggal_lahir_ayah" name="tanggal_lahir_ayah"
+                                            class="form-control @error('tanggal_lahir_ayah') is-invalid @enderror"
+                                            value="{{ old('tanggal_lahir_ayah') }}">
+                                        @error('tanggal_lahir_ayah')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="nik_ayah" class="form-label">NIK Ayah<span
+                                                class="text-danger">*</span></label>
+                                        <input type="number" id="nik_ayah" name="nik_ayah"
+                                            class="form-control @error('nik_ayah') is-invalid @enderror"
+                                            placeholder="NIK Ayah" maxlength="16" value="{{ old('nik_ayah') }}">
+                                        @error('nik_ayah')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="pendidikan_ayah" class="form-label">Pendidikan Ayah<span
+                                                class="text-danger">*</span></label>
+                                        <select id="pendidikan_ayah" name="pendidikan_ayah"
+                                            class="form-select @error('pendidikan_ayah') is-invalid @enderror">
+                                            <option value="">----Pilih Pendidikan Ayah----</option>
+                                            @foreach ($pendidikanAyahOptions as $option)
+                                                <option value="{{ $option }}"
+                                                    {{ old('pendidikan_ayah') == $option ? 'selected' : '' }}>
+                                                    {{ $option }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                        @error('pendidikan_ayah')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="pekerjaan_ayah" class="form-label">Pekerjaan Ayah<span
+                                                class="text-danger">*</span></label>
+                                        <input type="text" id="pekerjaan_ayah" name="pekerjaan_ayah"
+                                            class="form-control @error('pekerjaan_ayah') is-invalid @enderror"
+                                            placeholder="Pekerjaan Ayah" value="{{ old('pekerjaan_ayah') }}">
+                                        @error('pekerjaan_ayah')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="alamat_ayah" class="form-label">Alamat Ayah<span
+                                                class="text-danger">*</span>
+                                            <br>Contoh : <code>Desa Blang Madat,Kec. Dewantara Aceh Utara</code>
+                                        </label>
+                                        <input type="text" id="alamat_ayah" name="alamat_ayah"
+                                            class="form-control @error('alamat_ayah') is-invalid @enderror"
+                                            placeholder="Alamat Ayah" value="{{ old('alamat_ayah') }}">
+                                        @error('alamat_ayah')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                </div> <!-- end col -->
+
+                                <!-- Kolom Kanan -->
+                                <div class="col-lg-6">
+                                    <div class="mb-3">
+                                        <label for="nama_ibu" class="form-label">Nama Ibu<span
+                                                class="text-danger">*</span></label>
+                                        <input type="text" id="nama_ibu" name="nama_ibu"
+                                            class="form-control @error('nama_ibu') is-invalid @enderror"
+                                            placeholder="Nama Ibu" value="{{ old('nama_ibu') }}">
+                                        @error('nama_ibu')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="tempat_lahir_ibu" class="form-label">Tempat Lahir Ibu Sesuai KTP<span
+                                                class="text-danger">*</span></label>
+                                        <input type="text" id="tempat_lahir_ibu" name="tempat_lahir_ibu"
+                                            class="form-control @error('tempat_lahir_ibu') is-invalid @enderror"
+                                            placeholder="Tempat Lahir Ibu" value="{{ old('tempat_lahir_ibu') }}">
+                                        @error('tempat_lahir_ibu')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="tanggal_lahir_ibu" class="form-label">Tanggal Lahir Ibu<span
+                                                class="text-danger">*</span></label>
+                                        <input type="date" id="tanggal_lahir_ibu" name="tanggal_lahir_ibu"
+                                            class="form-control @error('tanggal_lahir_ibu') is-invalid @enderror"
+                                            value="{{ old('tanggal_lahir_ibu') }}">
+                                        @error('tanggal_lahir_ibu')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="nik_ibu" class="form-label">NIK Ibu<span
+                                                class="text-danger">*</span></label>
+                                        <input type="number" id="nik_ibu" name="nik_ibu"
+                                            class="form-control @error('nik_ibu') is-invalid @enderror"
+                                            placeholder="NIK Ibu" maxlength="16" value="{{ old('nik_ibu') }}">
+                                        @error('nik_ibu')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+
+
+
+                                    <div class="mb-3">
+                                        <label for="pendidikan_ibu" class="form-label">Pendidikan Ibu<span
+                                                class="text-danger">*</span></label>
+                                        <select id="pendidikan_ibu" name="pendidikan_ibu"
+                                            class="form-select @error('pendidikan_ibu') is-invalid @enderror">
+                                            <option value="">----Pilih Pendidikan Ibu----</option>
+                                            @foreach ($pendidikanIbuOptions as $option)
+                                                <option value="{{ $option }}"
+                                                    {{ old('pendidikan_ibu') == $option ? 'selected' : '' }}>
+                                                    {{ $option }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                        @error('pendidikan_ibu')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="pekerjaan_ibu" class="form-label">Pekerjaan Ibu<span
+                                                class="text-danger">*</span></label>
+                                        <input type="text" id="pekerjaan_ibu" name="pekerjaan_ibu"
+                                            class="form-control @error('pekerjaan_ibu') is-invalid @enderror"
+                                            placeholder="Pekerjaan Ibu" value="{{ old('pekerjaan_ibu') }}">
+                                        @error('pekerjaan_ibu')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="alamat_ibu" class="form-label">Alamat Ibu<span
+                                                class="text-danger">*</span>
+                                            <br>Contoh : <code>Desa Blang Madat,Kec. Dewantara Aceh Utara</code>
+                                        </label>
+                                        <input type="text" id="alamat_ibu" name="alamat_ibu"
+                                            class="form-control @error('alamat_ibu') is-invalid @enderror"
+                                            placeholder="Alamat Ibu" value="{{ old('alamat_ibu') }}">
+                                        @error('alamat_ibu')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                </div> <!-- end col -->
+                            </div> <!-- end row -->
+
+                            <div class="text-end">
+                                <button type="submit" class="btn btn-success">Simpan</button>
+                            </div>
+                        </form>
+
+
+                    </div>
+                </div>
+            </div>
         </div>
-
-    </div>
+    </div> <!-- end container-fluid -->
 @endsection

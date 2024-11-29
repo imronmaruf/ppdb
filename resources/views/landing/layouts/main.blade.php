@@ -9,8 +9,8 @@
     <meta name="keywords" content="">
 
     <!-- Favicons -->
-    <link href="{{ asset('landing/assets/img/favicon.png') }}" rel="icon">
-    <link href="{{ asset('landing/assets/img/apple-touch-icon.png') }}" rel="apple-touch-icon">
+    <link href="{{ asset('assets/logo.png') }}" rel="icon">
+    <link href="{{ asset('assets/logo.png') }}" rel="apple-touch-icon">
 
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com" rel="preconnect">
@@ -21,6 +21,7 @@
 
     <!-- Vendor CSS Files -->
     <link href="{{ asset('landing/assets/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('landing/assets/vendor/bootstrap/css/bootstrap.css') }}" rel="stylesheet">
     <link href="{{ asset('landing/assets/vendor/bootstrap-icons/bootstrap-icons.css') }}" rel="stylesheet">
     <link href="{{ asset('landing/assets/vendor/aos/aos.css') }}" rel="stylesheet">
     <link href="{{ asset('landing/assets/vendor/glightbox/css/glightbox.min.css') }}" rel="stylesheet">
