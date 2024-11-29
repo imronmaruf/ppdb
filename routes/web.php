@@ -37,13 +37,6 @@ use App\Http\Controllers\Landing\KategoriBeritaController;
 
 // ===== Landings Route ===== //
 Route::get('/', [LandingController::class, 'index'])->name('landing.index');
-// Route::get('/blog', [LandingBeritaController::class, 'index'])->name('blog.index');
-// Route::get('/blog/detail', [LandingBeritaController::class, 'detailBerita'])->name('detail.index');
-
-// Route::group(['prefix' => 'berita'], function () {
-//     Route::get('/', [LandingBeritaController::class, 'index'])->name('berita.index');
-//     Route::get('/{slug}', [LandingBeritaController::class, 'show'])->name('berita.show');
-// });
 
 Route::group(['prefix' => 'berita'], function () {
     Route::get('/', [LandingBeritaController::class, 'index'])->name('berita.index');

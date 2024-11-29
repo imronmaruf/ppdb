@@ -21,12 +21,15 @@ class PpdbSettingController extends Controller
             'tanggal_akhir' => 'required|date|after:tanggal_mulai',
         ]);
 
+        // dd($request->all()); // Tambahkan untuk cek data
+
         $setting = PpdbSetting::firstOrNew();
         $setting->fill($request->only(['tanggal_mulai', 'tanggal_akhir']));
         $setting->save();
 
-        return redirect()->route('ppdb-settings.index')->with('success', 'Pengaturan PPDB berhasil diperbarui.');
+        return redirect()->route('ppdb-settings.index')->with('success', 'Jadwal Pendaftaran berhasil diperbarui.');
     }
+
 
     public function toggleStatus()
     {

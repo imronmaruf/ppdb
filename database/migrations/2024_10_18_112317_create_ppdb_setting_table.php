@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('ppdb_setting', function (Blueprint $table) {
+        Schema::create('ppdb_settings', function (Blueprint $table) {
             $table->id();
             $table->date('tanggal_mulai');
             $table->date('tanggal_akhir');
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('ppdb_setting');
+        Schema::dropIfExists('ppdb_settings');
     }
 };

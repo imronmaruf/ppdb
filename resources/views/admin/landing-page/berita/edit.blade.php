@@ -73,7 +73,7 @@
                                                     class="text-danger">*</span></label>
                                             <select class="form-select @error('kategori_berita_id') is-invalid @enderror"
                                                 name="kategori_berita_id">
-                                                <option selected disabled>--- Pilih Kategori ---</option>
+                                                <option selected>--- Pilih Kategori ---</option>
                                                 @foreach ($kategoriBerita as $kategori)
                                                     <option value="{{ $kategori->id }}"
                                                         {{ old('kategori_berita_id', $berita->kategori_berita_id) == $kategori->id ? 'selected' : '' }}>

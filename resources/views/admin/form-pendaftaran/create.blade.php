@@ -96,7 +96,8 @@
                                 <div class="col-lg-6">
                                     <div class="mb-3">
                                         <label for="tanggal_lahir" class="form-label">Tanggal Lahir<span
-                                                class="text-danger">*</span></label>
+                                                class="text-danger">*</span><br>Keterangan : <code>Umur Calon siswa harus
+                                                berusia 7 tahun pada saat pendaftaran</code></label>
                                         <div id="usia-message" class="text-danger mb-2" style="display: none;"></div>
                                         <input type="date" id="tanggal_lahir" name="tanggal_lahir"
                                             class="form-control @error('tanggal_lahir') is-invalid @enderror"
@@ -148,6 +149,7 @@
                                     </div>
                                 </div>
 
+
                                 <div class="col-lg-6">
                                     <div class="mb-3">
                                         <label for="status_pkh" class="form-label">Status Program Keluarga Harapan
@@ -179,7 +181,7 @@
                                     </div>
                                 </div>
 
-                                <!-- Kolom Kanan -->
+
                                 <div class="col-lg-6">
                                     <div class="mb-3">
                                         <label for="agama" class="form-label">Agama<span
@@ -295,7 +297,6 @@
                                 </div>
 
                                 <div class="col lg-6">
-
                                     <div class="mb-3">
                                         <label for="asal_sekolah" class="form-label">Asal Sekolah</label>
                                         <input type="text" id="asal_sekolah" name="asal_sekolah"
@@ -321,19 +322,6 @@
                                         @enderror
                                     </div>
                                 </div>
-
-                                {{-- <div class="col-lg-12">
-                                    <div class="mb-3">
-                                        <label for="alamat" class="form-label">Alamat<span
-                                                class="text-danger">*</span><br>Contoh : <code>Nama Dusun, Nama Kelurahan
-                                                ,Kecamatan, Kabupaten</code></label>
-                                        <textarea class="form-control @error('alamat') is-invalid @enderror" id="alamat" name="alamat" rows="5"
-                                            placeholder="Alamat Lengkap">{{ old('alamat') }}</textarea>
-                                        @error('alamat')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                </div> --}}
                             </div> <!-- end row -->
 
                             <div class="text-end">
@@ -347,37 +335,26 @@
         </div>
     </div> <!-- end container-fluid -->
 @endsection
-{{-- 
-@push('js')
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const statusPkhSelect = document.getElementById('status_pkh');
-            const noPkhInput = document.getElementById('no_pkh');
-            // Fungsi untuk mengaktifkan atau menonaktifkan input No PKH
-            function toggleNoPkh() {
-                if (statusPkhSelect.value === 'ada') {
-                    noPkhInput.disabled = false;
-                } else {
-                    noPkhInput.disabled = true;
-                    noPkhInput.value = ''; // Bersihkan nilai jika dinonaktifkan
-                }
-            }
-            // Jalankan fungsi ketika halaman pertama kali dimuat
-            toggleNoPkh();
-            // event listener untuk mendeteksi perubahan pada Status PKH
-            statusPkhSelect.addEventListener('change', toggleNoPkh);
-        });
-    </script>
-@endpush --}}
+
 
 @push('js')
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // Inisialisasi elemen input
             const alamatInput = document.getElementById('alamat');
+            const statusPkhSelect = document.getElementById('status_pkh');
+            const noPkhInput = document.getElementById('no_pkh');
+            const tanggalLahirInput = document.getElementById('tanggal_lahir');
+            const usiaMessage = document.getElementById('usia-message');
+            const form = document.querySelector('form');
+            const allInputs = form.querySelectorAll('input, select, textarea');
+
+            //  elemen feedback untuk alamat
             const alamatFeedback = document.createElement('div');
             alamatFeedback.className = 'invalid-feedback';
             alamatInput.parentNode.appendChild(alamatFeedback);
 
+            // Validasi input alamat
             alamatInput.addEventListener('input', function() {
                 const alamat = this.value.toLowerCase();
                 if (alamat.includes('dewantara')) {
@@ -391,83 +368,65 @@
                     alamatFeedback.style.display = 'block';
                 }
             });
-        });
-        document.addEventListener('DOMContentLoaded', function() {
-            const statusPkhSelect = document.getElementById('status_pkh');
-            const noPkhInput = document.getElementById('no_pkh');
-            const tanggalLahirInput = document.getElementById('tanggal_lahir');
-            const usiaMessage = document.getElementById('usia-message');
-            const form = document.querySelector('form');
-            const allInputs = form.querySelectorAll('input, select, textarea');
 
+            // Fungsi toggle untuk Status PKH dan No PKH input
             function toggleNoPkh() {
-                if (statusPkhSelect.value === 'ada') {
-                    noPkhInput.disabled = false;
-                } else {
-                    noPkhInput.disabled = true;
-                    noPkhInput.value = '';
-                }
+                noPkhInput.disabled = (statusPkhSelect.value !== 'ada');
+                if (noPkhInput.disabled) noPkhInput.value = '';
             }
 
+            // Fungsi menghitung usia berdasarkan tanggal lahir
             function hitungUsia(tanggalLahir) {
                 const today = new Date();
                 const birthDate = new Date(tanggalLahir);
                 let age = today.getFullYear() - birthDate.getFullYear();
-                const m = today.getMonth() - birthDate.getMonth();
-                if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+                const monthDifference = today.getMonth() - birthDate.getMonth();
+
+                if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < birthDate.getDate())) {
                     age--;
                 }
-                const months = (today.getMonth() + 12 * today.getFullYear()) -
-                    (birthDate.getMonth() + 12 * birthDate.getFullYear());
-                const days = Math.floor((today - birthDate) / (24 * 60 * 60 * 1000));
-                return {
-                    years: age,
-                    months: months % 12,
-                    days: days % 30
-                };
+                return age;
             }
 
+            // Fungsi untuk mengecek usia dan menampilkan pesan
             function checkAge() {
                 const tanggalLahir = tanggalLahirInput.value;
                 if (tanggalLahir) {
                     const usia = hitungUsia(tanggalLahir);
-                    const message =
-                        `Usia calon siswa adalah: ${usia.years} tahun, ${usia.months} bulan, ${usia.days} hari`;
-                    usiaMessage.textContent = message;
                     usiaMessage.style.display = 'block';
 
-                    if (usia.years < 7) {
-                        allInputs.forEach(input => {
-                            if (input !== tanggalLahirInput) {
-                                input.disabled = true;
-                            }
-                        });
-                        usiaMessage.innerHTML +=
-                            ". Usia harus 7 tahun.<br>Jika umur dibawah 7 Tahun maka status pendaftaran otomatis DITOLAK.";
-
+                    if (usia < 7) {
+                        usiaMessage.textContent = `Usia: ${usia} tahun - Usia harus minimal 7 tahun.`;
+                        usiaMessage.classList.add('text-danger');
+                        usiaMessage.classList.remove('text-success');
+                        disableFormInputs(true);
                     } else {
-                        allInputs.forEach(input => {
-                            input.disabled = false;
-                        });
-                        toggleNoPkh(); // Pastikan status No PKH tetap sesuai
+                        usiaMessage.textContent = `Usia: ${usia} tahun - Usia memenuhi syarat.`;
+                        usiaMessage.classList.add('text-success');
+                        usiaMessage.classList.remove('text-danger');
+                        disableFormInputs(false);
                     }
                 } else {
                     usiaMessage.style.display = 'none';
-                    allInputs.forEach(input => {
-                        input.disabled = false;
-                    });
-                    toggleNoPkh(); // Pastikan status No PKH tetap sesuai
+                    disableFormInputs(false);
                 }
             }
 
-            // Jalankan fungsi ketika halaman pertama kali dimuat
+            // Fungsi untuk mengaktifkan atau menonaktifkan semua input dalam form
+            function disableFormInputs(disabled) {
+                allInputs.forEach(input => {
+                    if (input !== tanggalLahirInput) {
+                        input.disabled = disabled;
+                    }
+                });
+            }
+
+            // Jalankan fungsi pada saat halaman pertama kali dimuat
             toggleNoPkh();
             checkAge();
 
-            // Event listener untuk mendeteksi perubahan pada Status PKH
+            // Event listener untuk perubahan pada Status PKH dan Tanggal Lahir
             statusPkhSelect.addEventListener('change', toggleNoPkh);
-
-            // Event listener untuk mendeteksi perubahan pada tanggal lahir
             tanggalLahirInput.addEventListener('change', checkAge);
         });
     </script>

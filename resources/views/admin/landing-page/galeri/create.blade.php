@@ -37,7 +37,8 @@
                             </div>
 
                             <div class="mb-3 mt-3">
-                                <label for="caption" class="form-label">Caption</label>
+                                <label for="caption" class="form-label">Caption <br>Keterangan : <code>maksimal 500
+                                        karakter</code></label>
                                 <textarea class="form-control @error('caption') is-invalid @enderror" id="caption" name="caption"
                                     placeholder="Caption" rows="4" required>{{ old('caption') }}</textarea>
                                 @error('caption')

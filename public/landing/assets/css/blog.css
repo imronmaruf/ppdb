@@ -99,6 +99,7 @@
 --------------------------------------------------------------*/
 .blog-pagination {
     padding-top: 0;
+    padding-bottom: 0;
     color: color-mix(in srgb, var(--default-color), transparent 40%);
 }
 

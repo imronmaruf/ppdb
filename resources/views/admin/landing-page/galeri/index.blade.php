@@ -43,6 +43,7 @@
                                                 <th>Judul</th>
                                                 <th>Caption</th>
                                                 <th>Kategori</th>
+                                                <th>Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -62,6 +63,15 @@
                                                     <td>{{ $galeri->title }}</td>
                                                     <td>{!! Str::words($galeri->caption, 30, '...') !!}</td>
                                                     <td>{{ $galeri->kategori }}</td>
+                                                    <td>
+                                                        <div class="d-flex justify-content-center align-items-center">
+                                                            <!-- EDIT Button -->
+                                                            <a href="{{ route('galeri.edit', $galeri->id) }}"
+                                                                class="btn btn-warning btn-sm">
+                                                                <i class="mdi mdi-pencil text-white"></i>
+                                                            </a>
+                                                        </div>
+                                                    </td>
                                                 </tr>
                                             @endforeach
 
@@ -81,8 +91,19 @@
                                                     <td>{{ $galeri->title }}</td>
                                                     <td>{!! Str::words($galeri->caption, 30, '...') !!}</td>
                                                     <td>{{ $galeri->kategori }}</td>
+                                                    <td>
+                                                        <div class="d-flex justify-content-center align-items-center">
+                                                            <!-- EDIT Button -->
+                                                            <a href="{{ route('galeri.edit', $galeri->id) }}"
+                                                                class="btn btn-warning btn-sm">
+                                                                <i class="mdi mdi-pencil text-white"></i>
+                                                            </a>
+                                                        </div>
+
+                                                    </td>
                                                 </tr>
                                             @endforeach
+
                                         </tbody>
                                     </table>
                                 </div>
