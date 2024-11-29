@@ -6,6 +6,7 @@ use App\Models\Galeri;
 use App\Helpers\DeleteFile;
 use App\Helpers\UploadFile;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
@@ -30,7 +31,7 @@ class GaleriController extends Controller
         // Validasi file dan input lainnya
         $request->validate([
             'title' => 'required|string|max:255',
-            'caption' => 'required',
+            'caption' => 'required|string|max:500',
             'kategori' => 'required',
             'file' => 'required|array|min:1',
             'file.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Validasi multiple files
@@ -65,6 +66,50 @@ class GaleriController extends Controller
         return redirect()->route('galeri.index');
     }
 
+    public function edit($id)
+    {
+        $galeri = Galeri::findOrFail($id);
+        return view('admin.landing-page.galeri.edit', compact('galeri'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'caption' => 'required|string|max:500',
+            'kategori' => 'required',
+            'foto_url' => 'nullable|file|mimes:jpg,png|max:2048',
+        ], [
+            'foto_url.mimes' => 'File harus berupa JPG, PNG.',
+            'title.required' => 'Judul harus diisi.',
+            'caption.required' => 'Caption harus diisi.',
+            'kategori.required' => 'Kategori harus diisi',
+        ]);
+
+        DB::beginTransaction();
+        try {
+            $galeri = Galeri::findOrFail($id);
+            $username = Auth::user()->name;
+
+            $galeri->title = $request->input('title');
+            $galeri->caption = $request->input('caption');
+            $galeri->kategori = $request->input('kategori');
+
+            if ($request->hasFile('foto_url')) {
+                DeleteFile::delete($galeri->foto_url);
+                $galeri->foto_url = UploadFile::upload('uploads/galeri', $request->file('foto_url'), $username);
+            }
+
+            $galeri->save();
+
+            DB::commit();
+
+            return redirect()->route('galeri.index')->with('success', 'Data galeri berhasil diperbarui.');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->back()->withErrors(['error' => 'Terjadi kesalahan saat memperbarui data: ' . $e->getMessage()]);
+        }
+    }
 
     public function destroy($id)
     {

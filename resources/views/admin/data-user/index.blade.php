@@ -69,7 +69,7 @@
                                                                     </button>
                                                                 </form>
 
-                                                                <!-- View Button -->
+                                                                <!-- EDIT Button -->
                                                                 <a href="{{ route('data-user.edit', $data->id) }}"
                                                                     class="btn btn-info btn-sm">
                                                                     <i class="mdi mdi-pencil text-white"></i>

@@ -51,13 +51,10 @@ class UsersDataController extends Controller
     public function destroy($id)
     {
         $dataUser = User::find($id);
-
         if (!$dataUser) {
             return redirect()->route('data-user.index')->with('error', 'User not found.');
         }
-
         $dataUser->delete();
-
         return redirect()->route('data-user.index')->with('success', 'Data berhasil dihapus.');
     }
 }

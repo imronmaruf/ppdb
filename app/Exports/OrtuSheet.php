@@ -7,8 +7,12 @@ use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\WithTitle;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
+use PhpOffice\PhpSpreadsheet\Cell\DataType;
+use Maatwebsite\Excel\Concerns\WithCustomValueBinder;
+use PhpOffice\PhpSpreadsheet\Cell\DefaultValueBinder;
+use PhpOffice\PhpSpreadsheet\Cell\Cell;
 
-class OrtuSheet implements FromQuery, WithTitle, WithHeadings, WithMapping
+class OrtuSheet extends DefaultValueBinder implements FromQuery, WithTitle, WithHeadings, WithMapping, WithCustomValueBinder
 {
     protected $tahun;
     protected $status;
@@ -40,8 +44,6 @@ class OrtuSheet implements FromQuery, WithTitle, WithHeadings, WithMapping
     public function headings(): array
     {
         return [
-            'ID',
-            'Peserta PPDB ID',
             'Nama Ayah',
             'Nama Ibu',
             'Alamat Ayah',
@@ -64,8 +66,6 @@ class OrtuSheet implements FromQuery, WithTitle, WithHeadings, WithMapping
     public function map($ortu): array
     {
         return [
-            $ortu->id,
-            $ortu->peserta_ppdb_id,
             $ortu->nama_ayah,
             $ortu->nama_ibu,
             $ortu->alamat_ayah,
@@ -83,5 +83,16 @@ class OrtuSheet implements FromQuery, WithTitle, WithHeadings, WithMapping
             $ortu->created_at,
             $ortu->updated_at,
         ];
+    }
+
+    public function bindValue(Cell $cell, $value)
+    {
+        if (in_array($cell->getColumn(), ['K', 'L'])) { // Columns for NIK Ayah and NIK Ibu
+            $cell->setValueExplicit($value, DataType::TYPE_STRING);
+            return true;
+        }
+
+        // For all other cells, use the default behavior
+        return parent::bindValue($cell, $value);
     }
 }

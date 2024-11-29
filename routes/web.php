@@ -6,15 +6,19 @@ use App\Http\Controllers\Admin\OrtuController;
 use App\Http\Controllers\Admin\WaliController;
 use App\Http\Controllers\Admin\BerkasController;
 use App\Http\Controllers\Admin\PendaftarDiterima;
+use App\Http\Controllers\Landing\BeritaController;
 use App\Http\Controllers\Landing\GaleriController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\UsersDataController;
 use App\Http\Controllers\Landing\LandingController;
 use App\Http\Controllers\Kepsek\KepsekDataPendaftar;
+use App\Http\Controllers\Admin\PpdbSettingController;
 use App\Http\Controllers\Landing\FasilitasController;
 use App\Http\Controllers\Admin\DataPendaftarController;
 use App\Http\Controllers\Admin\FormPendaftaranController;
+use App\Http\Controllers\Landing\LandingBeritaController;
 use App\Http\Controllers\Landing\TentangKontakController;
+use App\Http\Controllers\Landing\KategoriBeritaController;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,10 +38,21 @@ use App\Http\Controllers\Landing\TentangKontakController;
 // ===== Landings Route ===== //
 Route::get('/', [LandingController::class, 'index'])->name('landing.index');
 
+Route::group(['prefix' => 'berita'], function () {
+    Route::get('/', [LandingBeritaController::class, 'index'])->name('berita.index');
+    Route::get('/pengumuman', [LandingBeritaController::class, 'indexPengumuman'])->name('berita.indexPengumuman');
+    Route::get('/{slug}', [LandingBeritaController::class, 'show'])->name('berita.show');
+});
+
+
 
 Auth::routes();
 
 // Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::get('/ppdb-closed', function () {
+    return view('ppdb.closed');
+})->name('ppdb.closed');
 
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
@@ -45,7 +60,7 @@ Route::group(['middleware' => ['auth']], function () {
 
 
     // rute fungsi untuk siswa
-    Route::prefix('data-pendaftaran')->middleware('can:siswa-only')->group(function () {
+    Route::prefix('data-pendaftaran')->middleware('can:siswa-only', 'ppdb.open')->group(function () {
         Route::get('/', [FormPendaftaranController::class, 'index'])->name('data-pendaftaran.index');
         Route::get('/create', [FormPendaftaranController::class, 'create'])->name('data-pendaftaran.create');
         Route::post('/store', [FormPendaftaranController::class, 'store'])->name('data-pendaftaran.store');
@@ -53,7 +68,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::put('/update/{id}', [FormPendaftaranController::class, 'update'])->name('data-pendaftaran.update');
     });
 
-    Route::prefix('data-ortu')->middleware('can:siswa-only')->group(function () {
+    Route::prefix('data-ortu')->middleware('can:siswa-only', 'ppdb.open')->group(function () {
         Route::get('/', [OrtuController::class, 'index'])->name('data-ortu.index');
         Route::get('/create', [OrtuController::class, 'create'])->name('data-ortu.create');
         Route::post('/store', [OrtuController::class, 'store'])->name('data-ortu.store');
@@ -61,7 +76,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::put('/update/{id}', [OrtuController::class, 'update'])->name('data-ortu.update');
     });
 
-    Route::prefix('data-wali')->middleware('can:siswa-only')->group(function () {
+    Route::prefix('data-wali')->middleware('can:siswa-only', 'ppdb.open')->group(function () {
         Route::get('/', [WaliController::class, 'index'])->name('data-wali.index');
         Route::get('/create', [WaliController::class, 'create'])->name('data-wali.create');
         Route::post('/store', [WaliController::class, 'store'])->name('data-wali.store');
@@ -70,7 +85,7 @@ Route::group(['middleware' => ['auth']], function () {
     });
 
 
-    Route::prefix('data-berkas')->middleware('can:siswa-only')->group(function () {
+    Route::prefix('data-berkas')->middleware('can:siswa-only', 'ppdb.open')->group(function () {
         Route::get('/', [BerkasController::class, 'index'])->name('data-berkas.index');
         Route::get('/create', [BerkasController::class, 'create'])->name('data-berkas.create');
         Route::get('/lengkapi/{id}', [BerkasController::class, 'lengkapiBerkas'])->name('data-berkas.lengkapi');
@@ -81,6 +96,13 @@ Route::group(['middleware' => ['auth']], function () {
 
 
     // rute fungsi untuk admin
+
+    Route::prefix('ppdb-settings')->middleware(['auth', 'can:admin-only'])->group(function () {
+        Route::get('/', [PpdbSettingController::class, 'index'])->name('ppdb-settings.index');
+        Route::put('/update', [PpdbSettingController::class, 'update'])->name('ppdb-settings.update');
+        Route::post('/toggle', [PpdbSettingController::class, 'toggleStatus'])->name('ppdb-settings.toggle');
+    });
+
     Route::prefix('data-user')->middleware('can:admin-only')->group(function () {
         Route::get('/', [UsersDataController::class, 'index'])->name('data-user.index');
         Route::get('/create', [UsersDataController::class, 'create'])->name('data-user.create');
@@ -96,6 +118,9 @@ Route::group(['middleware' => ['auth']], function () {
         Route::post('/data-pendaftar/{id}/update-status', [DataPendaftarController::class, 'updateStatus'])->name('data-pendaftar.update-status');
         Route::delete('/destroy/{id}', [DataPendaftarController::class, 'destroy'])->name('data-pendaftar.destroy');
         Route::get('/diterima', [PendaftarDiterima::class, 'index'])->name('data-pendaftar.diterima');
+        Route::get('/admin/data-pendaftar', [DataPendaftarController::class, 'index'])->name('admin.data-pendaftar');
+        Route::get('/admin/cetak-laporan', [DataPendaftarController::class, 'cetakLaporan'])->name('admin.cetakLaporan');
+        Route::get('/export-excel', [DataPendaftarController::class, 'exportExcel'])->name('admin.exportExcel');
     });
 
     Route::prefix('kepsek-data-pendaftar')->middleware('can:kepsek-only')->group(function () {
@@ -107,9 +132,7 @@ Route::group(['middleware' => ['auth']], function () {
     });
 
 
-
-
-    // Halaman Landing page
+    // crud Landing page
 
     Route::prefix('tentang-kontak')->middleware('can:admin-only')->group(function () {
         Route::get('/', [TentangKontakController::class, 'index'])->name('tentang-kontak.index');
@@ -135,5 +158,26 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/edit/{id}', [GaleriController::class, 'edit'])->name('galeri.edit');
         Route::put('/update/{id}', [GaleriController::class, 'update'])->name('galeri.update');
         Route::delete('galeri/delete-selected', [GaleriController::class, 'deleteSelected'])->name('galeri.delete.selected');
+    });
+
+    // berita
+
+    Route::prefix('kategori-berita')->middleware('can:admin-only')->group(function () {
+        Route::get('/', [KategoriBeritaController::class, 'index'])->name('kategori-berita.index');
+        Route::get('/create', [KategoriBeritaController::class, 'create'])->name('kategori-berita.create');
+        Route::post('/store', [KategoriBeritaController::class, 'store'])->name('kategori-berita.store');
+        Route::get('/edit/{id}', [KategoriBeritaController::class, 'edit'])->name('kategori-berita.edit');
+        Route::put('/update/{id}', [KategoriBeritaController::class, 'update'])->name('kategori-berita.update');
+        Route::delete('/destroy/{id}', [KategoriBeritaController::class, 'destroy'])->name('kategori-berita.destroy');
+    });
+
+    Route::prefix('data-berita')->middleware('can:admin-only')->group(function () {
+        Route::get('/', [BeritaController::class, 'index'])->name('data-berita.index');
+        Route::get('/show/{id}', [BeritaController::class, 'show'])->name('data-berita.show');
+        Route::get('/create', [BeritaController::class, 'create'])->name('data-berita.create');
+        Route::post('/store', [BeritaController::class, 'store'])->name('data-berita.store');
+        Route::get('/edit/{id}', [BeritaController::class, 'edit'])->name('data-berita.edit');
+        Route::put('/update/{id}', [BeritaController::class, 'update'])->name('data-berita.update');
+        Route::delete('/destroy/{id}', [BeritaController::class, 'destroy'])->name('data-berita.destroy');
     });
 });

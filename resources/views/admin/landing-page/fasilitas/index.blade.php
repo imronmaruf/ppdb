@@ -46,9 +46,18 @@
                                                         value="{{ $fasilitas->id }}"
                                                         class="position-absolute top-0 end-0 m-2 bg-white"
                                                         style="cursor: pointer;">
-                                                    <p class="card-text m-2 "><strong>{{ $fasilitas->name }}</strong></p>
+                                                    <p class="card-text mt-1"><strong>{{ $fasilitas->name }}</strong></p>
                                                 </div>
+                                                <div class="d-flex justify-content-center mb-2">
+                                                    <!-- Tombol Edit -->
+                                                    <a href="{{ route('fasilitas.edit', $fasilitas->id) }}"
+                                                        class="btn btn-warning btn-sm me-1">
+                                                        <i class="mdi mdi-pencil"></i> Edit
+                                                    </a>
+                                                </div>
+
                                             </div>
+
                                         </div>
                                     @endforeach
                                 </div>
@@ -90,6 +99,27 @@
                     text: 'Tidak ada foto yang dipilih.',
                 });
             }
+        });
+
+        document.querySelectorAll('.delete-button').forEach(button => {
+            button.addEventListener('click', function() {
+                const fasilitasId = this.getAttribute('data-id');
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Konfirmasi Hapus',
+                    text: 'Apakah Anda yakin ingin menghapus fasilitas ini?',
+                    showCancelButton: true,
+                    confirmButtonText: 'Hapus',
+                    cancelButtonText: 'Batal',
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Aksi penghapusan
+                        document.getElementById(`delete-form-${fasilitasId}`).submit();
+                    }
+                });
+            });
         });
 
         @if (session('success'))

@@ -38,8 +38,6 @@ class PesertaPpdbSheet implements FromQuery, WithTitle, WithHeadings, WithMappin
     public function headings(): array
     {
         return [
-            'ID',
-            'User ID',
             'Nama',
             'Jenis Kelamin',
             'Tempat Lahir',
@@ -67,8 +65,6 @@ class PesertaPpdbSheet implements FromQuery, WithTitle, WithHeadings, WithMappin
     public function map($peserta): array
     {
         return [
-            $peserta->id,
-            $peserta->user_id,
             $peserta->name,
             $peserta->jenis_kelamin,
             $peserta->tempat_lahir,

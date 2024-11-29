@@ -40,8 +40,6 @@ class WaliSheet implements FromQuery, WithTitle, WithHeadings, WithMapping
     public function headings(): array
     {
         return [
-            'ID',
-            'Peserta PPDB ID',
             'Nama Wali',
             'Tahun Lahir',
             'Pendidikan',
@@ -55,8 +53,6 @@ class WaliSheet implements FromQuery, WithTitle, WithHeadings, WithMapping
     public function map($wali): array
     {
         return [
-            $wali->id,
-            $wali->peserta_ppdb_id,
             $wali->nama_wali,
             $wali->tahun_lahir,
             $wali->pendidikan,

@@ -6,6 +6,7 @@ use App\Models\Fasilitas;
 use App\Helpers\DeleteFile;
 use App\Helpers\UploadFile;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
@@ -73,5 +74,54 @@ class FasilitasController extends Controller
         }
 
         return redirect()->route('fasilitas.index')->with('error', 'Tidak ada gambar yang dipilih untuk dihapus.');
+    }
+
+    public function edit($id)
+    {
+        // Ambil data fasilitas berdasarkan ID
+        $fasilitas = Fasilitas::findOrFail($id);
+
+        return view('admin.landing-page.fasilitas.edit', compact('fasilitas'));
+    }
+
+
+    public function update(Request $request, $id)
+    {
+        // Validate file upload
+        $request->validate(
+            [
+                'name' => 'required|string|max:255',
+                'foto_url' => 'nullable|file|mimes:jpg,png|max:2048',
+            ],
+            [
+                'foto_url.mimes' => 'File harus berupa JPG, PNG.',
+            ]
+        );
+
+        DB::beginTransaction();
+        try {
+            // Find the record by ID
+            $fasilitas = Fasilitas::findOrFail($id);
+            $username = Auth::user()->name;
+
+            // Update the name
+            $fasilitas->name = $request->input('name');
+
+            // If there's a new image file, delete the old one and upload the new one
+            if ($request->hasFile('foto_url')) {
+                DeleteFile::delete($fasilitas->foto_url);
+                $fasilitas->foto_url = UploadFile::upload('uploads/fasilitas', $request->file('foto_url'), $username);
+            }
+
+            // Save the changes
+            $fasilitas->save();
+
+            DB::commit();
+
+            return redirect()->route('fasilitas.index')->with('success', 'Data Fasilitas berhasil diperbarui.');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->back()->withErrors(['error' => 'Terjadi kesalahan saat memperbarui data: ' . $e->getMessage()]);
+        }
     }
 }

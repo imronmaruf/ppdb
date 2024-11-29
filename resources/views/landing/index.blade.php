@@ -5,70 +5,34 @@
 @endpush
 
 @push('css')
-    <style>
-        .pagination-container {
-            text-align: center;
-            padding: 30px 0;
-        }
-
-        .pagination {
-            margin: 0;
-            padding: 0;
-            list-style: none;
-            display: inline-block;
-        }
-
-        .pagination .page-item {
-            display: inline;
-        }
-
-        .pagination .page-link {
-            display: inline-block;
-            padding: 5px 10px;
-            color: #fff;
-            background-color: #1fe7b2;
-            margin: 0 2px;
-            border-radius: 3px;
-            text-decoration: none;
-        }
-
-        .pagination .page-link:hover {
-            background-color: #007a58;
-        }
-
-        .pagination .page-item.active .page-link {
-            background-color: #007a58;
-            color: #fff;
-            font-weight: bold;
-        }
-
-        .pagination-info {
-            color: #222;
-            margin-top: 10px;
-        }
-
-        .pagination-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-    </style>
+    <link href="{{ asset('landing/assets/css/blog.css') }}" rel="stylesheet">
+    <link href="{{ asset('landing/assets/css/banner.css') }}" rel="stylesheet">
 @endpush
 
 @section('content')
     <!-- Hero Section -->
     <section id="hero" class="hero section dark-background">
-        <img src="{{ asset('assets/img/img3.jpg') }}" alt="" data-aos="fade-in" class="">
+        <img src="{{ asset('assets/img/img3.jpg') }}" alt="" data-aos="fade-in">
         <div class="container text-center" data-aos="fade-up" data-aos-delay="100">
             <div class="row justify-content-center">
                 <div class="col-lg-8">
                     <h2>Selamat Datang di SD Negeri 18 Dewantara</h2>
                     <p>Ayo Kita Belajar Bersama</p>
-                    <a href="{{ route('register') }}" class="btn-get-started">Daftar Sekarang</a>
+
+                    @if ($ppdbSetting && $ppdbSetting->is_open)
+                        <p>Ditutup pada: {{ date('d-m-Y', strtotime($ppdbSetting->tanggal_akhir)) }}</p>
+                        <a href="{{ route('register') }}" class="btn-get-started">Daftar Sekarang</a>
+                    @elseif ($ppdbSetting)
+                        <p>Saat ini pendaftaran sedang ditutup, akan dibuka pada :</p>
+                        <p><strong>Mulai:</strong> {{ date('d-m-Y', strtotime($ppdbSetting->tanggal_mulai)) }}</p>
+                        <p><strong>Akhir:</strong> {{ date('d-m-Y', strtotime($ppdbSetting->tanggal_akhir)) }}</p>
+                    @else
+                        <p>Informasi pendaftaran PPDB belum tersedia.</p>
+                    @endif
                 </div>
             </div>
         </div>
-    </section><!-- /Hero Section -->
+    </section>
 
     <!-- Tentang Section -->
     <section id="tentang" class="about section">
@@ -76,7 +40,7 @@
             <div class="row gy-4">
                 <div class="col-lg-6 position-relative align-self-start order-lg-last order-first" data-aos="fade-up"
                     data-aos-delay="200">
-                    <img src="{{ asset($tentangKontak->foto ?? '-') }}  " class="img-fluid" alt="">
+                    <img src="{{ asset($tentangKontak->foto ?? '-') }}" class="img-fluid" alt="">
                 </div>
                 <div class="col-lg-6 content order-last order-lg-first" data-aos="fade-up" data-aos-delay="100">
                     <h3>SD Negeri 18 Dewantara</h3>
@@ -84,128 +48,120 @@
                         {{ $tentangKontak->konten_tentang ?? 'Informasi tentang sekolah belum tersedia.' }}
                     </p>
 
-
                     <div class="card">
                         <div class="card-header text-white" style="background-color: #009970;">
-                            <strong> Identitas Sekolah</strong>
+                            <strong>Identitas Sekolah</strong>
                         </div>
                         <div class="card-body">
-                            <p class="mb-0"><strong>NPSN :</strong> 10100711</p>
-                            <p class="mb-0"><strong>Status :</strong> Negeri</p>
-                            <p class="mb-0"><strong>Bentuk Pendidikan :</strong> SD</p>
-                            <p class="mb-0"><strong>Status Kepemilikan :</strong> Pemerintah Daerah</p>
-                            <p class="mb-0"><strong>SK Pendirian Sekolah :</strong> 2007</p>
-                            <p class="mb-0"><strong>Tanggal SK Pendirian :</strong> 2006-07-16</p>
-                            <p class="mb-0"><strong>SK Izin Operasional :</strong> 420/630/2019</p>
-                            <p class="mb-0"><strong>Tanggal SK Izin Operasional :</strong> 2019-08-20</p>
+                            <p class="mb-0"><strong>NPSN:</strong> 10100711</p>
+                            <p class="mb-0"><strong>Status:</strong> Negeri</p>
+                            <p class="mb-0"><strong>Bentuk Pendidikan:</strong> SD</p>
+                            <p class="mb-0"><strong>Status Kepemilikan:</strong> Pemerintah Daerah</p>
+                            <p class="mb-0"><strong>SK Pendirian Sekolah:</strong> 2007</p>
+                            <p class="mb-0"><strong>Tanggal SK Pendirian:</strong> 2006-07-16</p>
+                            <p class="mb-0"><strong>SK Izin Operasional:</strong> 420/630/2019</p>
+                            <p class="mb-0"><strong>Tanggal SK Izin Operasional:</strong> 2019-08-20</p>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
-    </section><!-- /tentang Section -->
+    </section>
 
-
-    <!-- Fasilitas Section -->
-
-    <section id="team" class="team section light-background">
-
-        <!-- Section Title -->
-        <div class="container section-title aos-init aos-animate" data-aos="fade-up">
-            <h2>Fasilitas</h2>
-            <p>Fasilitas belajar merupakan sarana dan prasarana pembelajaran. Prasarana meliputi kantin, ruang
-                belajar, lapangan olahraga, Ruang Guru, Ruang Perpustakaan dll.</p>
-        </div><!-- End Section Title -->
+    <!-- Berita Section -->
+    <section id="berita" class="about section light-background">
+        <div class="container section-title" data-aos="fade-up">
+            <h2>Berita dan Pengumuman Terbaru</h2>
+        </div>
 
         <div class="container">
+            <div class="row align-items-center justify-content-between">
+                <div class="col-lg-12 mb-5 mb-lg-0" data-aos="fade-up" data-aos-delay="400">
+                    <div class="swiper init-swiper">
+                        <script type="application/json" class="swiper-config">
+                            {
+                                "loop": true,
+                                "speed": 600,
+                                "autoplay": {
+                                    "delay": 9000
+                                },
+                                "slidesPerView": "auto",
+                                "pagination": {
+                                    "el": ".swiper-pagination",
+                                    "type": "bullets",
+                                    "clickable": true
+                                },
+                                "navigation": {
+                                    "nextEl": ".swiper-button-next",
+                                    "prevEl": ".swiper-button-prev"
+                                },
+                                "breakpoints": {
+                                    "320": {
+                                        "slidesPerView": 1,
+                                        "spaceBetween": 40
+                                    },
+                                    "1200": {
+                                        "slidesPerView": 1,
+                                        "spaceBetween": 1
+                                    }
+                                }
+                            }
+                        </script>
 
+                        <div class="swiper-wrapper">
+                            @foreach ($dataBerita as $berita)
+                                <div class="swiper-slide" role="group"
+                                    aria-label="{{ $loop->iteration }} / {{ $loop->count }}"
+                                    data-swiper-slide-index="{{ $loop->index }}">
+                                    <img src="{{ asset($berita->gambar) }}" alt="{{ $berita->judul }}" class="img-fluid">
+                                    <div class="slide-content">
+                                        <h1>{{ $berita->judul }}</h1>
+                                        <p>{{ Str::limit(strip_tags($berita->isi), 400) }}</p>
+                                        <a href="{{ route('berita.show', $berita->slug) }}"
+                                            class="btn btn-get-started">Selengkapnya</a>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+
+                        <div class="swiper-button-prev"></div>
+                        <div class="swiper-button-next"></div>
+                        <div class="swiper-pagination"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Fasilitas Section -->
+    <section id="fasilitas" class="team section">
+        <div class="container section-title" data-aos="fade-up">
+            <h2>Fasilitas</h2>
+            <p>Fasilitas belajar merupakan sarana dan prasarana pembelajaran. Prasarana meliputi kantin,
+                ruang belajar, lapangan olahraga, Ruang Guru, Ruang Perpustakaan dll.</p>
+        </div>
+
+        <div class="container">
             <div class="row gy-4">
                 @foreach ($fasilitas as $item)
-                    <div class="col-xl-3 col-md-6 d-flex aos-init aos-animate" data-aos="fade-up" data-aos-delay="100">
+                    <div class="col-xl-3 col-md-6 d-flex" data-aos="fade-up" data-aos-delay="100">
                         <div class="member">
-                            <img src="{{ asset($item->foto_url) }}" class="img-fluid" alt="">
+                            <img src="{{ asset($item->foto_url) }}" class="img-fluid" alt="{{ $item->name }}">
                             <h4>{{ $item->name }}</h4>
-                            {{-- <span>{{ $item->name }}</span> --}}
                         </div>
                     </div>
                 @endforeach
             </div>
         </div>
-    </section><!-- /Fasilitas Section -->
-
-    <!-- Fasilitas Section -->
-    {{-- <section id="fasilitas" class="services light-background">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-4">
-                    <div class="section-title" data-aos="fade-right">
-                        <h2>Fasilitas</h2>
-                        <p>Fasilitas belajar merupakan sarana dan prasarana pembelajaran. Prasarana meliputi kantin, ruang
-                            belajar, lapangan olahraga, Ruang Guru, Ruang Perpustakaan dll.</p>
-                    </div>
-                </div>
-                <div class="col-lg-8">
-                    <div class="row">
-                        @foreach ($fasilitas as $item)
-                            <div class="col-md-4 d-flex align-items-stretch mt-4">
-                                <div class="card align-self-center" data-aos="zoom-in" data-aos-delay="100">
-                                    <img src="{{ asset($item->foto_url) }}" class="card-img-top img-fluid"
-                                        alt="Image description">
-                                    <div class="card-body">
-                                        <p class="card-text">asad</p>
-                                    </div>
-                                </div>
-                            </div>
-                        @endforeach
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section><!-- /Fasilitas Section --> --}}
-
-
-    <!-- Stats Section -->
-    <section id="stats" class="stats section accent-background">
-    </section><!-- /Stats Section -->
-
+    </section>
 
     <!-- Galeri Section -->
-    {{-- <section id="galeri" class="portfolio section">
+    <section id="galeri" class="portfolio section light-background">
         <div class="container section-title" data-aos="fade-up">
             <h2>Galeri</h2>
-            <p>Dibawah ini adalah bukti dokumentasi kegiatan akademik dan non akademik yang terdapat pada sekolah kami :</p>
+            <p>Dibawah ini adalah bukti dokumentasi kegiatan akademik dan non akademik yang terdapat pada sekolah kami:</p>
         </div>
-        <div class="container">
-            <div class="isotope-layout" data-default-filter="*" data-layout="masonry" data-sort="original-order">
-                <ul class="portfolio-filters isotope-filters" data-aos="fade-up" data-aos-delay="100">
-                    <li data-filter="*" class="filter-active">All</li>
-                    @foreach ($kategori as $cat)
-                        <li data-filter=".filter-{{ $cat->kategori }}">{{ ucfirst($cat->kategori) }}</li>
-                    @endforeach
-                </ul>
-                <div class="row gy-4 isotope-container" data-aos="fade-up" data-aos-delay="200">
-                    @foreach ($galeri as $item)
-                        <div class="col-lg-2 col-md-6 portfolio-item isotope-item filter-{{ $item->kategori }}">
-                            <div class="portfolio-content h-100">
-                                <a href="{{ asset($item->foto_url) }}" data-gallery="portfolio-gallery-app"
-                                    class="glightbox">
-                                    <img src="{{ asset($item->foto_url) }}" class="img-fluid" alt="">
-                                </a>
-                            </div>
-                        </div>
-                    @endforeach
-                </div>
-            </div>
-        </div>
-    </section><!-- /Galeri Section --> --}}
 
-    <!-- Galeri Section -->
-    <section id="galeri" class="portfolio section">
-        <div class="container section-title" data-aos="fade-up">
-            <h2>Galeri</h2>
-            <p>Dibawah ini adalah bukti dokumentasi kegiatan akademik dan non akademik yang terdapat pada sekolah kami :</p>
-        </div>
         <div class="container">
             <div class="isotope-layout" data-default-filter="*" data-layout="masonry" data-sort="original-order">
                 <ul class="portfolio-filters isotope-filters" data-aos="fade-up" data-aos-delay="100">
@@ -216,61 +172,70 @@
                     @foreach ($kategori as $cat)
                         <li data-filter=".filter-{{ $cat->kategori }}"
                             class="{{ request('kategori') == $cat->kategori ? 'filter-active' : '' }}">
-                            <a
-                                href="{{ route('landing.index', ['kategori' => $cat->kategori]) }}#galeri">{{ ucfirst($cat->kategori) }}</a>
+                            <a href="{{ route('landing.index', ['kategori' => $cat->kategori]) }}#galeri">
+                                {{ ucfirst($cat->kategori) }}
+                            </a>
                         </li>
                     @endforeach
                 </ul>
 
-                <div class="row gy-4 isotope-container align-items-center justify-content-center" data-aos="fade-up"
-                    data-aos-delay="200">
+                <div class="row gy-4 isotope-container" data-aos="fade-up" data-aos-delay="200">
                     @foreach ($galeri as $item)
                         <div class="col-lg-3 col-md-6 portfolio-item isotope-item filter-{{ $item->kategori }}">
                             <div class="portfolio-content h-100">
                                 <a href="{{ asset($item->foto_url) }}" data-gallery="portfolio-gallery-app"
                                     class="glightbox">
-                                    <img src="{{ asset($item->foto_url) }}" class="img-fluid" alt="">
+                                    <img src="{{ asset($item->foto_url) }}" class="img-fluid"
+                                        alt="{{ $item->title }}">
                                 </a>
                                 <div class="portfolio-info">
                                     <h4>{{ $item->title }}</h4>
-                                    <p>{{ $item->caption }}</p>
+                                    <p> {{ Str::limit(strip_tags($item->caption), 500) }}</p>
+
                                 </div>
                             </div>
-
                         </div>
                     @endforeach
                 </div>
 
-
-                <div class="d-flex flex-column align-items-center mt-4">
-                    <nav data-aos="fade-up" data-aos-delay="100">
-                        <ul class="pagination">
-                            <li class="page-item">
-                                <a class="page-link"
-                                    href="{{ $galeri->appends(['kategori' => request('kategori')])->previousPageUrl() }}#galeri">Previous</a>
-                            </li>
-                            @for ($i = 1; $i <= $galeri->lastPage(); $i++)
-                                <li class="page-item {{ $galeri->currentPage() == $i ? 'active' : '' }}">
-                                    <a class="page-link"
-                                        href="{{ $galeri->appends(['kategori' => request('kategori')])->url($i) }}#galeri">{{ $i }}</a>
+                <!-- Pagination -->
+                <div class="blog-pagination section mt-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="container">
+                        <div class="d-flex justify-content-center">
+                            <ul class="pagination">
+                                <li>
+                                    <a
+                                        href="{{ $galeri->appends(['kategori' => request('kategori')])->previousPageUrl() }}#galeri">
+                                        <i class="bi bi-chevron-left"></i>
+                                    </a>
                                 </li>
-                            @endfor
-                            <li class="page-item">
-                                <a class="page-link"
-                                    href="{{ $galeri->appends(['kategori' => request('kategori')])->nextPageUrl() }}#galeri">Next</a>
-                            </li>
-                        </ul>
-                    </nav>
-                    <div class="text-center mt-2" data-aos="fade-up" data-aos-delay="200">
-                        <p>Showing {{ $galeri->firstItem() }} to {{ $galeri->lastItem() }} of {{ $galeri->total() }}
-                            results</p>
+
+                                @for ($i = 1; $i <= $galeri->lastPage(); $i++)
+                                    <li>
+                                        <a class="{{ $galeri->currentPage() == $i ? 'active' : '' }}"
+                                            href="{{ $galeri->appends(['kategori' => request('kategori')])->url($i) }}#galeri">
+                                            {{ $i }}
+                                        </a>
+                                    </li>
+                                @endfor
+
+                                <li>
+                                    <a
+                                        href="{{ $galeri->appends(['kategori' => request('kategori')])->nextPageUrl() }}#galeri">
+                                        <i class="bi bi-chevron-right"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="text-center mt-2">
+                            <p>Showing {{ $galeri->firstItem() }} to {{ $galeri->lastItem() }}
+                                of {{ $galeri->total() }} results</p>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </section><!-- /Galeri Section -->
-
-
+    </section>
 
     <!-- Kontak Section -->
     <section id="kontak" class="contact section">
@@ -307,3 +272,6 @@
         </div>
     </section><!-- /Kontak Section -->
 @endsection
+
+@push('js')
+@endpush

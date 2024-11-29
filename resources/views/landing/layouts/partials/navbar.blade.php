@@ -10,14 +10,23 @@
 
         <nav id="navmenu" class="navmenu">
             <ul>
-                <li><a href="#hero" class="active">Beranda</a></li>
-                <li><a href="#tentang">Tentang</a></li>
-                <li><a href="#fasilitas">Fasilitas</a></li>
-                <li><a href="#galeri">Galeri</a></li>
-                <li><a href="#kontak">Kontak</a></li>
+                <li><a href="{{ url('/') }}" class="{{ Request::is('/') ? 'active' : '' }}">Beranda</a></li>
+                <li><a href="{{ url('/') }}#tentang"
+                        class="{{ Request::is('/') || Request::is('/') ? 'active' : '' }}">Tentang</a></li>
+                <li><a href="{{ url('/') }}#fasilitas">Fasilitas</a></li>
+                <li><a href="{{ url('/') }}#galeri">Galeri</a></li>
+                <li><a href="{{ url('/') }}#kontak">Kontak</a></li>
+                <li class="dropdown">
+                    <a href="#"><span>Berita</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+                    <ul>
+                        <li><a href="{{ route('berita.index') }}">Berita</a></li>
+                        <li><a href="{{ route('berita.indexPengumuman') }}">Pengumuman</a></li>
+                    </ul>
+                </li>
             </ul>
             <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
         </nav>
+
 
         <a class="btn-getstarted" href="{{ route('login') }}">Masuk</a>
         {{-- <a class="btn-getstarted" href="{{ route('login') }}">Masuk</a> --}}
