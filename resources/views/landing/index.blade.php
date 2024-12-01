@@ -1,7 +1,7 @@
 @extends('landing.layouts.main')
 
 @push('title')
-    PPDB SD N DEWANTARA
+    PPDB SD N 18 DEWANTARA
 @endpush
 
 @push('css')
@@ -142,17 +142,23 @@
         </div>
 
         <div class="container">
-            <div class="row gy-4">
+            <div class="row gy-4 d-flex justify-content-center">
                 @foreach ($fasilitas as $item)
-                    <div class="col-xl-3 col-md-6 d-flex" data-aos="fade-up" data-aos-delay="100">
-                        <div class="member">
-                            <img src="{{ asset($item->foto_url) }}" class="img-fluid" alt="{{ $item->name }}">
-                            <h4>{{ $item->name }}</h4>
+                    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 d-flex" data-aos="fade-up" data-aos-delay="100">
+                        <div class="member w-100">
+                            <a href="{{ asset($item->foto_url) }}" data-gallery="portfolio-gallery-app" class="glightbox">
+                                <img src="{{ asset($item->foto_url) }}" class="card-img-top img-fluid"
+                                    alt="{{ $item->name }}" style="object-fit: cover; height: 250px;">
+                            </a>
+                            <div class="card-body text-center">
+                                <h4>{{ $item->name }}</h4>
+                            </div>
                         </div>
                     </div>
                 @endforeach
             </div>
         </div>
+
     </section>
 
     <!-- Galeri Section -->
@@ -181,7 +187,7 @@
 
                 <div class="row gy-4 isotope-container" data-aos="fade-up" data-aos-delay="200">
                     @foreach ($galeri as $item)
-                        <div class="col-lg-3 col-md-6 portfolio-item isotope-item filter-{{ $item->kategori }}">
+                        <div class=" col-lg-3 col-md-6 portfolio-item isotope-item filter-{{ $item->kategori }}">
                             <div class="portfolio-content h-100">
                                 <a href="{{ asset($item->foto_url) }}" data-gallery="portfolio-gallery-app"
                                     class="glightbox">
