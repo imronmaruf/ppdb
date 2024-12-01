@@ -44,11 +44,7 @@ Route::group(['prefix' => 'berita'], function () {
     Route::get('/{slug}', [LandingBeritaController::class, 'show'])->name('berita.show');
 });
 
-
-
 Auth::routes();
-
-// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::get('/ppdb-closed', function () {
     return view('ppdb.closed');
@@ -57,7 +53,6 @@ Route::get('/ppdb-closed', function () {
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
     Route::get('/admin/cetak-formulir', [DashboardController::class, 'cetakFormulir'])->name('admin.cetakFormulir');
-
 
     // rute fungsi untuk siswa
     Route::prefix('data-pendaftaran')->middleware('can:siswa-only', 'ppdb.open')->group(function () {
@@ -83,7 +78,6 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/edit/{id}', [WaliController::class, 'edit'])->name('data-wali.edit');
         Route::put('/update/{id}', [WaliController::class, 'update'])->name('data-wali.update');
     });
-
 
     Route::prefix('data-berkas')->middleware('can:siswa-only', 'ppdb.open')->group(function () {
         Route::get('/', [BerkasController::class, 'index'])->name('data-berkas.index');
